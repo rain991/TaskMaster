@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.taskmaster.presentation.screens.common.LoginScreen
+import com.example.taskmaster.presentation.screens.common.RegisterScreen
 import com.example.taskmaster.ui.theme.TaskMasterTheme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TaskMasterTheme {
-                LoginScreen()
+                RegisterScreen()
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.loginComponents
 
+import android.text.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,44 +20,46 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.R
 import com.example.taskmaster.presentation.components.common.GradientInputTextField
 
 @Composable
-fun LoginScreenComponent(paddingValues: PaddingValues) {
+fun RegisterScreenComponent(paddingValues: PaddingValues) {
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(40.dp))
-        Box(modifier = Modifier.size(220.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.appicon1),
-                contentDescription = stringResource(R.string.app_icon),
-                modifier = Modifier.size(220.dp)
-            )
+        Box(modifier = Modifier.size(220.dp)){
+            Image(painter = painterResource(id = R.drawable.appicon1), contentDescription = stringResource(R.string.app_icon), modifier = Modifier.size(220.dp))
         }
-        //   Spacer(modifier = Modifier.height(16.dp))
         Text(text = stringResource(R.string.task_master), style = MaterialTheme.typography.titleMedium)
-        Spacer(modifier = Modifier.height(60.dp))
-        GradientInputTextField(text = "mock", label = "mock") {
+      //  Spacer(modifier = Modifier.height(60.dp))
+        Spacer(modifier = Modifier.weight(1f))
+        GradientInputTextField(text = "mock", label = "Name") {
 
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(text = "mock", label = "mock") {
+        Spacer(modifier = Modifier.height(12.dp))
+        GradientInputTextField(text = "mock", label = "Surname") {
 
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { /*TODO*/ }) {
-            Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {
-                Text(text = stringResource(R.string.login))
-            }
+        Spacer(modifier = Modifier.height(12.dp))
+        GradientInputTextField(text = "mock", label = "Email") {
+
         }
-        Spacer(modifier = Modifier.weight(1.5f))
-        Text(text = "no account yet?")
+        Spacer(modifier = Modifier.height(12.dp))
+        GradientInputTextField(text = "mock", label = "Password", keyboardType = KeyboardType.Password) {
+
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        GradientInputTextField(text = "mock", label = "Repeat Password", keyboardType = KeyboardType.Password) {
+
+        }
+        Spacer(modifier = Modifier.height(20.dp))
         Button(onClick = { /*TODO*/ }) {
             Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {
                 Text(text = "Register")
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(40.dp))
     }
 }
