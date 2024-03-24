@@ -79,6 +79,7 @@ dependencies {
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation(libs.firebase.analytics)
+    implementation("com.google.firebase:firebase-auth")
 
     //koin DI
     implementation("io.insert-koin:koin-core:$koinVersion")
