@@ -8,22 +8,27 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.presentation.components.common.TaskMasterScreenHeader
 
 @Composable
-fun MainExpenseScreen() {
+fun StudentTaskMasterScreen() {
+    val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
+
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             TaskMasterScreenHeader(isTeacherScreen = false, userName = "") // VM params
-        },bottomBar = { }
+        }, bottomBar = { /*TaskMasterBottomBar(items = bottomBarNavigationItems, selectedItem =)*/ }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it),
-            verticalArrangement = Arrangement.spacedBy(8.dp))
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        )
         {
+            // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
 
+        }
     }
-}
 }

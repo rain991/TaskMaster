@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.loginComponents
+package com.example.taskmaster.presentation.components.common.loginComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
