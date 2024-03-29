@@ -27,15 +27,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.R
+import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.presentation.components.common.GradientInputTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreenComponent(paddingValues: PaddingValues) {
-    val registerOptions = listOf("Student", "Teacher")
+    val registerOptions = listOf(UserTypes.Student, UserTypes.Teacher)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(40.dp))
         Box(modifier = Modifier.size(220.dp)) {
@@ -52,15 +52,16 @@ fun RegisterScreenComponent(paddingValues: PaddingValues) {
         Row(modifier = Modifier.fillMaxWidth(0.64f), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "I am", style = MaterialTheme.typography.titleSmall)
             SingleChoiceSegmentedButtonRow() {
-                registerOptions.forEachIndexed { index, label ->
+                registerOptions.forEachIndexed { index, type ->
                     SegmentedButton(
                         modifier = Modifier.safeContentPadding(),
                         onClick = { /*mainScreenFeedViewModel.setTypeSelected(label)*/ },
-                        selected = // newIdeaDialogState.value.typeSelected == label
+                        selected = false, // newIdeaDialogState.value.typeSelected == label
+                        shape = SegmentedButtonDefaults.baseShape
                     ) {
                         Text(
                             modifier = Modifier.wrapContentWidth(),
-                            text = label,
+                            text = type.name,
                             maxLines = 1,
                             style = MaterialTheme.typography.labelMedium,
                             textAlign = TextAlign.Start
