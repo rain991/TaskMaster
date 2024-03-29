@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.models
+package com.example.taskmaster.data.models.entities
 
 data class Student(
     val id: Int,

@@ -3,4 +3,8 @@
     <string name="app_icon">App icon</string>
     <string name="task_master">Task Master</string>
     <string name="login">Login</string>
+    <string name="tasks">Tasks</string>
+    <string name="finished">Finished</string>
+    <string name="groups">Groups</string>
+    <string name="create_task">Create task</string>
 </resources>

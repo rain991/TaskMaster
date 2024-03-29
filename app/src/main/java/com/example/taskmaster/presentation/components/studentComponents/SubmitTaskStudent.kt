@@ -26,10 +26,10 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.taskmaster.data.models.Group
-import com.example.taskmaster.data.models.Student
-import com.example.taskmaster.data.models.Task
-import com.example.taskmaster.data.models.Teacher
+import com.example.taskmaster.data.models.entities.Group
+import com.example.taskmaster.data.models.entities.Student
+import com.example.taskmaster.data.models.entities.Task
+import com.example.taskmaster.data.models.entities.Teacher
 import com.example.taskmaster.presentation.components.common.GradientInputTextField
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 
