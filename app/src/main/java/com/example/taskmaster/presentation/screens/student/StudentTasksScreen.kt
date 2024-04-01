@@ -12,7 +12,7 @@ import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
 
 @Composable
-fun StudentTaskMasterScreen() {
+fun StudentTasksScreen() {
     val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
 
     Scaffold(modifier = Modifier.fillMaxSize(),
