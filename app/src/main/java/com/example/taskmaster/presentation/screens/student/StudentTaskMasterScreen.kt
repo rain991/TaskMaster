@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.data.models.navigation.NavigationItem
-import com.example.taskmaster.presentation.components.common.TaskMasterScreenHeader
+import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
 
 @Composable
 fun StudentTaskMasterScreen() {

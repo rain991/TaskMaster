@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.R
-import com.example.taskmaster.presentation.components.common.GradientInputTextField
+import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
 @Composable
 fun LoginScreenComponent(paddingValues: PaddingValues) {

@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.common
+package com.example.taskmaster.presentation.components.common.barsAndHeaders
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

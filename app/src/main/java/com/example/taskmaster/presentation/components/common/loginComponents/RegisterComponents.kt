@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.entities.UserTypes
-import com.example.taskmaster.presentation.components.common.GradientInputTextField
+import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

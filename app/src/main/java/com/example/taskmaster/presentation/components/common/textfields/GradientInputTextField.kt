@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.common
+package com.example.taskmaster.presentation.components.common.textfields
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding

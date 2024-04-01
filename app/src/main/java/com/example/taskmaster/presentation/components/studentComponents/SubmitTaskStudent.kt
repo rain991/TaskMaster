@@ -30,7 +30,7 @@ import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.models.entities.Teacher
-import com.example.taskmaster.presentation.components.common.GradientInputTextField
+import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 
 // Probably needs additional scrollable column inside
