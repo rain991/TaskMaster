@@ -30,8 +30,8 @@ import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.models.entities.Teacher
-import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
+import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
 // Probably needs additional scrollable column inside
 @Composable
@@ -149,15 +149,12 @@ private fun ButtonsRow() {  // VM in params
 @Preview(showSystemUi = true)
 @Composable
 private fun prev() { // SubmitTaskStudent is not finished, new logic will appear when VM used
-
-    val teacher = Teacher(id = 5, email = "m", password = "24", name = "teacher", "sdfsd", classes = listOf<Group>())
+    val teacher = Teacher( email = "m", password = "24", name = "teacher", "sdfsd", classes = listOf<Group>())
     val group = Group(
-        5, "sdfsdf", "sdfsdf", teacher,
+         "sdfsdf", "sdfsdf", teacher,
         listOf<Student>(), listOf<Task>()
     )
-
     SubmitTaskStudent(task = Task(
-        id = 5,
         name = "Zdanie53",
         description = "descript sample",
         group = group,
