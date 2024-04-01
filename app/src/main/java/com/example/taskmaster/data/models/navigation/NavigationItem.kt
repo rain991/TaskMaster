@@ -2,7 +2,7 @@ package com.example.taskmaster.data.models.navigation
 
 import com.example.taskmaster.R
 
-sealed class NavigationItem(var route: String, val icon: Int, var titleResId: Int) {
+sealed class NavigationItem(var route: String, val icon: Int, var titleResId: Int) { // Used in bottomAppBar
     object TaskScreen : NavigationItem(
         Screen.TaskScreen.route,
         R.drawable.baseline_checklist_rtl_24,

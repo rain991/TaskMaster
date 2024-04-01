@@ -14,7 +14,6 @@ import com.example.taskmaster.presentation.components.common.barsAndHeaders.Task
 @Composable
 fun StudentTasksScreen() {
     val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
-
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             TaskMasterScreenHeader(isTeacherScreen = false, userName = "") // VM params

@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.screens.student
+package com.example.taskmaster.presentation.screens.teacher.additional
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,10 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
-
 @Composable
-fun StudentGroupsScreen() {
-    val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
+fun TeacherGroupDetailedScreen() {
+    val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             TaskMasterScreenHeader(isTeacherScreen = false, userName = "") // VM params
