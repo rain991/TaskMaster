@@ -19,7 +19,7 @@ import com.example.taskmaster.presentation.screens.teacher.core.TeacherTasksScre
 
 
 @Composable
-fun Navigation(currentUserType: UserTypes) {
+fun Navigation(isLogined : Boolean, currentUserType: UserTypes?) {
     val navController = rememberNavController()
 //    LaunchedEffect(key1 = loginCount) {
 //        if (loginCount.value == 0) {

@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.database.ktx)
     val koinVersion = "3.5.3"
     val workVersion = "2.9.0"
     // android

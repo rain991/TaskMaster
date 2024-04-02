@@ -3,26 +3,30 @@ package com.example.taskmaster
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.taskmaster.presentation.screens.common.LoginScreen
-import com.example.taskmaster.presentation.screens.common.RegisterScreen
+import com.example.taskmaster.presentation.navigation.Navigation
 import com.example.taskmaster.ui.theme.TaskMasterTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : ComponentActivity() {
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        val currentUser = auth.currentUser
+        val userId = currentUser?.uid
+        val userRef = userId?.let { FirebaseDatabase.getInstance().getReference("users").child(it) }
         super.onCreate(savedInstanceState)
         setContent {
             TaskMasterTheme {
-                RegisterScreen()
+                Navigation(isLogined = (currentUser!=null), currentUserType = null)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 }
