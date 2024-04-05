@@ -75,7 +75,7 @@ fun SubmitTaskStudent(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        GradientInputTextField(text = "", label = "") { // FROM VM
+        GradientInputTextField(value = "", label = "") { // FROM VM
 
         }
         Spacer(modifier = Modifier.height(8.dp))

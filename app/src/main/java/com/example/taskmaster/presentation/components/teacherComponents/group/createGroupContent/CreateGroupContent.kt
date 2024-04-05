@@ -25,7 +25,7 @@ fun CreateGroupContent(
 ) {
     val lazyListState = rememberLazyListState()
     Column(modifier = Modifier.fillMaxWidth()) {
-        GradientInputTextField(text = "Group name", label = "mock") {  // from VM
+        GradientInputTextField(value = "Group name", label = "mock") {  // from VM
             onGroupNameTextFieldChanges(it)
         }
         Spacer(modifier = Modifier.height(12.dp))

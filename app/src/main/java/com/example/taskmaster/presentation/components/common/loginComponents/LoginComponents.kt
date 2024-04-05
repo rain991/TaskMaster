@@ -37,11 +37,11 @@ fun LoginScreenComponent(paddingValues: PaddingValues) {
         }
         Text(text = stringResource(R.string.task_master), style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.height(60.dp))
-        GradientInputTextField(text = "mock", label = "mock") {
+        GradientInputTextField(value = "mock", label = "mock") {
 
         }
         Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(text = "mock", label = "mock", keyboardType = KeyboardType.Password) {
+        GradientInputTextField(value = "mock", label = "mock", keyboardType = KeyboardType.Password) {
 
         }
         Spacer(modifier = Modifier.height(8.dp))
