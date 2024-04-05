@@ -9,9 +9,20 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
 class LoginRepositoryImpl : LoginRepository {
+    override suspend fun loginUser(user: User, auth: FirebaseAuth) {
+        auth.signInWithEmailAndPassword(user.email, user.password).addOnCompleteListener{
+            if(it.isSuccessful){
+                Log.d(AUTH_DEBUG_TAG, "User : ${user.email} successfully login")
+            }else{
+                Log.d(AUTH_DEBUG_TAG, "User : ${user.email} incorrect login")
+            }
+        }
+    }
+
     override fun checkIfUserLogined(auth: FirebaseAuth): Boolean {
         return auth.currentUser != null
     }
+
     override suspend fun getCurrentUser(auth: FirebaseAuth, database: FirebaseDatabase): User? {
         val currentUser = auth.currentUser ?: return null
         return try {

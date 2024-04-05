@@ -30,6 +30,7 @@ import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.models.entities.Teacher
+import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
@@ -149,7 +150,7 @@ private fun ButtonsRow() {  // VM in params
 @Preview(showSystemUi = true)
 @Composable
 private fun prev() { // SubmitTaskStudent is not finished, new logic will appear when VM used
-    val teacher = Teacher( email = "m", password = "24", name = "teacher", "sdfsd", classes = listOf<Group>())
+    val teacher = Teacher( email = "m", password = "24", name = "teacher",surname =  "sdfsd", classes = listOf<Group>(), userType = UserTypes.Teacher.name)
     val group = Group(
          "sdfsdf", "sdfsdf", teacher,
         listOf<Student>(), listOf<Task>()

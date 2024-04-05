@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 interface LoginRepository {
+    suspend fun loginUser(user: User, auth: FirebaseAuth)
+
     fun checkIfUserLogined(auth: FirebaseAuth): Boolean
 
     suspend fun getCurrentUser(

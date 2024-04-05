@@ -49,7 +49,11 @@ fun RegisterScreenComponent(paddingValues: PaddingValues) {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Row(modifier = Modifier.fillMaxWidth(0.64f), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier.fillMaxWidth(0.64f),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(text = "I am", style = MaterialTheme.typography.titleSmall)
             SingleChoiceSegmentedButtonRow() {
                 registerOptions.forEachIndexed { index, type ->
