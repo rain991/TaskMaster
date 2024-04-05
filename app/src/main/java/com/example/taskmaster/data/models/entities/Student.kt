@@ -1,11 +1,13 @@
 package com.example.taskmaster.data.models.entities
 
+import com.example.taskmaster.data.models.abstractionLayer.User
+
 data class Student(
-    val userType : String,
-    val email: String,
-    val password: String,
-    val name: String,
-    val surname: String,
+    override val userType : String,
+    override val email: String,
+    override val password: String,
+    override val name: String,
+    override val surname: String,
     val groups: List<Group>,
     val tasks: List<Task>
-)
+) : User()

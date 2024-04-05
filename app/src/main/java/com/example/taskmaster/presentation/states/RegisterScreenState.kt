@@ -8,5 +8,6 @@ data class RegisterScreenState(
     val surname: String,
     val email : String,
     val password : String,
-    val repeatPassword: String
+    val repeatPassword: String,
+    val warningMessage : String? = null
 )

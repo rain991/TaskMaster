@@ -9,7 +9,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 
 class RegisterRepositoryImpl : RegisterRepository {
-    override fun registerUser(user: User, auth: FirebaseAuth, database: FirebaseDatabase) {
+    override fun <T: User> registerUser(user: T, auth: FirebaseAuth, database: FirebaseDatabase) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { authenification ->
                 if (authenification.isSuccessful) {
