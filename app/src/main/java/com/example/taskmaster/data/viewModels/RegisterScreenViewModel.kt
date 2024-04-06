@@ -36,7 +36,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
             setWarningMessage("Repeat password does not match")
             return
         }
-        if (_registerScreenState.value.password.length<6 && _registerScreenState.value.repeatPassword.length<6) {
+        if (_registerScreenState.value.password.length < 6 && _registerScreenState.value.repeatPassword.length < 6) {
             setWarningMessage("Password length should be at least 6")
             return
         }
@@ -62,11 +62,13 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
                     password = _registerScreenState.value.password,
                     name = _registerScreenState.value.name,
                     surname = _registerScreenState.value.surname,
-                    classes = listOf()
+                    groups = listOf(),
+                    tasks  = listOf()
                 )
             )
         }
     }
+
     fun setUserType(value: UserTypes) {
         _registerScreenState.value = registerScreenState.value.copy(userType = value)
     }
@@ -91,7 +93,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
         _registerScreenState.value = registerScreenState.value.copy(repeatPassword = value)
     }
 
-    fun deleteWarningMessage(){
+    fun deleteWarningMessage() {
         _registerScreenState.value = registerScreenState.value.copy(warningMessage = null)
     }
 

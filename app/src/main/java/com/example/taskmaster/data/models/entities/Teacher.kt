@@ -8,5 +8,6 @@ data class Teacher(
     override val password: String,
     override val name: String,
     override val surname: String,
-    val classes: List<String>  // groups IDs
+    val groups: List<String>,  // groups IDs
+    val tasks: List<String>
 ) : User()
