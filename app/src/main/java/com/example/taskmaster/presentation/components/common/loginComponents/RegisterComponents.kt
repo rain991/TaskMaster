@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.common.loginComponents
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -107,5 +109,10 @@ fun RegisterScreenComponent(paddingValues: PaddingValues) {
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
+
+        if(screenState.value.warningMessage !=null){
+            Toast.makeText(LocalContext.current, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            viewModel.deleteWarningMessage()
+        }
     }
 }

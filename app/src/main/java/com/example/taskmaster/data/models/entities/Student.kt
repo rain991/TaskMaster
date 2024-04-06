@@ -8,6 +8,6 @@ data class Student(
     override val password: String,
     override val name: String,
     override val surname: String,
-    val groups: List<Group>,
-    val tasks: List<Task>
+    val groups: List<String>,  // groups IDs
+    val tasks: List<String>  // tasks IDs
 ) : User()

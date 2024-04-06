@@ -49,6 +49,7 @@ android {
 
 dependencies {
     implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.firestore)
     val koinVersion = "3.5.3"
     val workVersion = "2.9.0"
     // android
@@ -79,8 +80,10 @@ dependencies {
 
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
-    implementation(libs.firebase.analytics)
+    implementation ("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
 
     //koin DI
     implementation("io.insert-koin:koin-core:$koinVersion")

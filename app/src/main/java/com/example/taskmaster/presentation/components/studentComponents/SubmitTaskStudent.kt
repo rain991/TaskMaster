@@ -150,7 +150,7 @@ private fun ButtonsRow() {  // VM in params
 @Preview(showSystemUi = true)
 @Composable
 private fun prev() { // SubmitTaskStudent is not finished, new logic will appear when VM used
-    val teacher = Teacher( email = "m", password = "24", name = "teacher",surname =  "sdfsd", classes = listOf<Group>(), userType = UserTypes.Teacher.name)
+    val teacher = Teacher( email = "m", password = "24", name = "teacher",surname =  "sdfsd", classes = listOf<String>(), userType = UserTypes.Teacher.name)
     val group = Group(
          "sdfsdf", "sdfsdf", teacher,
         listOf<Student>(), listOf<Task>()
