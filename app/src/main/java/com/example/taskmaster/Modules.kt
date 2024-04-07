@@ -4,6 +4,7 @@ import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.viewModels.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.RegisterScreenViewModel
+import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -18,14 +19,14 @@ val appModule = module {
 
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
-
 }
 
 val domainModule = module {
     single<RegisterUseCase> { RegisterUseCase(get()) }
+    single<LoginUseCase> { LoginUseCase(get(), get()) }
 }
 
 val viewModelModule = module {
     viewModel { RegisterScreenViewModel(get()) }
-    viewModel { LoginScreenViewModel(get()) }
+    viewModel { LoginScreenViewModel(get(), get()) }
 }

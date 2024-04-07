@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.components.validateEmail
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.presentation.states.LoginScreenState
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class LoginScreenViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginScreenViewModel(private val loginUseCase: LoginUseCase, private val auth: FirebaseAuth) : ViewModel() {
     private val _screenState = MutableStateFlow(
         LoginScreenState(
             email = "",
@@ -24,6 +25,10 @@ class LoginScreenViewModel(private val loginUseCase: LoginUseCase) : ViewModel()
             setWarningMessage("Incorrect password")
         }
         loginUseCase(email = _screenState.value.email, password = _screenState.value.password)
+        if(auth.currentUser==null) {
+            setWarningMessage("Such user doesn't exist, or your password is incorrect")
+        }
+
     }
 
     fun setEmail(value: String) {
