@@ -3,7 +3,6 @@ package com.example.taskmaster
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
@@ -15,7 +14,7 @@ class App : Application(), KoinComponent {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
             // workManagerFactory()
-            // modules(listOf())
+            modules(listOf(appModule, domainModule, viewModelModule))
         }
     }
 }

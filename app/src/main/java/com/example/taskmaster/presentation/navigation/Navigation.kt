@@ -19,24 +19,17 @@ import com.example.taskmaster.presentation.screens.teacher.core.TeacherTasksScre
 
 
 @Composable
-fun Navigation(currentUserType: UserTypes) {
+fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: UserTypes?) {
     val navController = rememberNavController()
-//    LaunchedEffect(key1 = loginCount) {
-//        if (loginCount.value == 0) {
-//            navController.navigate(Screen.LoginScreen.route)
-//        } else {
-//            navController.navigate(Screen.MainScreen.route)
-//        }
-//    }
     NavHost(
         navController = navController,
-        startDestination = Screen.RegisterScreen.route
+        startDestination = startDestination
     ) {
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen()
+            LoginScreen(navController)
         }
-        composable(route = Screen.RegisterScreen.route){
-            RegisterScreen()
+        composable(route = Screen.RegisterScreen.route) {
+            RegisterScreen(navController = navController)
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {
