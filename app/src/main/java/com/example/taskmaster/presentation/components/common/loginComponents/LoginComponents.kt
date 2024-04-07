@@ -16,6 +16,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,10 +27,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.LoginScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavController) {
+    val viewModel = koinViewModel<LoginScreenViewModel>()
+    val screenState = viewModel.screenState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(40.dp))
         Box(modifier = Modifier.size(220.dp)) {
@@ -40,15 +48,19 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
         }
         Text(text = stringResource(R.string.task_master), style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.weight(1f))
-        GradientInputTextField(value = "mock", label = "mock") {
-
+        GradientInputTextField(value = screenState.value.email, label = "Email") {
+            viewModel.setEmail(it)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(value = "mock", label = "mock", keyboardType = KeyboardType.Password) {
-
+        GradientInputTextField(value = screenState.value.password, label = "Password", keyboardType = KeyboardType.Password) {
+            viewModel.setPassword(it)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            coroutineScope.launch {
+                viewModel.login()
+            }
+        }) {
             Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {
                 Text(text = stringResource(R.string.login))
             }

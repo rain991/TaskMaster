@@ -2,19 +2,18 @@ package com.example.taskmaster.data.implementations.auth
 
 import android.util.Log
 import com.example.taskmaster.data.constants.AUTH_DEBUG_TAG
-import com.example.taskmaster.data.models.abstractionLayer.User
 import com.example.taskmaster.domain.repositories.login.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class LoginRepositoryImpl : LoginRepository {
-    override suspend fun loginUser(user: User, auth: FirebaseAuth) {
-        auth.signInWithEmailAndPassword(user.email, user.password).addOnCompleteListener{
-            if(it.isSuccessful){
-                Log.d(AUTH_DEBUG_TAG, "User : ${user.email} successfully login")
-            }else{
-                Log.d(AUTH_DEBUG_TAG, "User : ${user.email} incorrect login")
+class LoginRepositoryImpl(private val database: FirebaseFirestore, private val auth: FirebaseAuth) : LoginRepository {
+    override suspend fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.d(AUTH_DEBUG_TAG, "User : $email successfully login")
+            } else {
+                Log.d(AUTH_DEBUG_TAG, "User : $email incorrect login")
             }
         }
     }
@@ -23,14 +22,24 @@ class LoginRepositoryImpl : LoginRepository {
         return auth.currentUser != null
     }
 
-    override suspend fun getCurrentUser(auth: FirebaseAuth, database: FirebaseDatabase): User? {
+    override suspend fun getCurrentUserType(): String? {
         val currentUser = auth.currentUser ?: return null
-        return try {
-            val snapshot = database.getReference("users").child(currentUser.uid).get().await()
-            snapshot.getValue(User::class.java)
-        } catch (e: Exception) {
-            Log.e(AUTH_DEBUG_TAG, "Error getting current user", e)
+        val uid = currentUser.uid
+        val userCollection = database.collection("users")
+        val querySnapshot = userCollection.whereEqualTo("uid", uid).get().await()
+        val userDocuments = querySnapshot.documents
+        return if (userDocuments.isNotEmpty()) {
+            val userType = userDocuments[0].getString("userType")
+            userType
+        } else {
             null
         }
     }
 }
+//return try {
+//    val snapshot = database.collection("users").document(currentUser.uid).get().await()
+//    snapshot.get(User::class.java)
+//} catch (e: Exception) {
+//    Log.e(AUTH_DEBUG_TAG, "Error getting current user", e)
+//    null
+//}

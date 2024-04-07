@@ -1,6 +1,7 @@
 package com.example.taskmaster.data.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.data.components.validateEmail
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Teacher
 import com.example.taskmaster.data.models.entities.UserTypes
@@ -8,7 +9,6 @@ import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.example.taskmaster.presentation.states.RegisterScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.regex.Pattern
 
 class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {
     private val _registerScreenState = MutableStateFlow(
@@ -101,9 +101,5 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
         _registerScreenState.value = registerScreenState.value.copy(warningMessage = value)
     }
 
-    private fun validateEmail(email: String): Boolean {
-        val pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
-        val matcher = pattern.matcher(email)
-        return matcher.matches()
-    }
+
 }
