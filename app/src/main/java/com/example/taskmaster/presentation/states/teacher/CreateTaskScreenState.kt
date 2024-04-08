@@ -9,5 +9,6 @@ data class CreateTaskScreenState (
     val description : String,
     val listOfGroupIdentifiers : List<String>,
     val selectedDate : Date,
-    val attachedFiles : List<Uri>
+    val attachedFiles : List<Uri>,
+    val warningMessage : String? = null
 )

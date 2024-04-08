@@ -1,7 +1,10 @@
 package com.example.taskmaster.domain.useCases.teacher.tasks
 
-class CreateTaskUseCase {
-    operator fun invoke() {
+import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositoryImpl
+import com.example.taskmaster.data.models.entities.Task
 
+class CreateTaskUseCase(private val addTaskRepositoryImpl: AddTaskRepositoryImpl) {
+    operator fun invoke(task : Task) {
+        addTaskRepositoryImpl.addTask(task)
     }
 }

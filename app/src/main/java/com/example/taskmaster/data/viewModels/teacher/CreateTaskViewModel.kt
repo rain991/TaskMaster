@@ -7,6 +7,7 @@ import com.example.taskmaster.presentation.states.teacher.CreateTaskScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.util.Date
 
 class CreateTaskViewModel : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
@@ -21,10 +22,23 @@ class CreateTaskViewModel : ViewModel() {
     val createTaskScreenState = _createTaskScreenState.asStateFlow()
 
 
+    fun setTitle(value: String) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(title = value)
+    }
 
+    fun setDescription(value: String) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(description = value)
+    }
 
+    fun setGroupIdentifiers(value: List<String>) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupIdentifiers = value)
+    }
 
+    fun setSelectedDate(value: Date) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(selectedDate = value)
+    }
 
-
-
+    fun setAttachedFiles(value: List<Uri>) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = value)
+    }
 }
