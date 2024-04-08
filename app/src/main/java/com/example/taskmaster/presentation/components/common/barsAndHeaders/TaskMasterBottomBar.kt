@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
@@ -26,10 +27,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertNavigationItemToScreen
+import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
+import com.example.taskmaster.data.viewModels.ScreenManagerViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TaskMasterBottomBar(items: List<NavigationItem>, selectedItem: NavigationItem, navController: NavController) {
+fun TaskMasterBottomBar(items: List<NavigationItem>, selectedItem: NavigationItem, navController: NavController, userType: UserTypes) {
+   val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     NavigationBar(modifier = Modifier.fillMaxWidth())
     {
         Row(
@@ -42,6 +47,7 @@ fun TaskMasterBottomBar(items: List<NavigationItem>, selectedItem: NavigationIte
                 val currentScreen = convertNavigationItemToScreen(item)
                 BottomNavigationItem(isSelected = isSelected, navigationItem = item) {
                     navController.navigate(currentScreen.route)
+                    screenManagerViewModel.setScreen(userType, currentScreen)
                 }
             }
         }
@@ -51,10 +57,15 @@ fun TaskMasterBottomBar(items: List<NavigationItem>, selectedItem: NavigationIte
 
 @Composable
 private fun BottomNavigationItem(isSelected: Boolean, navigationItem: NavigationItem, onClick: () -> Unit) {
-    Box(modifier = Modifier
-        .wrapContentSize()
-        .clickable { onClick() }) {
-        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+    Box(
+        modifier = Modifier
+            .wrapContentSize()
+            .clickable { onClick() }
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Icon(
                 painter = painterResource(id = navigationItem.icon),
                 contentDescription = stringResource(id = navigationItem.titleResId),
@@ -70,7 +81,8 @@ private fun BottomNavigationItem(isSelected: Boolean, navigationItem: Navigation
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = stringResource(id = navigationItem.titleResId), modifier = Modifier
+                text = stringResource(id = navigationItem.titleResId),
+                modifier = Modifier
                     .animateContentSize()
                     .scale(
                         if (!isSelected) {
@@ -78,14 +90,16 @@ private fun BottomNavigationItem(isSelected: Boolean, navigationItem: Navigation
                         } else {
                             1.1f
                         }
-                    ),
+                    ) .padding(horizontal = 4.dp),
                 style = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = if (isSelected) {
                         FontWeight.Bold
                     } else {
                         FontWeight.Normal
                     }
-                ), overflow = TextOverflow.Visible
+                ),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
             )
         }
     }

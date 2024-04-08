@@ -13,6 +13,5 @@ fun convertScreenToNavigationItem(screen: Screen): NavigationItem {
         else -> {
             NavigationItem.TaskScreen
         }
-
     }
 }

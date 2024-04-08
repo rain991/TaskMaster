@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
 import com.example.taskmaster.data.constants.DEFAULT_USER_NAME
+import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.viewModels.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
@@ -28,7 +29,6 @@ fun TeacherGroupDetailedScreen(navController : NavController) {
     val currentUserName = auth.currentUser?.displayName
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
-
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             TaskMasterScreenHeader(isTeacherScreen = true, userName = currentUserName ?: DEFAULT_USER_NAME)
@@ -36,7 +36,7 @@ fun TeacherGroupDetailedScreen(navController : NavController) {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,
                 selectedItem = convertScreenToNavigationItem(screenManagerState.value),
-                navController = navController
+                navController = navController, userType = UserTypes.Teacher
             )
         }
     ) {
