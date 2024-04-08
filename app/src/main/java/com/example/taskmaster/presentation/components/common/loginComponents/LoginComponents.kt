@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
-import com.example.taskmaster.data.viewModels.LoginScreenViewModel
+import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
-import com.example.taskmaster.data.viewModels.RegisterScreenViewModel
+import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import org.koin.androidx.compose.koinViewModel
 

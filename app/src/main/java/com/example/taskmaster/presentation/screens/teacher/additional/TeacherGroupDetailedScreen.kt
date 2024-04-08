@@ -14,7 +14,7 @@ import com.example.taskmaster.data.components.converters.convertScreenToNavigati
 import com.example.taskmaster.data.constants.DEFAULT_USER_NAME
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
-import com.example.taskmaster.data.viewModels.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
 import com.google.firebase.auth.FirebaseAuth

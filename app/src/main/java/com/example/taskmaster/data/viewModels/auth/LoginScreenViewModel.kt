@@ -1,9 +1,9 @@
-package com.example.taskmaster.data.viewModels
+package com.example.taskmaster.data.viewModels.auth
 
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.components.validateEmail
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
-import com.example.taskmaster.presentation.states.LoginScreenState
+import com.example.taskmaster.presentation.states.auth.LoginScreenState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

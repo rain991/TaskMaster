@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertNavigationItemToScreen
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
-import com.example.taskmaster.data.viewModels.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

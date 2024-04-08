@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.viewModels
+package com.example.taskmaster.data.viewModels.other
 
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.models.entities.UserTypes
