@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loginRepositoryImpl: LoginRepositoryImpl by inject()
-        auth.signOut()
+       // auth.signOut()
         setContent {
             var isLogined by remember { mutableStateOf(false) }
             var currentUserType by remember { mutableStateOf<UserTypes?>(null) }

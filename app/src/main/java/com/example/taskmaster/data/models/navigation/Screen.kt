@@ -4,6 +4,7 @@ sealed class Screen(val route: String) {
     // Login & Register
     object LoginScreen : Screen("login_screen")
     object RegisterScreen : Screen("register_screen")
+    object ResetPasswordScreen : Screen("reset_password_screen")
 
     // Common
     object TaskScreen : Screen("task_screen")

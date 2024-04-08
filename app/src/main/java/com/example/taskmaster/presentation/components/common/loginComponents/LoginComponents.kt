@@ -67,6 +67,9 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
                 Text(text = stringResource(R.string.login))
             }
         }
+        TextButton(onClick = { navController.navigate(Screen.ResetPasswordScreen.route) }) {
+            Text(text = "reset password")
+        }
         TextButton(onClick = { navController.navigate(Screen.RegisterScreen.route) }) {
             Text(text = "no account yet?")
         }
