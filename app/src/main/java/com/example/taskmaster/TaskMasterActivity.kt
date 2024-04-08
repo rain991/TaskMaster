@@ -1,6 +1,7 @@
 package com.example.taskmaster
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.LaunchedEffect
@@ -8,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loginRepositoryImpl: LoginRepositoryImpl by inject()
-       // auth.signOut()
+         auth.signOut()
         setContent {
             var isLogined by remember { mutableStateOf(false) }
             var currentUserType by remember { mutableStateOf<UserTypes?>(null) }
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+            Log.d(COMMON_DEBUG_TAG, "onCreate: userType:${currentUserType}}")
             TaskMasterTheme {
                 Navigation(
                     isLogined = isLogined, startDestination = if (isLogined) {

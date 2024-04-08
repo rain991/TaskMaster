@@ -37,30 +37,30 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {
-                StudentTasksScreen()
+                StudentTasksScreen(navController)
             } else {
-                TeacherTasksScreen()
+                TeacherTasksScreen(navController)
             }
         }
         composable(route = Screen.FinishedScreen.route) {
             if (currentUserType == UserTypes.Student) {
-                StudentFinishedTasksScreen()
+                StudentFinishedTasksScreen(navController)
             } else {
-                TeacherFinishedTasksScreen()
+                TeacherFinishedTasksScreen(navController)
             }
         }
         composable(route = Screen.GroupsScreen.route) {
             if (currentUserType == UserTypes.Student) {
-                StudentGroupsScreen()
+                StudentGroupsScreen(navController)
             } else {
-                TeacherGroupsScreen()
+                TeacherGroupsScreen(navController)
             }
         }
         composable(route = Screen.CreateTaskScreen.route) {
-            TeacherCreateTaskScreen()
+            TeacherCreateTaskScreen(navController)
         }
         composable(route = Screen.GroupDetailedScreen.route) {
-            TeacherGroupDetailedScreen()
+            TeacherGroupDetailedScreen(navController)
         }
     }
 }

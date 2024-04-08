@@ -34,7 +34,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.R
-import com.example.taskmaster.data.constants.USER_TYPES_COUNT
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.RegisterScreenViewModel
@@ -66,13 +65,13 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "I am", style = MaterialTheme.typography.titleSmall)
-            SingleChoiceSegmentedButtonRow() {
+            SingleChoiceSegmentedButtonRow {
                 registerOptions.forEachIndexed { index, type ->
                     SegmentedButton(
                         modifier = Modifier.safeContentPadding(),
                         onClick = { viewModel.setUserType(type) },
                         selected = screenState.value.userType == type,
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = USER_TYPES_COUNT)
+                        shape = SegmentedButtonDefaults.itemShape(index = index, count = registerOptions.size)
                     ) {
                         Text(
                             modifier = Modifier.wrapContentWidth(),
