@@ -16,9 +16,17 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -36,6 +44,7 @@ import com.example.taskmaster.data.viewModels.teacher.CreateTaskViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTaskComponent() {
     val viewModel = koinViewModel<CreateTaskViewModel>()
@@ -43,7 +52,9 @@ fun CreateTaskComponent() {
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(4.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -90,11 +101,11 @@ fun CreateTaskComponent() {
         Button(onClick = { viewModel.setGroupPickerState(true) }) {
             Text("Groups")
         }
-
+        Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = { viewModel.setDatePickerState(true) }) {
             Text("Deadline date")
         }
-
+        Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = { viewModel.setTimePickerState(true) }) {
             Text("Deadline time")
         }
@@ -103,10 +114,55 @@ fun CreateTaskComponent() {
 
         }
         if (screenState.value.datePickerState) {
-
+            val datePickerState = rememberDatePickerState()
+            DatePickerDialog(
+                onDismissRequest = {
+                    viewModel.setDatePickerState(false)
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.setDatePickerState(false)
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.setDatePickerState(false)
+                        }
+                    ) {
+                        Text("CANCEL")
+                    }
+                }
+            ) {
+                DatePicker(state = datePickerState)
+            }
         }
         if (screenState.value.timePickerState) {
-
+            val timePickerState = rememberTimePickerState()
+            TimePickerDialog(onDismissRequest = { viewModel.setTimePickerState(false) },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.setTimePickerState(false)
+                        }
+                    ) {
+                        Text("OK")
+                    }
+                }, dismissButton = {
+                    TextButton(
+                        onClick = {
+                            viewModel.setTimePickerState(false)
+                        }
+                    ) {
+                        Text("CANCEL")
+                    }
+                }) {
+                TimePicker(state = timePickerState)
+            }
         }
         if (screenState.value.attachedFiles.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
@@ -114,11 +170,20 @@ fun CreateTaskComponent() {
             Spacer(modifier = Modifier.height(4.dp))
             screenState.value.attachedFiles.forEach {
                 FileRow(name = it.toString()) {
-
+                    viewModel.deleteTaskUri(it)
                 }
             }
         }
-
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+            OutlinedButton(onClick = { /*TODO*/ }) {
+                Text(text = "Attach files")
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Assign task")
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
     }
 }
