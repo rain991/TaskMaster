@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -84,12 +87,36 @@ fun CreateTaskComponent() {
         }
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { /*TODO*/ }) {
-            Text("Choose groups")
+        Button(onClick = { viewModel.setGroupPickerState(true) }) {
+            Text("Groups")
         }
 
-        Button(onClick = { /*TODO*/ }) {
-            Text("Choose end date")
+        Button(onClick = { viewModel.setDatePickerState(true) }) {
+            Text("Deadline date")
+        }
+
+        Button(onClick = { viewModel.setTimePickerState(true) }) {
+            Text("Deadline time")
+        }
+
+        if (screenState.value.groupPickerState) {
+
+        }
+        if (screenState.value.datePickerState) {
+
+        }
+        if (screenState.value.timePickerState) {
+
+        }
+        if (screenState.value.attachedFiles.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Attached files")
+            Spacer(modifier = Modifier.height(4.dp))
+            screenState.value.attachedFiles.forEach {
+                FileRow(name = it.toString()) {
+
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -126,7 +153,20 @@ private fun AmountInput(
                 controller?.hide()
                 focusManager.clearFocus()
             }
-        ),
-        maxLines = 1,
+        )
     )
+}
+
+@Composable
+private fun FileRow(name: String, onDeleteClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = name, style = MaterialTheme.typography.bodyMedium)
+        Button(onClick = { /*TODO*/ }) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete $name task file")
+        }
+    }
 }

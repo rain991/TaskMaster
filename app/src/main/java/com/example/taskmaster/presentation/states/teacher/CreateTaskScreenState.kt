@@ -8,7 +8,10 @@ data class CreateTaskScreenState (
     val title : String,
     val description : String,
     val listOfGroupIdentifiers : List<String>,
-    val selectedDate : Date,
+    val selectedDate : Date? = null,
     val attachedFiles : List<Uri>,
+    val datePickerState : Boolean = false,
+    val timePickerState : Boolean = false,
+    val groupPickerState : Boolean = false,
     val warningMessage : String? = null
 )
