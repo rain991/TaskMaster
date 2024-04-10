@@ -205,13 +205,17 @@ private fun AmountInput(
             .width(IntrinsicSize.Min)
             .padding(start = 6.dp),
         textStyle = textStyle,
-        value = if (currentText != "") {
-            currentText
-        } else {
+        value = if (currentText == "") {
             emptyTextLabel
+        } else {
+            currentText
         },
         onValueChange = { newText ->
-            onValueChange(newText)
+            if (newText == emptyTextLabel) {
+                onValueChange("")
+            } else {
+                onValueChange(newText)
+            }
         },
         keyboardActions = KeyboardActions(
             onDone = {
