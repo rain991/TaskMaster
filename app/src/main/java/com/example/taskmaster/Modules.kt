@@ -31,7 +31,7 @@ val appModule = module {
 
     single<GroupsListRepositoryImpl>{ GroupsListRepositoryImpl(get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
-    
+
     single<SearchRepositoryImpl>{SearchRepositoryImpl(get())}
 }
 

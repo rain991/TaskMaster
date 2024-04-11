@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.teacherComponents.group.fab
+package com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.fab
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

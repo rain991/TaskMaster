@@ -24,7 +24,7 @@ fun GroupSelector(
      listOfSelectedGroups : List<Group>,
      onAcceptButton : ()->Unit,
      onDismissRequest : () -> Unit
-) {
+) { //
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
