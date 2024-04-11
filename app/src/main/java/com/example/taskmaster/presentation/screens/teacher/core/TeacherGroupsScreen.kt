@@ -63,7 +63,11 @@ fun TeacherGroupsScreen(navController: NavController) {
            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
                Text(text = "Create group", style = MaterialTheme.typography.titleMedium)
            }
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+
+
+
 //            LazyColumn(state = groupsLazyListState, modifier = Modifier.fillMaxSize()) {
 //                items(
 //
