@@ -3,6 +3,8 @@ package com.example.taskmaster
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.GroupRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
@@ -25,6 +27,9 @@ val appModule = module {
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
 
     single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get()) }
+
+    single<GroupsListRepositoryImpl>{ GroupsListRepositoryImpl(get()) }
+    single<GroupRepositoryImpl> {GroupRepositoryImpl(get())}
 }
 
 val domainModule = module {
