@@ -4,6 +4,6 @@ data class Group(
     val identifier: String,
     val name: String,
     val teacher: String,  // UID
-    val students: List<Student>,
-    val tasks: List<Task>
+    val students: List<String>, // students email
+    val tasks: List<String> // tasks
 )

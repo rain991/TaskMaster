@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -23,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -46,13 +45,22 @@ fun TeacherCreateGroupComponent() {
     val searchText = viewModel.searchText.collectAsState()
     val warningMessage = viewModel.warningMessage.collectAsState()
     val groupName = viewModel.groupNameText.collectAsState()
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "Create group", style = MaterialTheme.typography.titleLarge.copy(fontSize = 36.sp, fontWeight = FontWeight.Bold))
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 4.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Text(text = "Create group", style = MaterialTheme.typography.titleLarge.copy(fontSize = 36.sp, fontWeight = FontWeight.Bold))
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+        GradientInputTextField(value = groupName.value, label = "Group name") {
+            viewModel.setGroupName(it)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxWidth(0.96f)
+                .height(120.dp),
             query = searchText.value,
             onQueryChange = { viewModel.setSearchText(it) },
             onSearch = {
@@ -93,40 +101,38 @@ fun TeacherCreateGroupComponent() {
             onActiveChange = {},
             tonalElevation = 0.dp
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(value = groupName.value, label = "Group name") {
-            viewModel.setGroupName(it)
-        }
         Spacer(modifier = Modifier.height(16.dp))
-        if (searchText.value.length > 2) {
-            Text(text = "Searched students", style = MaterialTheme.typography.titleSmall)
-        } else {
-            Text(text = "Added students", style = MaterialTheme.typography.titleSmall)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
-            items(
-                if (searchText.value.length > 2) {
-                    searchStudentsList.size
-                } else {
-                    addedStudentsList.size
-                }
-            ) { index ->
-                val currentItem = if (searchText.value.length > 2) {
-                    searchStudentsList[index]
-                } else {
-                    addedStudentsList[index]
-                }
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { viewModel.addStudentFromSearchList(currentItem) }) {
-                    Text(text = currentItem.name)
-                    Spacer(modifier = Modifier.height(4.dp))
-                }
 
+        if (!addedStudentsList.isEmpty()) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+                Text(text = "Added students", style = MaterialTheme.typography.titleMedium)
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
+                items(
+                    if (searchText.value.length > 2) {
+                        searchStudentsList.size
+                    } else {
+                        addedStudentsList.size
+                    }
+                ) { index ->
+                    val currentItem = if (searchText.value.length > 2) {
+                        searchStudentsList[index]
+                    } else {
+                        addedStudentsList[index]
+                    }
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { viewModel.addStudentFromSearchList(currentItem) }) {
+                        Text(text = currentItem.name)
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+
+                }
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
+
+        Spacer(modifier = Modifier.weight(1f))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(onClick = { viewModel.createGroup() }) {
                 Text(text = "Create group")

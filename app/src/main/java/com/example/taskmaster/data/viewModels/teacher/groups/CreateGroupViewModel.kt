@@ -3,11 +3,19 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.implementations.core.teacher.SearchRepositoryImpl
+import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
+import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CreateGroupViewModel(private val searchRepositoryImpl: SearchRepositoryImpl) : ViewModel() {
+class CreateGroupViewModel(
+    private val searchRepositoryImpl: SearchRepositoryImpl,
+    private val createGroupUseCase: CreateGroupUseCase,
+    private val auth: FirebaseAuth
+) :
+    ViewModel() {
     private val _searchedStudentsList = mutableStateListOf<Student>()
     val searchedStudentsList: List<Student> = _searchedStudentsList
 
@@ -23,13 +31,26 @@ class CreateGroupViewModel(private val searchRepositoryImpl: SearchRepositoryImp
     private val _groupNameText = MutableStateFlow("")
     val groupNameText = _groupNameText.asStateFlow()
     fun createGroup() {
+        if(_addedStudentsList.size>0 && _groupNameText.value.length > 2){
+            createGroupUseCase(
+                Group(
+                    identifier = "",
+                    name = _searchText.value,
+                    teacher = auth.currentUser!!.uid,
+                    students = _addedStudentsList.map { it.email },
+                    tasks = listOf()
+                )
+            )
+        }else{
+            setWarningMessage("Group must contain at least 1 student and group name should contain at least 3 characters")
+        }
 
     }
 
     fun addStudentFromSearchList(student: Student) {
-        if(_addedStudentsList.contains(student)){
+        if (_addedStudentsList.contains(student)) {
             setWarningMessage("This student is already added")
-        }else{
+        } else {
             _addedStudentsList.add(student)
         }
     }
