@@ -4,6 +4,7 @@ package com.example.taskmaster.data.constants
 const val AUTH_DEBUG_TAG = "Auth"
 const val COMMON_DEBUG_TAG = "TM_CommonTag"
 const val SEARCH_DEBUG_TAG = "TM_SearchTag"
+const val QUERY_DEBUG_TAG = "TM_FirebaseQueryTag"
 // Common
 const val DEFAULT_USER_NAME = "user"
 

@@ -31,7 +31,6 @@ fun TeacherGroupsScreen(navController: NavController) {
     val auth = koinInject<FirebaseAuth>()
     val bottomBarNavigationItems =
         listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
-
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupsScreen)
     }
@@ -55,10 +54,6 @@ fun TeacherGroupsScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-//           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-//               Text(text = "Create group", style = MaterialTheme.typography.titleMedium)
-//           }
-//            Spacer(modifier = Modifier.height(16.dp))
             ListOfGroupScreenComponent()
         }
     }

@@ -23,16 +23,14 @@ class GroupListScreenViewModel(
     private val _groupToDelete = MutableStateFlow<Group?>(null)
     val groupToDelete = _groupToDelete.asStateFlow()
 
+    private val currentFirebaseUser = auth.currentUser
+
     init {
         viewModelScope.launch {
-            auth.currentUser?.let { firebaseUser ->
-                groupsListRepositoryImpl.getGroupsRelatedToTeacher(firebaseUser.uid).collect {
-                    _groupsList.clear()
-                    _groupsList.addAll(it)
-                }
-            }
+            setGroupsList(groupsListRepositoryImpl.getGroupsRelatedToTeacher(currentFirebaseUser!!.uid))
         }
     }
+
 
     fun deleteGroup(groupIdentifier: String) {
         deleteGroupUseCase(groupIdentifier)
@@ -40,5 +38,13 @@ class GroupListScreenViewModel(
 
     fun setIsDeleteDialogShown(value: Group?) {
         _groupToDelete.value = value
+    }
+
+    suspend fun fetchCurrentGroups(){
+        setGroupsList(groupsListRepositoryImpl.getGroupsRelatedToTeacher(currentFirebaseUser!!.uid))
+    }
+    private fun setGroupsList(listOfRelatedGroups : List<Group>){
+        _groupsList.clear()
+        _groupsList.addAll(listOfRelatedGroups)
     }
 }

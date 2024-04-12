@@ -59,7 +59,7 @@ fun TeacherCreateGroupComponent() {
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(
             modifier = Modifier
-                .fillMaxWidth(0.96f)
+                .fillMaxWidth().padding(start = 4.dp, end = 40.dp)
                 .height(120.dp),
             query = searchText.value,
             onQueryChange = { viewModel.setSearchText(it) },
@@ -89,8 +89,8 @@ fun TeacherCreateGroupComponent() {
                             Column(modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { viewModel.addStudentFromSearchList(currentItem) }) {
+                                Spacer(modifier = Modifier.height(8.dp))
                                 Text(text = currentItem.name)
-                                Spacer(modifier = Modifier.height(4.dp))
                             }
 
                         }

@@ -9,9 +9,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepository {
     override fun createGroup(group: Group) {
         val groupCollection = database.collection("groups")
-        val groupId = database.collection("groups").document().id // Generate a new ID
+        val groupId = database.collection("groups").document().id
         val groupWithId = group.copy(identifier = groupId)
-        groupCollection.add(group).addOnCompleteListener {
+        groupCollection.add(groupWithId).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.d(AUTH_DEBUG_TAG, "createGroup: ${group.name} is successful")
             }else{
