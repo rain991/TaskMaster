@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.taskmaster.data.viewModels.teacher.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.SingleGroupComponent
 import org.koin.androidx.compose.koinViewModel
 

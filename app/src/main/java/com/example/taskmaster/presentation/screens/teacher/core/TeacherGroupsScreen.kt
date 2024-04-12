@@ -45,7 +45,7 @@ fun TeacherGroupsScreen(navController: NavController) {
                 navController = navController, userType = UserTypes.Teacher
             )
         }, floatingActionButton = {
-            TaskMasterFAB(onClick = { navController.navigate() }, contentDescription = )
+            TaskMasterFAB(onClick = { navController.navigate(Screen.CreateGroupScreen.route) }, contentDescription = "Create new group")
         }
     ) {
         Column(

@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.viewModels.teacher
+package com.example.taskmaster.data.viewModels.teacher.tasks
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel

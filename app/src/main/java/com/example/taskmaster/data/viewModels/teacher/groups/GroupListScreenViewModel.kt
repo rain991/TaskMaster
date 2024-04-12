@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.viewModels.teacher
+package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

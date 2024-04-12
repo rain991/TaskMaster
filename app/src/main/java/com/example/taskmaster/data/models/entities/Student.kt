@@ -10,4 +10,6 @@ data class Student(
     override val surname: String,
     val groups: List<String>,  // groups IDs
     val tasks: List<String>  // tasks IDs
-) : User()
+) : User() {
+    constructor() : this("", "", "", "", "", listOf(), listOf())
+}

@@ -40,7 +40,7 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmaster.data.viewModels.teacher.CreateTaskViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import org.koin.androidx.compose.koinViewModel
 
 

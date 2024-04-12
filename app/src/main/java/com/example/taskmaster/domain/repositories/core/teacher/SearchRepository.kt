@@ -6,5 +6,5 @@ import com.example.taskmaster.data.models.entities.Group
 interface SearchRepository {
     fun searchTeacherGroupByName(name : String, teacherUID : String) : List<Group>
 
-    fun searchStudentsByEmail(email : String) : List<User>
+    suspend fun searchStudentsByEmail(email : String) : List<User>
 }

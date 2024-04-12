@@ -11,12 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
-import com.example.taskmaster.data.constants.DEFAULT_USER_NAME
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
 import com.example.taskmaster.presentation.components.teacherComponents.group.createGroupScreen.component.TeacherCreateGroupComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
@@ -32,7 +31,7 @@ fun TeacherGroupCreateScreen(navController : NavController) {
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            TaskMasterScreenHeader(isTeacherScreen = true, userName = currentUserName ?: DEFAULT_USER_NAME)
+            SimplifiedTopBar()
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,
@@ -49,7 +48,6 @@ fun TeacherGroupCreateScreen(navController : NavController) {
         )
         {
             TeacherCreateGroupComponent()
-
         }
     }
 }

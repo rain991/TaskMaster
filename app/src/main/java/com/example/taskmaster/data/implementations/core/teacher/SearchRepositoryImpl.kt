@@ -6,6 +6,7 @@ import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.domain.repositories.core.teacher.SearchRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class SearchRepositoryImpl(private val database : FirebaseFirestore)  : SearchRepository{
     override fun searchTeacherGroupByName(name: String, teacherUID: String): List<Group> {
@@ -29,7 +30,7 @@ class SearchRepositoryImpl(private val database : FirebaseFirestore)  : SearchRe
     }
 
 
-    override fun searchStudentsByEmail(email: String): List<Student> {
+    override suspend fun searchStudentsByEmail(email: String): List<Student> {
         val usersCollection = database.collection("users")
         val resultUsers = mutableListOf<Student>()
 
@@ -42,10 +43,12 @@ class SearchRepositoryImpl(private val database : FirebaseFirestore)  : SearchRe
                     val user = document.toObject(Student::class.java)
                     resultUsers.add(user)
                 }
+                Log.d(SEARCH_DEBUG_TAG, "Successful search of users")
             }
             .addOnFailureListener { exception ->
                 Log.d(SEARCH_DEBUG_TAG, "Error getting documents: ", exception)
             }
+            .await()
         return resultUsers
     }
 }

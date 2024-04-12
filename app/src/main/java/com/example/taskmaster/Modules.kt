@@ -9,8 +9,9 @@ import com.example.taskmaster.data.implementations.core.teacher.SearchRepository
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
-import com.example.taskmaster.data.viewModels.teacher.CreateTaskViewModel
-import com.example.taskmaster.data.viewModels.teacher.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
@@ -45,7 +46,6 @@ val domainModule = module {
 
     //Teacher
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
-
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
 }
@@ -56,4 +56,5 @@ val viewModelModule = module {
     viewModel { ScreenManagerViewModel() }
     viewModel { CreateTaskViewModel() }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
+    viewModel { CreateGroupViewModel(get()) }
 }
