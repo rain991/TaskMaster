@@ -10,8 +10,11 @@ import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.CreateTaskViewModel
+import com.example.taskmaster.data.viewModels.teacher.GroupListScreenViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
+import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
+import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -29,10 +32,10 @@ val appModule = module {
 
     single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get()) }
 
-    single<GroupsListRepositoryImpl>{ GroupsListRepositoryImpl(get()) }
+    single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
 
-    single<SearchRepositoryImpl>{SearchRepositoryImpl(get())}
+    single<SearchRepositoryImpl> { SearchRepositoryImpl(get()) }
 }
 
 val domainModule = module {
@@ -41,7 +44,10 @@ val domainModule = module {
     single<LoginUseCase> { LoginUseCase(get(), get()) }
 
     //Teacher
-    single<CreateTaskUseCase> {CreateTaskUseCase(get())}
+    single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
+
+    single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
+    single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -49,4 +55,5 @@ val viewModelModule = module {
     viewModel { LoginScreenViewModel(get(), get()) }
     viewModel { ScreenManagerViewModel() }
     viewModel { CreateTaskViewModel() }
+    viewModel { GroupListScreenViewModel(get(), get(), get()) }
 }

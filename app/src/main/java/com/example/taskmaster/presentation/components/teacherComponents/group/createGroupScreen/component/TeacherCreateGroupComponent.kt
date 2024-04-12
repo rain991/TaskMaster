@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.component
+package com.example.taskmaster.presentation.components.teacherComponents.group.createGroupScreen.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,7 @@ import com.example.taskmaster.presentation.components.teacherComponents.group.li
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ListOfGroupScreenComponent() {
+fun TeacherCreateGroupComponent() {
     val lazyListState = rememberLazyListState()
     val viewModel = koinViewModel<GroupListScreenViewModel>()
     val groupList = viewModel.groupsList

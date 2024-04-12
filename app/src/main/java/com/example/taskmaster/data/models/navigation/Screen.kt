@@ -13,4 +13,5 @@ sealed class Screen(val route: String) {
     // Teacher related
     object CreateTaskScreen : Screen("create_task_screen")
     object GroupDetailedScreen : Screen("group_detailed_screen")
+    object CreateGroupScreen : Screen("create_group_screen")
 }

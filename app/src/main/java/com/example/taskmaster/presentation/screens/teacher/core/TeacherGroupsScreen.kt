@@ -2,16 +2,9 @@ package com.example.taskmaster.presentation.screens.teacher.core
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +18,8 @@ import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
+import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.component.ListOfGroupScreenComponent
+import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.fab.TaskMasterFAB
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -34,10 +29,8 @@ fun TeacherGroupsScreen(navController: NavController) {
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val auth = koinInject<FirebaseAuth>()
-    val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems =
         listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
-    val groupsLazyListState = rememberLazyListState()
 
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupsScreen)
@@ -51,6 +44,8 @@ fun TeacherGroupsScreen(navController: NavController) {
                 selectedItem = convertScreenToNavigationItem(screenManagerState.value),
                 navController = navController, userType = UserTypes.Teacher
             )
+        }, floatingActionButton = {
+            TaskMasterFAB(onClick = { navController.navigate() }, contentDescription = )
         }
     ) {
         Column(
@@ -60,21 +55,11 @@ fun TeacherGroupsScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-               Text(text = "Create group", style = MaterialTheme.typography.titleMedium)
-           }
-            Spacer(modifier = Modifier.height(16.dp))
-
-
-
-
-//            LazyColumn(state = groupsLazyListState, modifier = Modifier.fillMaxSize()) {
-//                items(
-//
-//                ){
-//
-//                }
-//            }
+//           Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+//               Text(text = "Create group", style = MaterialTheme.typography.titleMedium)
+//           }
+//            Spacer(modifier = Modifier.height(16.dp))
+            ListOfGroupScreenComponent()
         }
     }
 }

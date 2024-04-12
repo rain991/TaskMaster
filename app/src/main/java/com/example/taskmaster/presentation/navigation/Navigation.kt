@@ -12,6 +12,7 @@ import com.example.taskmaster.presentation.screens.common.ResetPasswordScreen
 import com.example.taskmaster.presentation.screens.student.StudentFinishedTasksScreen
 import com.example.taskmaster.presentation.screens.student.StudentGroupsScreen
 import com.example.taskmaster.presentation.screens.student.StudentTasksScreen
+import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupCreateScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupDetailedScreen
 import com.example.taskmaster.presentation.screens.teacher.core.TeacherCreateTaskScreen
 import com.example.taskmaster.presentation.screens.teacher.core.TeacherFinishedTasksScreen
@@ -49,6 +50,9 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
                 TeacherFinishedTasksScreen(navController)
             }
         }
+        composable(route = Screen.CreateTaskScreen.route) {
+            TeacherCreateTaskScreen(navController)
+        }
         composable(route = Screen.GroupsScreen.route) {
             if (currentUserType == UserTypes.Student) {
                 StudentGroupsScreen(navController)
@@ -56,9 +60,11 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
                 TeacherGroupsScreen(navController)
             }
         }
-        composable(route = Screen.CreateTaskScreen.route) {
-            TeacherCreateTaskScreen(navController)
+
+        composable(route = Screen.CreateGroupScreen.route) {
+            TeacherGroupCreateScreen(navController)
         }
+
         composable(route = Screen.GroupDetailedScreen.route) {
             TeacherGroupDetailedScreen(navController)
         }

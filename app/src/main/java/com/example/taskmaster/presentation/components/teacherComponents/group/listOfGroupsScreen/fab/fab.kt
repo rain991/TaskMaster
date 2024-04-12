@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TaskMasterFAB(onClick: () -> Unit) {
+fun TaskMasterFAB(onClick: () -> Unit, contentDescription : String) {  // "Add new students group"
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -29,7 +29,7 @@ fun TaskMasterFAB(onClick: () -> Unit) {
             FloatingActionButton(
                 onClick = onClick
             ) {
-               Icon(Icons.Filled.Add, contentDescription = "Add new students group")
+               Icon(Icons.Filled.Add, contentDescription = contentDescription)
             }
         }
     }

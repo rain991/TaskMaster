@@ -17,6 +17,7 @@ import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
+import com.example.taskmaster.presentation.components.teacherComponents.group.createGroupScreen.component.TeacherCreateGroupComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -47,7 +48,7 @@ fun TeacherGroupCreateScreen(navController : NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
+            TeacherCreateGroupComponent()
 
         }
     }
