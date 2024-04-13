@@ -59,7 +59,7 @@ fun TeacherCreateGroupComponent() {
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(
             modifier = Modifier
-                .fillMaxWidth().padding(start = 4.dp, end = 40.dp)
+                .fillMaxWidth().padding(start = 8.dp, end = 60.dp)
                 .height(120.dp),
             query = searchText.value,
             onQueryChange = { viewModel.setSearchText(it) },
@@ -82,6 +82,7 @@ fun TeacherCreateGroupComponent() {
             },
             trailingIcon = {},
             content = {
+                Spacer(modifier = Modifier.height(8.dp))
                 if (searchText.value.length > 2) {
                     LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
                         items(searchStudentsList.size) { index ->
@@ -90,9 +91,8 @@ fun TeacherCreateGroupComponent() {
                                 .fillMaxWidth()
                                 .clickable { viewModel.addStudentFromSearchList(currentItem) }) {
                                 Spacer(modifier = Modifier.height(8.dp))
-                                Text(text = currentItem.name)
+                                Text(text = currentItem.email)
                             }
-
                         }
                     }
                 }
@@ -103,35 +103,24 @@ fun TeacherCreateGroupComponent() {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (!addedStudentsList.isEmpty()) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+        if (addedStudentsList.isNotEmpty()) {
+            Row(modifier = Modifier.fillMaxWidth().padding(start = 8.dp), horizontalArrangement = Arrangement.Start) {
                 Text(text = "Added students", style = MaterialTheme.typography.titleMedium)
             }
             Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
-                items(
-                    if (searchText.value.length > 2) {
-                        searchStudentsList.size
-                    } else {
-                        addedStudentsList.size
-                    }
-                ) { index ->
-                    val currentItem = if (searchText.value.length > 2) {
-                        searchStudentsList[index]
-                    } else {
-                        addedStudentsList[index]
-                    }
+            LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth().padding(start = 8.dp)) {
+                items(addedStudentsList.size) { index ->
+                    val currentItem = addedStudentsList[index]
                     Column(modifier = Modifier
                         .fillMaxWidth()
                         .clickable { viewModel.addStudentFromSearchList(currentItem) }) {
-                        Text(text = currentItem.name)
+                        Text(text = currentItem.email)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
 
                 }
             }
         }
-
         Spacer(modifier = Modifier.weight(1f))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(onClick = { viewModel.createGroup() }) {

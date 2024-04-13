@@ -35,16 +35,17 @@ class CreateGroupViewModel(
             createGroupUseCase(
                 Group(
                     identifier = "",
-                    name = _searchText.value,
+                    name = _groupNameText.value,
                     teacher = auth.currentUser!!.uid,
                     students = _addedStudentsList.map { it.email },
                     tasks = listOf()
                 )
             )
+            setWarningMessage("Group ${_groupNameText.value} created")
+
         }else{
             setWarningMessage("Group must contain at least 1 student and group name should contain at least 3 characters")
         }
-
     }
 
     fun addStudentFromSearchList(student: Student) {

@@ -1,7 +1,7 @@
 package com.example.taskmaster.data.implementations.core.teacher
 
 import android.util.Log
-import com.example.taskmaster.data.constants.AUTH_DEBUG_TAG
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.repositories.core.teacher.GroupRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,9 +13,9 @@ class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepos
         val groupWithId = group.copy(identifier = groupId)
         groupCollection.add(groupWithId).addOnCompleteListener {
             if(it.isSuccessful){
-                Log.d(AUTH_DEBUG_TAG, "createGroup: ${group.name} is successful")
+                Log.d(COMMON_DEBUG_TAG, "createGroup: ${group.name} is successful")
             }else{
-                Log.d(AUTH_DEBUG_TAG, "createGroup: ${group.name} error occurred")
+                Log.d(COMMON_DEBUG_TAG, "createGroup: ${group.name} error occurred")
             }
         }
     }
@@ -25,9 +25,9 @@ class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepos
         val groupDocument = groupCollection.document(groupIdentifier) // Assuming group.id is the document ID
         groupDocument.delete().addOnCompleteListener {
             if(it.isSuccessful){
-                Log.d(AUTH_DEBUG_TAG, "deleteGroup: $groupIdentifier is successful")
+                Log.d(COMMON_DEBUG_TAG, "deleteGroup: $groupIdentifier is successful")
             } else {
-                Log.d(AUTH_DEBUG_TAG, "deleteGroup: $groupIdentifier error occurred")
+                Log.d(COMMON_DEBUG_TAG, "deleteGroup: $groupIdentifier error occurred")
             }
         }
     }
