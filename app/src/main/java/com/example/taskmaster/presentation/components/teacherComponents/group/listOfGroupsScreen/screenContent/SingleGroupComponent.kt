@@ -24,28 +24,25 @@ import com.example.taskmaster.presentation.components.common.drawable.CircleWith
 import com.example.taskmaster.presentation.components.common.other.TextButtonWithClipboard
 
 @Composable
-fun SingleGroupComponent(group: Group, onButtonClickDeleteGroup: () -> Unit) {
+fun SingleGroupComponent(group: Group, onComponentClick: () -> Unit, onButtonClickDeleteGroup: () -> Unit) {
     val localContext = LocalContext.current
-    Row(modifier = Modifier
-        .wrapContentHeight()
-        .padding(horizontal = 4.dp)
-        .clickable { onButtonClickDeleteGroup() }, verticalAlignment = Alignment.CenterVertically
+    Row(
+        modifier = Modifier
+            .wrapContentHeight()
+            .padding(horizontal = 4.dp)
+            .clickable { onComponentClick() }, verticalAlignment = Alignment.CenterVertically
     ) {
         CircleWithText(text = group.name.substring(0..1), modifier = Modifier.size(40.dp))
         Spacer(modifier = Modifier.width(20.dp))
         Column(modifier = Modifier.wrapContentHeight()) {
             Text(text = group.name, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
-            Row() {
+            Row {
                 Text(text = "identifier: ")
                 TextButtonWithClipboard(text = group.identifier)
             }
         }
-
-
-
-
         Spacer(modifier = Modifier.weight(1f))
-        Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+        Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.clickable { onButtonClickDeleteGroup() })
     }
 }

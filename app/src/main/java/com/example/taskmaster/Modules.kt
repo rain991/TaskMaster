@@ -10,12 +10,14 @@ import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
+import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -48,6 +50,7 @@ val domainModule = module {
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
+    single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase() }
 }
 
 val viewModelModule = module {
@@ -57,4 +60,5 @@ val viewModelModule = module {
     viewModel { CreateTaskViewModel() }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
+    viewModel { GroupDetailedScreenViewModel(get(), get()) }
 }

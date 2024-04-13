@@ -54,7 +54,7 @@ fun TeacherGroupsScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            ListOfGroupScreenComponent()
+            ListOfGroupScreenComponent(navController)
         }
     }
 }
