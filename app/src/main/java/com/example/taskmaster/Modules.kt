@@ -2,6 +2,7 @@ package com.example.taskmaster
 
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
+import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.GroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
@@ -39,6 +40,7 @@ val appModule = module {
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
 
     single<SearchRepositoryImpl> { SearchRepositoryImpl(get()) }
+    single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
 }
 
 val domainModule = module {
@@ -50,7 +52,7 @@ val domainModule = module {
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
-    single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase() }
+    single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase(get()) }
 }
 
 val viewModelModule = module {

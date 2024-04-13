@@ -54,7 +54,7 @@ fun GroupDetailedScreenComponent(onDeleteStudent: (Student) -> Unit) {
                         listOfGroupStudents.size
                     }
                 ) { index ->
-                    val currentItem = if (searchText.value.isNotEmpty()) {
+                    val currentStudent = if (searchText.value.isNotEmpty()) {
                         searchedStudentsList[index]
                     } else {
                         listOfGroupStudents[index]
@@ -65,9 +65,12 @@ fun GroupDetailedScreenComponent(onDeleteStudent: (Student) -> Unit) {
                             .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Spacer(modifier = Modifier.height(12.dp))
-                        Text(text = currentItem.email)
-                        Button(onClick = {viewModel.deleteStudentFromGroup()}) {
-                            Icon(imageVector = Icons.Default.Clear, contentDescription = "delete ${currentItem.email} student from group")
+                        Text(text = currentStudent.email)
+                        Button(onClick = { viewModel.deleteStudentFromGroup(currentStudent) }) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "delete ${currentStudent.email} student from group"
+                            )
                         }
 
                     }
