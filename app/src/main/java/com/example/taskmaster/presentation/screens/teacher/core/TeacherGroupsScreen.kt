@@ -16,6 +16,7 @@ import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.component.ListOfGroupScreenComponent
@@ -25,7 +26,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherGroupsScreen(navController: NavController) {
+fun TeacherGroupsScreen(navController: NavController, viewModel : GroupDetailedScreenViewModel) {
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val auth = koinInject<FirebaseAuth>()
@@ -54,7 +55,7 @@ fun TeacherGroupsScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            ListOfGroupScreenComponent(navController)
+            ListOfGroupScreenComponent(navController, viewModel)
         }
     }
 }

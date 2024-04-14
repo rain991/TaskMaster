@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class GroupDetailedScreenViewModel(
     private val auth: FirebaseAuth,
-    private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase
+    private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase,
 ) : ViewModel() {
     private val _currentDetailedGroup = MutableStateFlow<Group?>(null)
     val currentDetailedGroup = _currentDetailedGroup.asStateFlow()
@@ -34,8 +34,8 @@ class GroupDetailedScreenViewModel(
         _currentDetailedGroup.value = group
     }
 
-    fun deleteStudentFromGroup(student: Student) {
-        deletePersonFromGroupUseCase(student)
+    suspend fun deleteStudentFromGroup(student: Student) {
+        currentDetailedGroup.value?.let { deletePersonFromGroupUseCase(student, it.identifier) }
     }
 
     fun deleteStudentFromAddedList(student: Student) {

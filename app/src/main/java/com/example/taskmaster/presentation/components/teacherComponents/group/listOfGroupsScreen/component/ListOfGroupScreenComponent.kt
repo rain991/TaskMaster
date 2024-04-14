@@ -22,14 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.SingleGroupComponent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ListOfGroupScreenComponent(navController: NavController) {
-    val lazyListState = rememberLazyListState()
+fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewModel :GroupDetailedScreenViewModel) {
+   // val groupDetailedViewModel = koinViewModel<GroupDetailedScreenViewModel>()
     val viewModel = koinViewModel<GroupListScreenViewModel>()
+    val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchCurrentGroups()
@@ -55,8 +57,7 @@ fun ListOfGroupScreenComponent(navController: NavController) {
             LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
                 items(groupList) {
                     SingleGroupComponent(group = it, onComponentClick = {
-                        // set VM data for detailedGroupScreen
-
+                        groupDetailedViewModel.setCurrentDetailedGroup(it)
                         navController.navigate(Screen.GroupDetailedScreen.route)
                     }) {
                         viewModel.setIsDeleteDialogShown(it)

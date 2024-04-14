@@ -11,27 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
-import com.example.taskmaster.data.constants.DEFAULT_USER_NAME
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
+import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
-import com.google.firebase.auth.FirebaseAuth
+import com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.component.GroupDetailedScreenComponent
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 
 @Composable
-fun TeacherGroupDetailedScreen(navController : NavController) {
-    val auth = koinInject<FirebaseAuth>()
+fun TeacherGroupDetailedScreen(navController: NavController, viewModel : GroupDetailedScreenViewModel) {
+    // val auth = koinInject<FirebaseAuth>()
     val bottomBarNavigationItems =
         listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
-    val currentUserName = auth.currentUser?.displayName
+   // val currentUserName = auth.currentUser?.displayName
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            TaskMasterScreenHeader(isTeacherScreen = true, userName = currentUserName ?: DEFAULT_USER_NAME)
+            SimplifiedTopBar()
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,
@@ -47,8 +46,7 @@ fun TeacherGroupDetailedScreen(navController : NavController) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
-
+            GroupDetailedScreenComponent(viewModel)
         }
     }
 }
