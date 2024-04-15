@@ -20,7 +20,6 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     private val auth: FirebaseAuth by inject()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loginRepositoryImpl: LoginRepositoryImpl by inject()

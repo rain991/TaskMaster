@@ -3,6 +3,7 @@ package com.example.taskmaster.presentation.components.teacherComponents.group.g
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,10 +43,7 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
     val currentDetailedGroup = viewModel.currentDetailedGroup.collectAsState()
     val searchText = viewModel.searchText.collectAsState()
     val warningMessage = viewModel.warningMessage.collectAsState()
-    val searchedStudentsList = viewModel.searchedStudentsList
-    val listOfGroupStudents = viewModel.listOfGroupStudents
     val coroutineScope = rememberCoroutineScope()
-    Log.d(COMMON_DEBUG_TAG, "GroupDetailedScreenComponent: ${viewModel.listOfGroupStudents.size}")
     if (currentDetailedGroup.value == null) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -55,6 +53,8 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
             Text(text = "There is no current selected group", style = MaterialTheme.typography.titleSmall)
         }
     } else {
+        val listOfGroupStudents = currentDetailedGroup.value!!.students
+        val searchedStudentsList = viewModel.searchedStudentsList
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
@@ -74,11 +74,13 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                     .padding(start = 8.dp, end = 8.dp)
                     .wrapContentHeight(),
                 query = searchText.value,
-                onQueryChange = { viewModel.setSearchText(it) },
+                onQueryChange = {
+                    viewModel.setSearchText(it.trim())
+                    viewModel.searchStudent()
+                    Log.d(COMMON_DEBUG_TAG, "GroupDetailedScreenComponent: searched list size: ${searchedStudentsList.size}")
+                },
                 onSearch = {
-                    coroutineScope.launch {
-                        viewModel.searchStudent(it)
-                    }
+                        viewModel.searchStudent()
                 },
                 placeholder = {
                     Text(text = "Search students")
@@ -96,10 +98,54 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                     if (searchText.value.isNotEmpty()) {
                         LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
                             items(searchedStudentsList.size) { index ->
-                                val currentItem = searchedStudentsList[index]
-                                Column(modifier = Modifier.fillMaxWidth()) {
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(text = currentItem.email)
+                                val currentStudent = searchedStudentsList[index]
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp)
+                                        .wrapContentHeight(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = currentStudent)
+                                    Button(onClick = {
+                                        coroutineScope.launch {
+                                            viewModel.deleteStudentFromGroup(currentStudent)
+                                        }
+                                    }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Clear,
+                                            contentDescription = "delete $currentStudent student from group"
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
+                            items(
+                                listOfGroupStudents.size
+                            ) { index ->
+                                val currentStudent = listOfGroupStudents[index]
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp)
+                                        .wrapContentHeight(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = currentStudent)
+                                    Button(onClick = {
+                                        coroutineScope.launch {
+                                            viewModel.deleteStudentFromGroup(currentStudent)
+                                        }
+                                    }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Clear,
+                                            contentDescription = "delete $currentStudent student from group"
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -110,37 +156,9 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                 tonalElevation = 0.dp
             )
             Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn(state = lazyListState, modifier = Modifier.fillMaxWidth()) {
-                items(
-                    if (searchText.value.isNotEmpty()) {
-                        searchedStudentsList.size
-                    } else {
-                        listOfGroupStudents.size
-                    }
-                ) { index ->
-                    val currentStudent = if (searchText.value.isNotEmpty()) {
-                        searchedStudentsList[index]
-                    } else {
-                        listOfGroupStudents[index]
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(text = currentStudent.email)
-                        Button(onClick = {
-                            coroutineScope.launch {
-                                viewModel.deleteStudentFromGroup(currentStudent)
-                            }
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = "delete ${currentStudent.email} student from group"
-                            )
-                        }
-                    }
+            if (listOfGroupStudents.isEmpty()) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = "Group is empty", style = MaterialTheme.typography.titleMedium)
                 }
             }
         }

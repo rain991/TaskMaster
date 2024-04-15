@@ -7,5 +7,5 @@ data class Group(
     val students: List<String>, // students email
     val tasks: List<String> // tasks
 ) {
-    constructor() : this("", "", "", listOf(), listOf())
+    constructor() : this("", "", "", listOf<String>(), listOf<String>())
 }

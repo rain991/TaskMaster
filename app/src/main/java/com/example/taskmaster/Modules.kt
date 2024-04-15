@@ -52,7 +52,7 @@ val domainModule = module {
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
-    single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase(get(), get()) }
+    single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase(get()) }
 }
 
 val viewModelModule = module {
@@ -62,5 +62,5 @@ val viewModelModule = module {
     viewModel { CreateTaskViewModel() }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
-    viewModel { GroupDetailedScreenViewModel(get(), get()) }
+    viewModel { GroupDetailedScreenViewModel(get(), get() ,get()) }
 }
