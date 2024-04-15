@@ -52,9 +52,14 @@ fun CreateTaskComponent() {
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(4.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(4.dp)
+    ) {
+        if(screenState.value.isGroupSelectorShown){
+            GroupSelector(viewModel)
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -98,7 +103,7 @@ fun CreateTaskComponent() {
         }
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(onClick = { viewModel.setGroupPickerState(true) }) {
+        Button(onClick = { viewModel.setIsGroupSelectorShown(true) }) {
             Text("Groups")
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -108,10 +113,6 @@ fun CreateTaskComponent() {
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = { viewModel.setTimePickerState(true) }) {
             Text("Deadline time")
-        }
-
-        if (screenState.value.groupPickerState) {
-
         }
         if (screenState.value.datePickerState) {
             val datePickerState = rememberDatePickerState()
@@ -175,7 +176,7 @@ fun CreateTaskComponent() {
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             OutlinedButton(onClick = { /*TODO*/ }) {
                 Text(text = "Attach files")
             }
@@ -198,7 +199,6 @@ private fun AmountInput(
     onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-
     BasicTextField(
         modifier = Modifier
             .focusRequester(focusRequester)

@@ -59,7 +59,7 @@ val viewModelModule = module {
     viewModel { RegisterScreenViewModel(get()) }
     viewModel { LoginScreenViewModel(get(), get()) }
     viewModel { ScreenManagerViewModel() }
-    viewModel { CreateTaskViewModel() }
+    viewModel { CreateTaskViewModel(get(), get()) }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }

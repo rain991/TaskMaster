@@ -2,23 +2,34 @@ package com.example.taskmaster.data.viewModels.teacher.tasks
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
 import com.example.taskmaster.presentation.states.teacher.CreateTaskScreenState
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.Date
 
-class CreateTaskViewModel : ViewModel() {
+class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListRepositoryImpl, private val auth: FirebaseAuth) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
         CreateTaskScreenState(
             title = "",
             description = "",
-            listOfGroupIdentifiers = listOf<String>(),
+            listOfGroupNames = listOf(),
+            listOfSelectedGroupNames = listOf(),
             selectedDate = null,
-            attachedFiles = listOf<Uri>()
+            attachedFiles = listOf<Uri>(),
+            isGroupSelectorShown = false
         )
     )
     val createTaskScreenState = _createTaskScreenState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            setGroupIdentifiers(groupsListRepositoryImpl.getGroupsRelatedToTeacher(auth.currentUser!!.uid).map { it.name })
+        }
+    }
 
     fun setTitle(value: String) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(title = value)
@@ -29,7 +40,7 @@ class CreateTaskViewModel : ViewModel() {
     }
 
     fun setGroupIdentifiers(value: List<String>) {
-        _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupIdentifiers = value)
+        _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupNames = value)
     }
 
     fun setSelectedDate(value: Date) {
@@ -48,8 +59,24 @@ class CreateTaskViewModel : ViewModel() {
         _createTaskScreenState.value = createTaskScreenState.value.copy(timePickerState = value)
     }
 
-    fun setGroupPickerState(value: Boolean) {
-        _createTaskScreenState.value = createTaskScreenState.value.copy(groupPickerState = value)
+    fun setIsGroupSelectorShown(value: Boolean) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(isGroupSelectorShown = value)
+    }
+
+    fun setGroupAsSelected(groupName: String) {
+        val listOfSelectedGroupNames = _createTaskScreenState.value.listOfSelectedGroupNames.toMutableList()
+        if (!listOfSelectedGroupNames.contains(groupName)) {
+            listOfSelectedGroupNames.add(groupName)
+            _createTaskScreenState.value = createTaskScreenState.value.copy(listOfSelectedGroupNames = listOfSelectedGroupNames)
+        }
+    }
+
+    fun setGroupAsUnselected(groupName: String) {
+        val listOfSelectedNames = _createTaskScreenState.value.listOfSelectedGroupNames.toMutableList()
+        if (listOfSelectedNames.contains(groupName)) {
+            listOfSelectedNames.remove(groupName)
+            _createTaskScreenState.value = createTaskScreenState.value.copy(listOfSelectedGroupNames = listOfSelectedNames)
+        }
     }
 
     fun deleteTaskUri(value: Uri) {

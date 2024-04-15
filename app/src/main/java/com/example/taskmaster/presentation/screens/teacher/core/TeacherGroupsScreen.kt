@@ -21,15 +21,13 @@ import com.example.taskmaster.presentation.components.common.barsAndHeaders.Simp
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.component.ListOfGroupScreenComponent
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.fab.TaskMasterFAB
-import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 
 @Composable
 fun TeacherGroupsScreen(navController: NavController, viewModel : GroupDetailedScreenViewModel) {
+   // val auth = koinInject<FirebaseAuth>()
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
-    val auth = koinInject<FirebaseAuth>()
     val bottomBarNavigationItems =
         listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
     LaunchedEffect(key1 = Unit) {
