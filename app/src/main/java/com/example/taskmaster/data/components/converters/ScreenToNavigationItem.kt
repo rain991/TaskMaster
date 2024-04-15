@@ -8,8 +8,9 @@ fun convertScreenToNavigationItem(screen: Screen): NavigationItem {
         is Screen.TaskScreen -> NavigationItem.TaskScreen
         is Screen.FinishedScreen -> NavigationItem.FinishedScreen
         is Screen.GroupsScreen -> NavigationItem.GroupScreen
-        is Screen.CreateTaskScreen -> NavigationItem.CreateTaskScreen
         is Screen.GroupDetailedScreen -> NavigationItem.GroupScreen
+        is Screen.CreateGroupScreen -> NavigationItem.GroupScreen
+        is Screen.CreateTaskScreen -> NavigationItem.CreateTaskScreen
         else -> {
             NavigationItem.TaskScreen
         }

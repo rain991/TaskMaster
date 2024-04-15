@@ -19,19 +19,16 @@ import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.createTasks.CreateTaskComponent
-import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 
 @Composable
 fun TeacherCreateTaskScreen(navController: NavController) {
+//    val auth = koinInject<FirebaseAuth>()
+//    val currentUserName = auth.currentUser?.displayName
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
-    val auth = koinInject<FirebaseAuth>()
     val bottomBarNavigationItems =
         listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
-    val currentUserName = auth.currentUser?.displayName
-
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.CreateTaskScreen)
     }
