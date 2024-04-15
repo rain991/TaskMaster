@@ -6,32 +6,41 @@ import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.repositories.core.teacher.GroupRepository
 import com.google.firebase.firestore.FirebaseFirestore
 
-class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepository {
+class GroupRepositoryImpl(private val database: FirebaseFirestore) : GroupRepository {
     override fun createGroup(group: Group) {
         val groupCollection = database.collection("groups")
         val groupId = database.collection("groups").document().id
         val groupWithId = group.copy(identifier = groupId)
         groupCollection.add(groupWithId).addOnCompleteListener {
-            if(it.isSuccessful){
+            if (it.isSuccessful) {
                 Log.d(COMMON_DEBUG_TAG, "createGroup: ${group.name} is successful")
-            }else{
+            } else {
                 Log.d(COMMON_DEBUG_TAG, "createGroup: ${group.name} error occurred")
             }
         }
     }
 
-    override fun deleteGroup(groupIdentifier : String) {
+    override fun deleteGroup(groupIdentifier: String) {
         val groupCollection = database.collection("groups")
-        val groupDocument = groupCollection.document(groupIdentifier) // Assuming group.id is the document ID
-        groupDocument.delete().addOnCompleteListener {
-            if(it.isSuccessful){
-                Log.d(COMMON_DEBUG_TAG, "deleteGroup: $groupIdentifier is successful")
-            } else {
-                Log.d(COMMON_DEBUG_TAG, "deleteGroup: $groupIdentifier error occurred")
+        val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
+
+        groupQuery.get().addOnSuccessListener { querySnapshot ->
+            val groupDocument = querySnapshot.documents.firstOrNull()
+            groupDocument?.let { document ->
+                document.reference.delete().addOnSuccessListener {
+                    Log.d(COMMON_DEBUG_TAG, "Group $groupIdentifier deleted successfully")
+                }.addOnFailureListener { e ->
+                    Log.d(COMMON_DEBUG_TAG, "Error deleting group $groupIdentifier: $e")
+                }
+            } ?: run {
+                Log.d(COMMON_DEBUG_TAG, "Group $groupIdentifier not found")
             }
+        }.addOnFailureListener { e ->
+            Log.d(COMMON_DEBUG_TAG, "Error fetching group document: $e")
         }
     }
-    override fun deleteStudentFromGroup(studentEmail: String, groupIdentifier: String) {
+
+    override fun deleteStudentFromGroup(studentUID: String, groupIdentifier: String) {
         val groupCollection = database.collection("groups")
         val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
 
@@ -41,14 +50,14 @@ class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepos
                 documentSnapshot?.let { document ->
                     val group = document.toObject(Group::class.java)
                     group?.let { groupData ->
-                        val updatedStudents = groupData.students.filter { email -> email != studentEmail }
+                        val updatedStudents = groupData.students.filter { email -> email != studentUID }
                         val updatedGroup = groupData.copy(students = updatedStudents)
                         document.reference.set(updatedGroup)
                             .addOnSuccessListener {
-                                Log.d(COMMON_DEBUG_TAG, "Student $studentEmail removed from group $groupIdentifier successfully")
+                                Log.d(COMMON_DEBUG_TAG, "Student $studentUID removed from group $groupIdentifier successfully")
                             }
                             .addOnFailureListener { e ->
-                                Log.d(COMMON_DEBUG_TAG, "Error removing student $studentEmail from group $groupIdentifier: $e")
+                                Log.d(COMMON_DEBUG_TAG, "Error removing student $studentUID from group $groupIdentifier: $e")
                             }
                     }
                 }

@@ -2,6 +2,7 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.update
 
 class GroupDetailedScreenViewModel(
     private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase,
+    private val groupsListRepositoryImpl : GroupsListRepositoryImpl
 ) : ViewModel() {
     private val _currentDetailedGroup = MutableStateFlow<Group?>(null)
     val currentDetailedGroup = _currentDetailedGroup.asStateFlow()
@@ -26,25 +28,22 @@ class GroupDetailedScreenViewModel(
     private val _warningMessage = MutableStateFlow("")
     val warningMessage = _warningMessage.asStateFlow()
 
-
-
     init {
         _currentDetailedGroup.value?.let { setStudentsList(it.students) }
     }
 
-    fun setCurrentDetailedGroup(group: Group?) {
-        _currentDetailedGroup.value = group
+    suspend fun setCurrentDetailedGroup(group: Group?) {
+        // _currentDetailedGroup.value = group
+        if (group != null) {
+            groupsListRepositoryImpl.getTeacherGroup(group.teacher, group.identifier).collect{
+                _currentDetailedGroup.value = it
+            }
+        }
     }
 
     fun deleteStudentFromGroup(studentEmail: String) {
         currentDetailedGroup.value?.let { deletePersonFromGroupUseCase(studentEmail, it.identifier) }
     }
-
-    fun deleteStudentFromAddedList(studentEmail: String) {
-        _listOfGroupStudents.remove(studentEmail)
-    }
-
-
 
     fun deleteWarningMessage() {
         _warningMessage.value = ""
@@ -74,11 +73,8 @@ class GroupDetailedScreenViewModel(
         _listOfGroupStudents.addAll(listOfGroupStudents)
     }
 
-
-
     private fun setWarningMessage(value: String) {
         _warningMessage.value = value
     }
-
 
 }

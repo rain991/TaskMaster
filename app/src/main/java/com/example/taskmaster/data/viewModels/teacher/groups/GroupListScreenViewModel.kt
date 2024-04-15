@@ -27,7 +27,11 @@ class GroupListScreenViewModel(
 
     init {
         viewModelScope.launch {
-            setGroupsList(groupsListRepositoryImpl.getGroupsRelatedToTeacher(currentFirebaseUser!!.uid))
+            groupsListRepositoryImpl.getTeacherGroups(currentFirebaseUser!!.uid).collect {
+                setGroupsList(it)
+            }
+
+            //setGroupsList(groupsListRepositoryImpl.getGroupsRelatedToTeacher(currentFirebaseUser!!.uid))
         }
     }
 
@@ -40,10 +44,11 @@ class GroupListScreenViewModel(
         _groupToDelete.value = value
     }
 
-    suspend fun fetchCurrentGroups(){
+    suspend fun fetchCurrentGroups() {
         setGroupsList(groupsListRepositoryImpl.getGroupsRelatedToTeacher(currentFirebaseUser!!.uid))
     }
-    private fun setGroupsList(listOfRelatedGroups : List<Group>){
+
+    private fun setGroupsList(listOfRelatedGroups: List<Group>) {
         _groupsList.clear()
         _groupsList.addAll(listOfRelatedGroups)
     }

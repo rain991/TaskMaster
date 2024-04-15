@@ -15,6 +15,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -24,15 +26,18 @@ import androidx.navigation.NavController
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
+import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.AcceptGroupDeletingDialog
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.SingleGroupComponent
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewModel :GroupDetailedScreenViewModel) {
-   // val groupDetailedViewModel = koinViewModel<GroupDetailedScreenViewModel>()
+fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewModel: GroupDetailedScreenViewModel) {
     val viewModel = koinViewModel<GroupListScreenViewModel>()
     val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
+    val groupToDelete = viewModel.groupToDelete.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchCurrentGroups()
     }
@@ -57,7 +62,9 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
             LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
                 items(groupList) {
                     SingleGroupComponent(group = it, onComponentClick = {
-                        groupDetailedViewModel.setCurrentDetailedGroup(it)
+                        coroutineScope.launch {
+                            groupDetailedViewModel.setCurrentDetailedGroup(it)
+                        }
                         navController.navigate(Screen.GroupDetailedScreen.route)
                     }) {
                         viewModel.setIsDeleteDialogShown(it)
@@ -65,6 +72,12 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+        }
+    }
+    if (groupToDelete.value != null) {
+        AcceptGroupDeletingDialog(group = groupToDelete.value!!, onDeclineButton = { viewModel.setIsDeleteDialogShown(null) }) {
+            viewModel.deleteGroup(groupToDelete.value!!.identifier)
+            viewModel.setIsDeleteDialogShown(null)
         }
     }
 }
