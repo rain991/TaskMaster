@@ -2,18 +2,14 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class GroupDetailedScreenViewModel(
-    private val auth: FirebaseAuth,
     private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase,
-    private val personRepositoryImpl: PersonRepositoryImpl
 ) : ViewModel() {
     private val _currentDetailedGroup = MutableStateFlow<Group?>(null)
     val currentDetailedGroup = _currentDetailedGroup.asStateFlow()
@@ -30,7 +26,7 @@ class GroupDetailedScreenViewModel(
     private val _warningMessage = MutableStateFlow("")
     val warningMessage = _warningMessage.asStateFlow()
 
-    private val currentFirebaseUser = auth.currentUser
+
 
     init {
         _currentDetailedGroup.value?.let { setStudentsList(it.students) }
@@ -40,9 +36,8 @@ class GroupDetailedScreenViewModel(
         _currentDetailedGroup.value = group
     }
 
-    suspend fun deleteStudentFromGroup(studentEmail: String) {
-       val deleteStudentUID=  personRepositoryImpl.findPersonUIDByEmail(studentEmail)
-        currentDetailedGroup.value?.let { deletePersonFromGroupUseCase(deleteStudentUID, it.identifier) }
+    fun deleteStudentFromGroup(studentEmail: String) {
+        currentDetailedGroup.value?.let { deletePersonFromGroupUseCase(studentEmail, it.identifier) }
     }
 
     fun deleteStudentFromAddedList(studentEmail: String) {

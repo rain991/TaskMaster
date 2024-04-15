@@ -31,28 +31,32 @@ class GroupRepositoryImpl(private val database : FirebaseFirestore) : GroupRepos
             }
         }
     }
-override fun deleteStudentFromGroup(studentUID: String, groupIdentifier : String) {
-    val groupCollection = database.collection("groups")
-    val groupDocument = groupCollection.document(groupIdentifier)
-    groupDocument.get().addOnSuccessListener { documentSnapshot ->
-        if (documentSnapshot.exists()) {
-            val group = documentSnapshot.toObject(Group::class.java)
-            group?.let {
-                val updatedStudents = it.students.filter { uid -> uid != studentUID }
-                val updatedGroup = it.copy(students = updatedStudents)
-                groupDocument.set(updatedGroup)
-                    .addOnSuccessListener {
-                        Log.d(COMMON_DEBUG_TAG, "Student $studentUID removed from group $groupIdentifier successfully")
+    override fun deleteStudentFromGroup(studentEmail: String, groupIdentifier: String) {
+        val groupCollection = database.collection("groups")
+        val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
+
+        groupQuery.get().addOnSuccessListener { querySnapshot ->
+            if (!querySnapshot.isEmpty) {
+                val documentSnapshot = querySnapshot.documents.firstOrNull()
+                documentSnapshot?.let { document ->
+                    val group = document.toObject(Group::class.java)
+                    group?.let { groupData ->
+                        val updatedStudents = groupData.students.filter { email -> email != studentEmail }
+                        val updatedGroup = groupData.copy(students = updatedStudents)
+                        document.reference.set(updatedGroup)
+                            .addOnSuccessListener {
+                                Log.d(COMMON_DEBUG_TAG, "Student $studentEmail removed from group $groupIdentifier successfully")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.d(COMMON_DEBUG_TAG, "Error removing student $studentEmail from group $groupIdentifier: $e")
+                            }
                     }
-                    .addOnFailureListener { e ->
-                        Log.d(COMMON_DEBUG_TAG,"Error removing student $studentUID from group $groupIdentifier: $e")
-                    }
+                }
+            } else {
+                Log.d(COMMON_DEBUG_TAG, "Group $groupIdentifier does not exist.")
             }
-        } else {
-            Log.d(COMMON_DEBUG_TAG,"Group $groupIdentifier does not exist.")
+        }.addOnFailureListener { e ->
+            Log.d(COMMON_DEBUG_TAG, "Error getting group document: $e")
         }
-    }.addOnFailureListener { e ->
-        Log.d(COMMON_DEBUG_TAG,"Error getting group document: $e")
     }
-}
 }
