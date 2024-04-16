@@ -1,6 +1,6 @@
 package com.example.taskmaster.data.constants
 
-// Firebase
+// Debug
 const val AUTH_DEBUG_TAG = "Auth"
 const val COMMON_DEBUG_TAG = "TM_CommonTag"
 const val SEARCH_DEBUG_TAG = "TM_SearchTag"

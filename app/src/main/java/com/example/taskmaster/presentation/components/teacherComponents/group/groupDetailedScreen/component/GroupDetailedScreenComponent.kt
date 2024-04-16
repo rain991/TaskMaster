@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -32,18 +33,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.models.entities.UserTypes
+import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
+    val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
+    val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val lazyListState = rememberLazyListState()
     val localContext = LocalContext.current
     val currentDetailedGroup = viewModel.currentDetailedGroup.collectAsState()
     val searchText = viewModel.searchText.collectAsState()
     val warningMessage = viewModel.warningMessage.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(key1 = Unit) {
+        screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
+    }
     if (currentDetailedGroup.value == null) {
         Column(
             modifier = Modifier.fillMaxSize(),
