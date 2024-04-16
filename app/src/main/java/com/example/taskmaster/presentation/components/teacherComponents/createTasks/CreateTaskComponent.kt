@@ -1,5 +1,8 @@
 package com.example.taskmaster.presentation.components.teacherComponents.createTasks
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -30,34 +33,62 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.data.components.files.getFileName
+import com.example.taskmaster.data.components.files.getFileSize
+import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
+import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTaskComponent() {
+    val localContext = LocalContext.current
     val viewModel = koinViewModel<CreateTaskViewModel>()
     val screenState = viewModel.createTaskScreenState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val mimeTypeFilter = arrayOf("*/*")
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
+
+    val selectFileActivity =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
+            result.take(MAX_FILES_TO_SELECT).forEach { fileUri ->
+                if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
+                    viewModel.addURI(fileUri)
+                } else {
+                    Toast.makeText(
+                        localContext,  // appContext previously
+                        "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(4.dp)
     ) {
-        if(screenState.value.isGroupSelectorShown){
+        if (screenState.value.isGroupSelectorShown) {
             GroupSelector(viewModel)
         }
         Row(
@@ -171,13 +202,17 @@ fun CreateTaskComponent() {
             Spacer(modifier = Modifier.height(4.dp))
             screenState.value.attachedFiles.forEach {
                 FileRow(name = it.toString()) {
-                    viewModel.deleteTaskUri(it)
+                    viewModel.deleteURI(it)
                 }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            OutlinedButton(onClick = { /*TODO*/ }) {
+            OutlinedButton(onClick = {
+                coroutineScope.launch{
+                    selectFileActivity.launch(mimeTypeFilter)
+                }
+            }) {
                 Text(text = "Attach files")
             }
             Spacer(modifier = Modifier.width(16.dp))

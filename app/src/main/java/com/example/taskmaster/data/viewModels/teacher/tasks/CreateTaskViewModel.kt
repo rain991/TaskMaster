@@ -79,7 +79,14 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         }
     }
 
-    fun deleteTaskUri(value: Uri) {
+    fun addURI (value : Uri){
+        val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
+        if(!attachedFiles.contains(value)){
+            attachedFiles.add(value)
+        }
+        _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
+    }
+    fun deleteURI(value: Uri) {
         val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
         attachedFiles.remove(value)
         _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
