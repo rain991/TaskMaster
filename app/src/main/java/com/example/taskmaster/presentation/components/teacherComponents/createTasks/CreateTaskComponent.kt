@@ -66,22 +66,43 @@ fun CreateTaskComponent() {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
 
+//    val selectFileActivity =
+//        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
+//            result.take(screenState.value.attachedFiles.size - MAX_FILES_TO_SELECT).forEach { fileUri ->
+//                if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
+//                    viewModel.addURI(fileUri)
+//                } else {
+//                    Toast.makeText(
+//                        localContext,  // appContext previously
+//                        "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        }
     val selectFileActivity =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
-            result.take(MAX_FILES_TO_SELECT).forEach { fileUri ->
+            val filesToAdd = result.take(5).filter { fileUri ->
                 if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
-                    viewModel.addURI(fileUri)
+                    true
                 } else {
                     Toast.makeText(
-                        localContext,  // appContext previously
+                        localContext,
                         "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
                         Toast.LENGTH_SHORT
                     ).show()
+                    false
                 }
             }
+
+            val newAttachedFiles = if (screenState.value.attachedFiles != null) {
+                (screenState.value.attachedFiles + filesToAdd).take(MAX_FILES_TO_SELECT)
+            } else {
+                filesToAdd.take(MAX_FILES_TO_SELECT)
+            }
+
+            viewModel.setAttachedFiles(newAttachedFiles)
         }
-
-
 
     Column(
         modifier = Modifier
