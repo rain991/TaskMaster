@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.implementations.core.teacher
+package com.example.taskmaster.data.implementations.core.teacher.tasks
 
 import android.content.Context
 import android.net.Uri

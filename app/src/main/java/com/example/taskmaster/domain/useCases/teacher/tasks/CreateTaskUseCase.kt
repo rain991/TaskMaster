@@ -2,7 +2,7 @@ package com.example.taskmaster.domain.useCases.teacher.tasks
 
 import android.content.Context
 import android.net.Uri
-import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.AddTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Task
 
 class CreateTaskUseCase(private val addTaskRepositoryImpl: AddTaskRepositoryImpl) {

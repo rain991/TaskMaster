@@ -3,10 +3,11 @@ package com.example.taskmaster
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.GroupRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.SearchRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.GroupRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.other.SearchRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.AddTaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskListRepositoryImpl
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
@@ -38,6 +39,7 @@ val appModule = module {
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
 
     single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get(), get()) }
+    single<TaskListRepositoryImpl> { TaskListRepositoryImpl(get()) }
 
     single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }

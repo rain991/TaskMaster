@@ -1,6 +1,6 @@
 package com.example.taskmaster.domain.useCases.teacher.group
 
-import com.example.taskmaster.data.implementations.core.teacher.GroupRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.GroupRepositoryImpl
 
 class DeleteGroupUseCase(private val groupRepositoryImpl: GroupRepositoryImpl) {
     operator fun invoke(groupIdentifier: String) {

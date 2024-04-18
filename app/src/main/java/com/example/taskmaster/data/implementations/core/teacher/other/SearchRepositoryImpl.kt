@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.implementations.core.teacher
+package com.example.taskmaster.data.implementations.core.teacher.other
 
 import android.util.Log
 import com.example.taskmaster.data.constants.SEARCH_DEBUG_TAG

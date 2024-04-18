@@ -1,6 +1,6 @@
-package com.example.taskmaster.presentation.components.studentComponents
+package com.example.taskmaster.presentation.components.teacherComponents.task
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,20 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,27 +23,27 @@ import com.example.taskmaster.presentation.other.getTimeRemaining
 import java.time.LocalDate
 
 @Composable
-fun StudentTaskCard(
+fun TeacherTaskCard(
     teacherName: String,
     taskName: String,
     groupName: String,
     endDate: Long,
-    onSubmitTask: () -> Unit,
-    isSubmitted: Boolean = false
-) {  // for expired and current tasks, also for already submitted
+    onRowClick: () -> Unit
+) {
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
     val timeLeft = getTimeRemaining(endDate)
+    val isEndedTask = System.currentTimeMillis() > endDate
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight().clickable { onRowClick() }
     ) {
         Row(
             modifier = Modifier
                 .wrapContentHeight()
                 .padding(horizontal = 4.dp, vertical = 8.dp)
         ) {
-            Column(modifier = Modifier.weight(0.8f)) {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     CircleWithText(text = trimmedGroupName, modifier = Modifier.size(40.dp))
                     Spacer(modifier = Modifier.weight(1f))
@@ -69,55 +61,26 @@ fun StudentTaskCard(
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = if (!isSubmitted) {
+                        text = if (!isEndedTask) {
                             timeLeft
                         } else {
-                            "Already submitted"
+                            "This task is ended"
                         }
                     )
                 }
-            }
-            Column(
-                modifier = Modifier
-                    .weight(0.2f), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Row(modifier = Modifier.wrapContentWidth(), Arrangement.Center) {
-                    if (!isSubmitted) {
-                        Button(onClick = {
-                            onSubmitTask()
-                        }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "add answer for task",
-                                modifier = Modifier.scale(1.3f)
-                            )
-                        }
-                    } else {
-                        Button(onClick = { }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {  // prob onClick to change answer
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "already submitted",
-                                modifier = Modifier.scale(1.3f)
-                            )
-                        }
-                    }
-                }
-
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 private fun prev() {
-    StudentTaskCard(
+    TeacherTaskCard(
         teacherName = "Ivan S",
         taskName = "Sprawozdanie 1",
         groupName = "dzsad",
         endDate = LocalDate.now().toEpochDay() + 5000,
-        onSubmitTask = { /*TODO*/ })
+        onRowClick = { }
 }

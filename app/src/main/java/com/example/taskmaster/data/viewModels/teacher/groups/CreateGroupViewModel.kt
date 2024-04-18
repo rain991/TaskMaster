@@ -2,7 +2,7 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.taskmaster.data.implementations.core.teacher.SearchRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.other.SearchRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
