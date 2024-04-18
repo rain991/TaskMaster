@@ -16,11 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.other.getTimeRemaining
-import java.time.LocalDate
 
 @Composable
 fun TeacherTaskCard(
@@ -72,15 +70,4 @@ fun TeacherTaskCard(
         }
         Spacer(modifier = Modifier.height(4.dp))
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun prev() {
-    TeacherTaskCard(
-        teacherName = "Ivan S",
-        taskName = "Sprawozdanie 1",
-        groupName = "dzsad",
-        endDate = LocalDate.now().toEpochDay() + 5000,
-        onRowClick = { }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +19,7 @@ import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterScreenHeader
+import com.example.taskmaster.presentation.components.teacherComponents.task.screenComponent.TaskScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -55,7 +55,7 @@ fun TeacherTasksScreen(navController: NavController) {
         )
         {
             // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
-        Text(text = "TeacherTasksScreen")
+            TaskScreenComponent()
         }
     }
 }
