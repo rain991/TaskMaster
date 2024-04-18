@@ -19,16 +19,16 @@ class AddTaskRepositoryImpl(private val database: FirebaseFirestore, private val
         val tasksReference = database.collection("tasks")
 
         val storageUrlList = addFilesToStorage(localUriFilesList, context)
-        if (storageUrlList.isEmpty()) {
-            Log.d(COMMON_DEBUG_TAG, "addTask: Storage url list is empty after adding files")
-            return
-        } else {
+//        if (storageUrlList.isEmpty()) {
+//            Log.d(COMMON_DEBUG_TAG, "addTask: Storage url list is empty after adding files")
+//            return
+//        } else {
             val taskWithActualURLList = task.copy(relatedFilesURL = storageUrlList)
             tasksReference.add(taskWithActualURLList).addOnCompleteListener { Log.d(COMMON_DEBUG_TAG, "Successful adding new task") }
                 .addOnFailureListener { exception ->
                     Log.d(COMMON_DEBUG_TAG, "Error adding new task: ", exception)
                 }
-        }
+
     }
 
     override suspend fun addFilesToStorage(uriList: List<Uri>, context: Context): List<String> {

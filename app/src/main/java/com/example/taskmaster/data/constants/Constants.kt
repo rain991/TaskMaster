@@ -12,3 +12,5 @@ const val DEFAULT_USER_NAME = "user"
 //Files
 const val MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024 // 4 MB in bytes
 const val MAX_FILES_TO_SELECT = 5
+
+

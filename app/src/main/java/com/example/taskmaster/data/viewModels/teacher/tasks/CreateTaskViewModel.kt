@@ -42,7 +42,6 @@ class CreateTaskViewModel(
         }
     }
 
-
     suspend fun createTask(context: Context) {
 
         if (_createTaskScreenState.value.selectedDate != null && auth.currentUser != null && _createTaskScreenState.value.title != "") {

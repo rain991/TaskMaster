@@ -250,7 +250,11 @@ fun CreateTaskComponent() {
                 Text(text = "Attach files")
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                coroutineScope.launch {
+                    viewModel.createTask(localContext)
+                }
+            }) {
                 Text(text = "Assign task")
             }
         }
