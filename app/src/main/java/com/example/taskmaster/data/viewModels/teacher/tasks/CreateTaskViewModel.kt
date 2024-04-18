@@ -1,16 +1,24 @@
 package com.example.taskmaster.data.viewModels.teacher.tasks
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmaster.data.implementations.core.teacher.GroupsListRepositoryImpl
+import com.example.taskmaster.data.models.entities.Group
+import com.example.taskmaster.data.models.entities.Task
+import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
 import com.example.taskmaster.presentation.states.teacher.CreateTaskScreenState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListRepositoryImpl, private val auth: FirebaseAuth) : ViewModel() {
+class CreateTaskViewModel(
+    private val createTaskUseCase: CreateTaskUseCase,
+    private val groupsListRepositoryImpl: GroupsListRepositoryImpl,
+    private val auth: FirebaseAuth
+) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
         CreateTaskScreenState(
             title = "",
@@ -24,16 +32,49 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
     )
     val createTaskScreenState = _createTaskScreenState.asStateFlow()
 
+    private val teacherGroups = mutableListOf<Group>()
+
     init {
         viewModelScope.launch {
-            setGroupIdentifiers(groupsListRepositoryImpl.getGroupsRelatedToTeacher(auth.currentUser!!.uid).map { it.name })
+            val currentTeacherGroups = groupsListRepositoryImpl.getGroupsRelatedToTeacher(auth.currentUser!!.uid)
+            setGroupNames(currentTeacherGroups.map { it.name })
+            teacherGroups.addAll(currentTeacherGroups)
         }
     }
 
 
-    suspend fun createTask(){
+    suspend fun createTask(context: Context) {
 
+        if (_createTaskScreenState.value.selectedDate != null && auth.currentUser != null && _createTaskScreenState.value.title != "") {
+
+            if(_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()){
+                val selectedGroupIdentifiers = teacherGroups.filter { group ->
+                    _createTaskScreenState.value.listOfSelectedGroupNames.contains(group.name)
+                }.map { it.identifier }
+                val currentTask = Task(
+                    name = _createTaskScreenState.value.title,
+                    description = _createTaskScreenState.value.description,
+                    groups = selectedGroupIdentifiers,
+                    teacher = auth.currentUser!!.uid,
+                    relatedFilesURL = listOf(),
+                    endDate = _createTaskScreenState.value.selectedDate!!
+                )
+                createTaskUseCase(task = currentTask, localUriFilesList = _createTaskScreenState.value.attachedFiles, context = context)
+            }
+
+        } else {
+            if(_createTaskScreenState.value.title == ""){
+                setWarningMessage("Incorrect task title")
+            }
+            if(_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()){
+                setWarningMessage("You should attach task files or add any task description")
+            }
+            if(_createTaskScreenState.value.selectedDate == null){
+                setWarningMessage("Incorrect task deadline")
+            }
+        }
     }
+
     fun setTitle(value: String) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(title = value)
     }
@@ -42,9 +83,6 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         _createTaskScreenState.value = createTaskScreenState.value.copy(description = value)
     }
 
-    fun setGroupIdentifiers(value: List<String>) {
-        _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupNames = value)
-    }
 
     fun setSelectedDate(value: Long) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(selectedDate = value)
@@ -82,7 +120,7 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         }
     }
 
-//    fun addURI (value : Uri){
+    //    fun addURI (value : Uri){
 //        val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
 //        if(!attachedFiles.contains(value)){
 //            attachedFiles.add(value)
@@ -94,10 +132,16 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         attachedFiles.remove(value)
         _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
     }
-     fun setWarningMessage(value: String) {
+
+    fun setWarningMessage(value: String) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(warningMessage = value)
     }
-    fun deleteWarningMessage(){
+
+    fun deleteWarningMessage() {
         _createTaskScreenState.value = createTaskScreenState.value.copy(warningMessage = null)
+    }
+
+    private fun setGroupNames(value: List<String>) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupNames = value)
     }
 }

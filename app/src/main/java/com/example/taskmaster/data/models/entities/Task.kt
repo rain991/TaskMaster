@@ -1,12 +1,10 @@
 package com.example.taskmaster.data.models.entities
 
-import java.util.Date
-
 data class Task(
     val name: String,
-    val description : String,
+    val description: String,
     val groups: List<String>,
     val teacher: String,  // uid
-  //  val isActive: Boolean,
-    val endDate: Date   //(in app java.util.date)
+    val relatedFilesURL: List<String>, // it is list of URL firebase storage reference, dont use this for local URI
+    val endDate: Long   // (in app java.util.date or timeMillis)
 )

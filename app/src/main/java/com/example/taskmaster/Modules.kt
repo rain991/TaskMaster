@@ -32,7 +32,7 @@ import org.koin.dsl.module
 val appModule = module {
     single<FirebaseAuth> { FirebaseAuth.getInstance() }
     single<FirebaseFirestore> { Firebase.firestore }
-    single<FirebaseStorage> {FirebaseStorage.getInstance()}
+    single<FirebaseStorage> { FirebaseStorage.getInstance() }
 
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
@@ -62,7 +62,7 @@ val viewModelModule = module {
     viewModel { RegisterScreenViewModel(get()) }
     viewModel { LoginScreenViewModel(get(), get()) }
     viewModel { ScreenManagerViewModel() }
-    viewModel { CreateTaskViewModel(get(), get()) }
+    viewModel { CreateTaskViewModel(get(), get(), get()) }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
