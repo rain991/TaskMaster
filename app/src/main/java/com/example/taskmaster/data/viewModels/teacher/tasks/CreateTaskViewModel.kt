@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListRepositoryImpl, private val auth: FirebaseAuth) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
@@ -31,6 +30,10 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         }
     }
 
+
+    suspend fun createTask(){
+
+    }
     fun setTitle(value: String) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(title = value)
     }
@@ -43,7 +46,7 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         _createTaskScreenState.value = createTaskScreenState.value.copy(listOfGroupNames = value)
     }
 
-    fun setSelectedDate(value: Date) {
+    fun setSelectedDate(value: Long) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(selectedDate = value)
     }
 
@@ -79,16 +82,22 @@ class CreateTaskViewModel(private val groupsListRepositoryImpl: GroupsListReposi
         }
     }
 
-    fun addURI (value : Uri){
-        val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
-        if(!attachedFiles.contains(value)){
-            attachedFiles.add(value)
-        }
-        _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
-    }
+//    fun addURI (value : Uri){
+//        val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
+//        if(!attachedFiles.contains(value)){
+//            attachedFiles.add(value)
+//        }
+//        _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
+//    }
     fun deleteURI(value: Uri) {
         val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
         attachedFiles.remove(value)
         _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
+    }
+     fun setWarningMessage(value: String) {
+        _createTaskScreenState.value = createTaskScreenState.value.copy(warningMessage = value)
+    }
+    fun deleteWarningMessage(){
+        _createTaskScreenState.value = createTaskScreenState.value.copy(warningMessage = null)
     }
 }

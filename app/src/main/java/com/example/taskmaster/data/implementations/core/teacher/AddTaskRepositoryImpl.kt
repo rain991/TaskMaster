@@ -26,7 +26,6 @@ class AddTaskRepositoryImpl(private val database: FirebaseFirestore, private val
 
     override suspend fun addFilesToStorage(uriList: List<Uri>, context : Context) {
         val urlList = mutableListOf<String>()
-
         for (uri in uriList) {
             withContext(Dispatchers.IO) {
                 try {
@@ -48,10 +47,10 @@ class AddTaskRepositoryImpl(private val database: FirebaseFirestore, private val
                 }
             }
         }
-        saveDownloadUrlToTask(urlList)
+       // saveDownloadUrlToTask(urlList)
     }
 
-    override suspend fun saveDownloadUrlToTask(downloadUrls: List<String>) {
+    override suspend fun saveDownloadUrlToTask(downloadUrls: List<String>, documentUID : String) {
         TODO("Not yet implemented")
     }
 }

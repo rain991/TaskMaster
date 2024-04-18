@@ -4,7 +4,7 @@ import com.example.taskmaster.data.implementations.core.teacher.AddTaskRepositor
 import com.example.taskmaster.data.models.entities.Task
 
 class CreateTaskUseCase(private val addTaskRepositoryImpl: AddTaskRepositoryImpl) {
-    operator fun invoke(task : Task) {
+    suspend operator fun invoke(task : Task) {
         addTaskRepositoryImpl.addTask(task)
     }
 }

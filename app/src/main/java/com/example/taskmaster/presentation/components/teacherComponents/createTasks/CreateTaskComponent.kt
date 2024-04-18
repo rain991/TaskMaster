@@ -52,6 +52,8 @@ import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import java.util.Calendar
+import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,21 +67,6 @@ fun CreateTaskComponent() {
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusRequester = remember { FocusRequester() }
-
-//    val selectFileActivity =
-//        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
-//            result.take(screenState.value.attachedFiles.size - MAX_FILES_TO_SELECT).forEach { fileUri ->
-//                if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
-//                    viewModel.addURI(fileUri)
-//                } else {
-//                    Toast.makeText(
-//                        localContext,  // appContext previously
-//                        "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
     val selectFileActivity =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
             val filesToAdd = result.take(5).filter { fileUri ->
@@ -166,8 +153,15 @@ fun CreateTaskComponent() {
         Button(onClick = { viewModel.setTimePickerState(true) }) {
             Text("Deadline time")
         }
+        if (screenState.value.selectedDate != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "Selected date", style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = Date(screenState.value.selectedDate!!).toString())
+        }
+        // Date and Time pickers below
         if (screenState.value.datePickerState) {
-            val datePickerState = rememberDatePickerState()
+            val datePickerState = rememberDatePickerState(screenState.value.selectedDate)
             DatePickerDialog(
                 onDismissRequest = {
                     viewModel.setDatePickerState(false)
@@ -176,6 +170,9 @@ fun CreateTaskComponent() {
                     TextButton(
                         onClick = {
                             viewModel.setDatePickerState(false)
+                            if (datePickerState.selectedDateMillis != null) {
+                                viewModel.setSelectedDate(datePickerState.selectedDateMillis!!)
+                            }
                         }
                     ) {
                         Text("OK")
@@ -195,12 +192,28 @@ fun CreateTaskComponent() {
             }
         }
         if (screenState.value.timePickerState) {
-            val timePickerState = rememberTimePickerState()
+            val initialDateMillis = screenState.value.selectedDate ?: System.currentTimeMillis()
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = initialDateMillis
+            }
+
+            val initialHour = calendar.get(Calendar.HOUR_OF_DAY)
+            val initialMinute = calendar.get(Calendar.MINUTE)
+
+            val timePickerState = rememberTimePickerState(initialHour = initialHour, initialMinute = initialMinute, is24Hour = true)
             TimePickerDialog(onDismissRequest = { viewModel.setTimePickerState(false) },
                 confirmButton = {
                     TextButton(
                         onClick = {
                             viewModel.setTimePickerState(false)
+                            if (screenState.value.selectedDate != null) {
+                                val selectedDate = screenState.value.selectedDate!!
+                                val selectedTimeMillis = (timePickerState.hour * 60 + timePickerState.minute) * 60 * 1000L
+                                val selectedDateTimeMillis = selectedDate + selectedTimeMillis
+                                viewModel.setSelectedDate(selectedDateTimeMillis)
+                            } else {
+                                viewModel.setWarningMessage("Select date first")
+                            }
                         }
                     ) {
                         Text("OK")
@@ -230,7 +243,7 @@ fun CreateTaskComponent() {
         Spacer(modifier = Modifier.height(16.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             OutlinedButton(onClick = {
-                coroutineScope.launch{
+                coroutineScope.launch {
                     selectFileActivity.launch(mimeTypeFilter)
                 }
             }) {
@@ -242,6 +255,10 @@ fun CreateTaskComponent() {
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
+        if (screenState.value.warningMessage != null) {
+            Toast.makeText(localContext, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            viewModel.deleteWarningMessage()
+        }
     }
 }
 
@@ -290,7 +307,7 @@ private fun FileRow(name: String, onDeleteClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = name, style = MaterialTheme.typography.bodyMedium)
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { onDeleteClick() }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete $name task file")
         }
     }

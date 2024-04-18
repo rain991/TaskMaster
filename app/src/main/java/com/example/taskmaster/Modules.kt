@@ -37,7 +37,7 @@ val appModule = module {
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
 
-    single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get()) }
+    single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get(), get()) }
 
     single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
