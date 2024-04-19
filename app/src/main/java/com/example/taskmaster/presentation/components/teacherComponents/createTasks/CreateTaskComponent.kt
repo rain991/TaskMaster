@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.components.files.getFileName
@@ -108,9 +109,10 @@ fun CreateTaskComponent() {
                 focusRequester = focusRequester,
                 controller = keyboardController,
                 currentText = screenState.value.title,
-                textStyle = MaterialTheme.typography.titleMedium.copy(
-                    fontSize = 40.sp,
-                    letterSpacing = 1.16.sp,
+                textStyle = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.14.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 emptyTextLabel = "Task title"

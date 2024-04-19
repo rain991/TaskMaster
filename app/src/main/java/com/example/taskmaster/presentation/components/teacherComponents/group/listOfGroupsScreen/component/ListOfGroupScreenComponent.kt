@@ -56,7 +56,7 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
     } else {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Text(text = "Groups", style = MaterialTheme.typography.titleLarge.copy(fontSize = 36.sp, fontWeight = FontWeight.Bold))
+                Text(text = "Groups", style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
