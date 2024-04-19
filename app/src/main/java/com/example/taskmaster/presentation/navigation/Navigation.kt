@@ -10,6 +10,7 @@ import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreen
 import com.example.taskmaster.presentation.screens.common.LoginScreen
 import com.example.taskmaster.presentation.screens.common.RegisterScreen
 import com.example.taskmaster.presentation.screens.common.ResetPasswordScreen
+import com.example.taskmaster.presentation.screens.common.ScreenPlaceholder
 import com.example.taskmaster.presentation.screens.student.StudentFinishedTasksScreen
 import com.example.taskmaster.presentation.screens.student.StudentGroupsScreen
 import com.example.taskmaster.presentation.screens.student.StudentTasksScreen
@@ -28,7 +29,7 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
     val groupDetailedViewModel = koinViewModel<GroupDetailedScreenViewModel>()
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination  // startDestination
     ) {
         composable(route = Screen.LoginScreen.route) {
             LoginScreen(navController)
@@ -38,6 +39,9 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
         }
         composable(route = Screen.ResetPasswordScreen.route) {
             ResetPasswordScreen(navController = navController)
+        }
+        composable(route = Screen.ScreenPlaceholder.route) {
+            ScreenPlaceholder()
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {

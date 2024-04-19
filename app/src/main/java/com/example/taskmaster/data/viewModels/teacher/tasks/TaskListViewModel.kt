@@ -1,11 +1,10 @@
 package com.example.taskmaster.data.viewModels.teacher.tasks
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.constants.FINISHED_TASKS_DATA_REQUEST_TIME
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Task
@@ -44,16 +43,13 @@ class TaskListViewModel(
 
     }
 
-
-
     suspend fun initializeTeacherUidToNameMapForUnfinishedTasks() {
         if (unfinishedTasksList.isEmpty()) {
-            delay(1000)
+            delay(FINISHED_TASKS_DATA_REQUEST_TIME)
             initializeTeacherUidToNameMapForUnfinishedTasks()
             return
         }
         val teacherUidList = _unfinishedTasksList.map { it.teacher }
-        Log.d(COMMON_DEBUG_TAG, "initializeGroupIdToNameMapForFinishedTasks: group List : $teacherUidList")
         viewModelScope.launch {
             teacherUidList.forEach{
                 addTeacherUidToName(it, getTeacherNameByUid(it))
@@ -63,12 +59,11 @@ class TaskListViewModel(
 
     suspend fun initializeGroupIdToNameMapForUnfinishedTasks() {
         if (unfinishedTasksList.isEmpty()) {
-            delay(1000)
+            delay(FINISHED_TASKS_DATA_REQUEST_TIME)
             initializeGroupIdToNameMapForUnfinishedTasks()
             return
         }
         val groupList = _unfinishedTasksList.flatMap { it.groups }
-        Log.d(COMMON_DEBUG_TAG, "initializeGroupIdToNameMapForFinishedTasks: group List : $groupList")
         viewModelScope.launch {
             groupList.forEach{
                 addGroupIdToName(it, getGroupNameByIdentifier(it))
@@ -79,14 +74,11 @@ class TaskListViewModel(
 
     suspend fun initializeTeacherUidToNameMapForFinishedTasks() {
         if (finishedTasksList.isEmpty()) {
-            delay(1000)
+            delay(FINISHED_TASKS_DATA_REQUEST_TIME)
             initializeTeacherUidToNameMapForFinishedTasks()
             return
         }
         val teacherUidList = _finishedTasksList.map { it.teacher }
-
-        Log.d(COMMON_DEBUG_TAG, "finishedTaskList: group List : ${finishedTasksList.size}")
-        Log.d(COMMON_DEBUG_TAG, "initializeGroupIdToNameMapForFinishedTasks: group List : $teacherUidList")
         viewModelScope.launch {
             teacherUidList.forEach{
                 addTeacherUidToName(it, getTeacherNameByUid(it))
@@ -97,12 +89,11 @@ class TaskListViewModel(
 
     suspend fun initializeGroupIdToNameMapForFinishedTasks() {
         if (finishedTasksList.isEmpty()) {
-            delay(1000)
+            delay(FINISHED_TASKS_DATA_REQUEST_TIME)
             initializeGroupIdToNameMapForFinishedTasks()
             return
         }
         val groupList = _finishedTasksList.flatMap { it.groups }
-        Log.d(COMMON_DEBUG_TAG, "initializeGroupIdToNameMapForFinishedTasks: group List : $groupList")
         viewModelScope.launch {
             groupList.forEach{
                 addGroupIdToName(it, getGroupNameByIdentifier(it))
