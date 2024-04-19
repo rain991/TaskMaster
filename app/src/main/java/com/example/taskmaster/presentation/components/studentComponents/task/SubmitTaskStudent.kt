@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.studentComponents
+package com.example.taskmaster.presentation.components.studentComponents.task
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,17 +20,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.taskmaster.data.models.entities.Group
-import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Task
-import com.example.taskmaster.data.models.entities.Teacher
-import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
@@ -42,17 +42,22 @@ fun SubmitTaskStudent(
     onBackButton: () -> Unit,
     onDownloadAll: () -> Unit
 ) {  // functions will be deleted and got in straight way from Viewmodel
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
+        var teacherName by remember{ mutableStateOf("") }
+        LaunchedEffect(key1 = Unit) {
+
+        }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            CircleWithText(text = task.group.name.trim().substring(0, minOf(task.group.name.length, 2)), modifier = Modifier.size(40.dp))
+            CircleWithText(text = task.name.trim().substring(0, minOf(task.name.length, 2)), modifier = Modifier.size(40.dp))
             Column(Modifier.wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = task.name, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = task.teacher.name, style = MaterialTheme.typography.titleSmall)
+                Text(text = task.teacher, style = MaterialTheme.typography.titleSmall)  // WARNING ITS UID
             }
             Button(onClick = { onBackButton() }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {
                 Icon(
@@ -146,26 +151,5 @@ private fun ButtonsRow() {  // VM in params
         }
     }
 }
-
-@Preview(showSystemUi = true)
-@Composable
-private fun prev() { // SubmitTaskStudent is not finished, new logic will appear when VM used
-    val teacher = Teacher( email = "m", password = "24", name = "teacher",surname =  "sdfsd", groups = listOf<String>(), userType = UserTypes.Teacher.name, tasks = listOf())
-    val group = Group(
-         "sdfsdf", "sdfsdf", teacher,
-        listOf<Student>(), listOf<Task>()
-    )
-    SubmitTaskStudent(task = Task(
-        name = "Zdanie53",
-        description = "descript sample",
-        group = group,
-        teacher =teacher,
-        isActive = true,
-        endDate = 435435345345345
-    ), onBackButton = { /*TODO*/ }) {
-
-    }
-}
-
 
 

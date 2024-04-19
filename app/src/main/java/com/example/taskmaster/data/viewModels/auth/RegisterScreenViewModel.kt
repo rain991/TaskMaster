@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.viewModels
+package com.example.taskmaster.data.viewModels.auth
 
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.components.validateEmail
@@ -6,9 +6,10 @@ import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Teacher
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
-import com.example.taskmaster.presentation.states.RegisterScreenState
+import com.example.taskmaster.presentation.states.auth.RegisterScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {
     private val _registerScreenState = MutableStateFlow(
@@ -57,20 +58,20 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
         if (_registerScreenState.value.userType == UserTypes.Teacher) {
             registerUseCase(
                 user = Teacher(
-                    userType = UserTypes.Student.name,
+                    userType = UserTypes.Teacher.name,
                     email = _registerScreenState.value.email,
                     password = _registerScreenState.value.password,
                     name = _registerScreenState.value.name,
                     surname = _registerScreenState.value.surname,
                     groups = listOf(),
-                    tasks  = listOf()
+                    tasks = listOf()
                 )
             )
         }
     }
 
     fun setUserType(value: UserTypes) {
-        _registerScreenState.value = registerScreenState.value.copy(userType = value)
+        _registerScreenState.update { registerScreenState.value.copy(userType = value) }
     }
 
     fun setName(value: String) {

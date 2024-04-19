@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.teacherComponents.group.createGroupContent
+package com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
-import com.example.taskmaster.data.viewModels.LoginScreenViewModel
+import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -66,6 +66,9 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
             Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {
                 Text(text = stringResource(R.string.login))
             }
+        }
+        TextButton(onClick = { navController.navigate(Screen.ResetPasswordScreen.route) }) {
+            Text(text = "reset password")
         }
         TextButton(onClick = { navController.navigate(Screen.RegisterScreen.route) }) {
             Text(text = "no account yet?")

@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.teacherComponents.group.createGroupContent
+package com.example.taskmaster.presentation.components.teacherComponents.group.createGroupScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
+import com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.SubmittedToGroupStudentComponent
 
 @Composable
 fun CreateGroupContent(

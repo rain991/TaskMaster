@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.studentComponents
+package com.example.taskmaster.presentation.components.studentComponents.task
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

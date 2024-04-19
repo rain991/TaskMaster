@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.states
+package com.example.taskmaster.presentation.states.auth
 
 data class LoginScreenState(
     val email : String,
