@@ -18,7 +18,7 @@ import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.teacherComponents.task.screenComponent.TaskScreenComponent
+import com.example.taskmaster.presentation.components.teacherComponents.task.unfinished.screenComponent.TaskScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject

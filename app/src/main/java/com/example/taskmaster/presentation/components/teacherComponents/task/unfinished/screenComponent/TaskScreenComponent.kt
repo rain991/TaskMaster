@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.teacherComponents.task.screenComponent
+package com.example.taskmaster.presentation.components.teacherComponents.task.unfinished.screenComponent
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -81,5 +81,4 @@ fun TaskScreenComponent() {
             }
         }
     }
-
 }

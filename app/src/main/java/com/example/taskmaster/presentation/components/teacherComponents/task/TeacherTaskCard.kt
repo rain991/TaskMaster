@@ -28,7 +28,7 @@ fun TeacherTaskCard(
     endDate: Long,
     onRowClick: () -> Unit
 ) {
-    val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
+    val trimmedTaskName = taskName.trim().substring(0, minOf(groupName.length, 3))
     val timeLeft = getTimeRemaining(endDate)
     val isEndedTask = System.currentTimeMillis() > endDate
     Card(
@@ -43,7 +43,7 @@ fun TeacherTaskCard(
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    CircleWithText(text = trimmedGroupName, modifier = Modifier.size(40.dp))
+                    CircleWithText(text = trimmedTaskName, modifier = Modifier.size(40.dp))
                     Spacer(modifier = Modifier.weight(1f))
                     Column(Modifier.wrapContentHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(text = taskName, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold))

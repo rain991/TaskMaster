@@ -9,7 +9,6 @@ import kotlinx.coroutines.tasks.await
 class TaskRepositoryImpl(private val database: FirebaseFirestore) : TaskRepository {
     override suspend fun getTeacherNameByUid(teacherUid: String): String {
         val usersRef = database.collection("users")
-
         return try {
             val querySnapshot = usersRef.whereEqualTo("uid", teacherUid).get().await()
             val userDoc = querySnapshot.documents.firstOrNull()
@@ -18,14 +17,12 @@ class TaskRepositoryImpl(private val database: FirebaseFirestore) : TaskReposito
             Log.d(QUERY_DEBUG_TAG, "Error getting teacher name by UID", e)
             ""
         }
-
     }
 
     override suspend fun getGroupNameByIdentifier(groupIdentifier: String): String {
-        val usersRef = database.collection("groups")
-
+        val groupsRef = database.collection("groups")
         return try {
-            val querySnapshot = usersRef.whereEqualTo("identifier", groupIdentifier).get().await()
+            val querySnapshot = groupsRef.whereEqualTo("identifier", groupIdentifier).get().await()
             val userDoc = querySnapshot.documents.firstOrNull()
             userDoc?.getString("name") ?: ""
         } catch (e: Exception) {
