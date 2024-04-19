@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,12 @@ fun TaskScreenComponent() {
     val taskScreenViewModel = koinViewModel<TaskListViewModel>()
     val lazyListState = rememberLazyListState()
     val unFinishedTaskList = taskScreenViewModel.unfinishedTasksList
-
-
+    val teacherUidToNameMap = taskScreenViewModel.teacherUidToNameMap
+    val groupIdentifierToNameMap = taskScreenViewModel.groupIdToNameMap
+    LaunchedEffect(key1 = Unit) {
+        taskScreenViewModel.initializeGroupIdToNameMapForUnfinishedTasks()
+        taskScreenViewModel.initializeTeacherUidToNameMapForUnfinishedTasks()
+    }
     if (unFinishedTaskList.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -42,13 +47,21 @@ fun TaskScreenComponent() {
             LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
                 items(count = unFinishedTaskList.size) {
                     val currentTaskItem = unFinishedTaskList[it]
-                    TeacherTaskCard(teacherName =, taskName =, groupName =, endDate =) {
+                    val groupMessage = if (currentTaskItem.groups.size > 1) {
+                        "${currentTaskItem.groups.size} was assigned"
+                    } else {
+                        groupIdentifierToNameMap[currentTaskItem.groups[0]]
+                    }
+                    TeacherTaskCard(
+                        teacherName = teacherUidToNameMap[currentTaskItem.teacher].toString(),
+                        taskName = currentTaskItem.name,
+                        groupName = groupMessage!!,
+                        endDate = currentTaskItem.endDate
+                    ) {
 
                     }
                 }
             }
         }
     }
-
-
 }

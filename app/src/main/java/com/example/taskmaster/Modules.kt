@@ -8,6 +8,7 @@ import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsLis
 import com.example.taskmaster.data.implementations.core.teacher.other.SearchRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.AddTaskRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskRepositoryImpl
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
@@ -41,6 +42,7 @@ val appModule = module {
 
     single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get(), get()) }
     single<TaskListRepositoryImpl> { TaskListRepositoryImpl(get()) }
+    single<TaskRepositoryImpl> { TaskRepositoryImpl(get()) }
 
     single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
@@ -70,5 +72,5 @@ val viewModelModule = module {
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
     viewModel { FileSelectorViewModel() }
-    viewModel { TaskListViewModel(get(), get()) }
+    viewModel { TaskListViewModel(get(), get(), get()) }
 }
