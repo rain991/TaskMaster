@@ -24,7 +24,7 @@ import com.example.taskmaster.presentation.components.common.drawable.CircleWith
 import com.example.taskmaster.presentation.components.common.other.TextButtonWithClipboard
 
 @Composable
-fun SingleGroupComponent(group: Group, onComponentClick: () -> Unit, onButtonClickDeleteGroup: () -> Unit) {
+fun TeacherGroupSingleComponent(group: Group, onComponentClick: () -> Unit, onButtonClickDeleteGroup: () -> Unit) {
     val localContext = LocalContext.current
     Row(
         modifier = Modifier

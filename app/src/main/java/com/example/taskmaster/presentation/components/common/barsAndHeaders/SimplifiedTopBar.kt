@@ -45,7 +45,7 @@ fun SimplifiedTopBar(onPersonIconClick: () -> Unit) {
             if (currentUserName != null && currentUserSurname != null) {
                 CircleWithText(
                     text = (currentUserName.substring(0, 1).substring(0, 1) + currentUserSurname.substring(0, 1).substring(0, 1)),
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier.size(40.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(modifier = Modifier.wrapContentHeight(), verticalArrangement = Arrangement.SpaceEvenly) {

@@ -3,6 +3,8 @@ package com.example.taskmaster
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -14,6 +16,7 @@ import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.student.groups.StudentGroupScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
@@ -36,7 +39,7 @@ import org.koin.dsl.module
 val appModule = module {
     single<App> { App() }
 
-    single<FirebaseAuth> { FirebaseAuth.getInstance() }  // PREVIOUSLY single (related to sign out bug)
+    single<FirebaseAuth> { FirebaseAuth.getInstance() }
     single<FirebaseFirestore> { Firebase.firestore }
     single<FirebaseStorage> { FirebaseStorage.getInstance() }
 
@@ -52,6 +55,9 @@ val appModule = module {
 
     single<TeacherSearchRepositoryImpl> { TeacherSearchRepositoryImpl(get()) }
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
+
+    single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
+    single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl() }
 }
 
 val domainModule = module {
@@ -77,7 +83,7 @@ val viewModelModule = module {
     viewModel { FileSelectorViewModel() }
 
     // Student
-
+    viewModel { StudentGroupScreenViewModel(get(), get(), get()) }
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
