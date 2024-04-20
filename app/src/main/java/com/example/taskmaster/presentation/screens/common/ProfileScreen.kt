@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,17 +27,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import java.util.Locale
 
 @Composable
 fun ProfileScreen(navController: NavController) {
     val auth = koinInject<FirebaseAuth>()
+    val listenersManagerViewModel = koinViewModel<ListenersManagerViewModel>()
     val currentUserDisplayName = auth.currentUser?.displayName
     val currentUserName = currentUserDisplayName?.substringBefore(" ")
     val currentUserSurname = currentUserDisplayName?.substringAfter(" ")
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             Row(
@@ -90,7 +96,12 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.weight(1f))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 if (auth.currentUser != null) {
-                    Button(onClick = { auth.signOut() }) {
+                    Button(onClick = {
+                        coroutineScope.launch {
+                            listenersManagerViewModel.removeAllListenersAndTerminateDatabase()
+                            auth.signOut()
+                        }
+                    }) {
                         Text(text = "Sign out", style = MaterialTheme.typography.titleMedium)
                     }
                 }

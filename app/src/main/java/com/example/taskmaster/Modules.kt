@@ -12,6 +12,7 @@ import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskReposi
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
+import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
@@ -33,7 +34,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    single<FirebaseAuth> { FirebaseAuth.getInstance() }
+    single<App> { App() }
+
+    single<FirebaseAuth> { FirebaseAuth.getInstance() }  // PREVIOUSLY single (related to sign out bug)
     single<FirebaseFirestore> { Firebase.firestore }
     single<FirebaseStorage> { FirebaseStorage.getInstance() }
 
@@ -41,10 +44,10 @@ val appModule = module {
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
 
     single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get(), get()) }
-    single<TaskListRepositoryImpl> { TaskListRepositoryImpl(get()) }
+    single<TaskListRepositoryImpl> { TaskListRepositoryImpl(get(), get()) }
     single<TaskRepositoryImpl> { TaskRepositoryImpl(get()) }
 
-    single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get()) }
+    single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get(), get()) }
     single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
 
     single<SearchRepositoryImpl> { SearchRepositoryImpl(get()) }
@@ -65,7 +68,7 @@ val domainModule = module {
 
 val viewModelModule = module {
     viewModel { RegisterScreenViewModel(get()) }
-    viewModel { LoginScreenViewModel(get(), get()) }
+    viewModel { LoginScreenViewModel(get(), get(), get()) }
     viewModel { ScreenManagerViewModel(get(), get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
@@ -73,4 +76,5 @@ val viewModelModule = module {
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
     viewModel { FileSelectorViewModel() }
     viewModel { TaskListViewModel(get(), get(), get()) }
+    viewModel { ListenersManagerViewModel(get(), get()) }
 }

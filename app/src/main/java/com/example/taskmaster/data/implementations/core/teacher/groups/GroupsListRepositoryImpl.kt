@@ -3,6 +3,7 @@ package com.example.taskmaster.data.implementations.core.teacher.groups
 import android.util.Log
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
+import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.domain.repositories.core.teacher.GroupsListRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
@@ -11,7 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class GroupsListRepositoryImpl(private val database: FirebaseFirestore) : GroupsListRepository {
+class GroupsListRepositoryImpl(private val database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
+    GroupsListRepository {
     override suspend fun getGroupsRelatedToTeacher(teacherUID: String): List<Group> {
         val groupCollection = database.collection("groups")
         return try {
@@ -29,6 +31,7 @@ class GroupsListRepositoryImpl(private val database: FirebaseFirestore) : Groups
             emptyList<Group>()
         }
     }
+
 
     override suspend fun getTeacherGroups(teacherUID: String): Flow<List<Group>> = callbackFlow {
         val groupCollection = database.collection("groups")
@@ -50,6 +53,7 @@ class GroupsListRepositoryImpl(private val database: FirebaseFirestore) : Groups
                     }
                 }
             }
+        listenersManagerViewModel.addNewListener(listener)
         awaitClose { listener.remove() }
     }
 
@@ -72,6 +76,7 @@ class GroupsListRepositoryImpl(private val database: FirebaseFirestore) : Groups
                     }
                 }
             }
+        listenersManagerViewModel.addNewListener(listener)
         awaitClose { listener.remove() }
     }
 
