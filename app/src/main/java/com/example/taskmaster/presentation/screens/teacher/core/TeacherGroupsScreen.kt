@@ -17,7 +17,6 @@ import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
-import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.component.ListOfGroupScreenComponent
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.fab.TaskMasterFAB
@@ -35,7 +34,7 @@ fun TeacherGroupsScreen(navController: NavController, viewModel : GroupDetailedS
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            SimplifiedTopBar()
+           // SimplifiedTopBar()
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,

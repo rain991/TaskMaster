@@ -36,7 +36,11 @@ fun TeacherTasksScreen(navController: NavController) {
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            SimplifiedTopBar()
+            if (currentUserName != null) {
+                SimplifiedTopBar(
+                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
+                )
+            }
         },
         bottomBar = {
             TaskMasterBottomBar(

@@ -66,7 +66,7 @@ val domainModule = module {
 val viewModelModule = module {
     viewModel { RegisterScreenViewModel(get()) }
     viewModel { LoginScreenViewModel(get(), get()) }
-    viewModel { ScreenManagerViewModel() }
+    viewModel { ScreenManagerViewModel(get(), get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
     viewModel { GroupListScreenViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }

@@ -16,7 +16,6 @@ import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
-import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.group.createGroupScreen.component.TeacherCreateGroupComponent
 import org.koin.androidx.compose.koinViewModel
@@ -34,7 +33,7 @@ fun TeacherGroupCreateScreen(navController : NavController) {
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            SimplifiedTopBar()
+           // SimplifiedTopBar()
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,

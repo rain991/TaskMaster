@@ -8,6 +8,7 @@ import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.presentation.screens.common.LoginScreen
+import com.example.taskmaster.presentation.screens.common.ProfileScreen
 import com.example.taskmaster.presentation.screens.common.RegisterScreen
 import com.example.taskmaster.presentation.screens.common.ResetPasswordScreen
 import com.example.taskmaster.presentation.screens.common.ScreenPlaceholder
@@ -42,6 +43,9 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
         }
         composable(route = Screen.ScreenPlaceholder.route) {
             ScreenPlaceholder()
+        }
+        composable(route = Screen.ProfileScreen.route) {
+            ProfileScreen(navController = navController)
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {

@@ -75,7 +75,7 @@ fun FinishedTaskScreenComponent() {
                             groupName = groupMessage ?: "",
                             endDate = currentTaskItem.endDate
                         ) {
-                            TODO("Teacher task card click")
+
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }

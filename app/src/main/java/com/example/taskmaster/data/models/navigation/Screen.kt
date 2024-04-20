@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     object ScreenPlaceholder : Screen("screen_placeholder")
 
     // Common
+    object ProfileScreen : Screen("profile_screen")
     object TaskScreen : Screen("task_screen")
     object FinishedScreen : Screen("finished_screen")
     object GroupsScreen : Screen("group_screen")
