@@ -23,7 +23,5 @@ class App : Application(), KoinComponent {
     fun reinitializeKoin() {
         unloadKoinModules(listOf(appModule, domainModule, viewModelModule))
         loadKoinModules(listOf(appModule, domainModule, viewModelModule))
-//            androidContext(this@App)
-//            modules(listOf(appModule, domainModule, viewModelModule))
     }
 }

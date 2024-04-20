@@ -35,7 +35,7 @@ fun SimplifiedTopBar(onPersonIconClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 4.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         Row(modifier = Modifier
             .wrapContentSize()

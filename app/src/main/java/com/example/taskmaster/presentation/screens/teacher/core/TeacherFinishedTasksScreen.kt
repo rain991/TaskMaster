@@ -12,10 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
+import com.example.taskmaster.data.constants.TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
-import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.task.finished.screenComponent.FinishedTaskScreenComponent
 import com.google.firebase.auth.FirebaseAuth
@@ -28,14 +29,17 @@ fun TeacherFinishedTasksScreen(navController: NavController) {
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
-    val bottomBarNavigationItems =
-        listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
+    val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.FinishedScreen)
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-//SimplifiedTopBar()
+            if (currentUserName != null) {
+                SimplifiedTopBar(
+                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
+                )
+            }
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,

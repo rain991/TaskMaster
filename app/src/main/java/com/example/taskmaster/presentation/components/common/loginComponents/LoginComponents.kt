@@ -31,15 +31,12 @@ import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.koinInject
 
 @Composable
 fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavController) {
     val viewModel = koinViewModel<LoginScreenViewModel>()
-    val database = koinInject<FirebaseFirestore>()
     val screenState = viewModel.screenState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
