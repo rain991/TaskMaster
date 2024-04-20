@@ -6,7 +6,7 @@ import android.util.Log
 import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Task
-import com.example.taskmaster.domain.repositories.core.teacher.AddTaskRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherAddTaskRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class AddTaskRepositoryImpl(private val database: FirebaseFirestore, private val storageRef: FirebaseStorage) : AddTaskRepository {
+class TeacherAddTaskRepositoryImpl(private val database: FirebaseFirestore, private val storageRef: FirebaseStorage) : TeacherAddTaskRepository {
     override suspend fun addTask(task: Task, localUriFilesList: List<Uri>, context: Context) {
         val tasksReference = database.collection("tasks")
 

@@ -5,16 +5,16 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmaster.data.constants.FINISHED_TASKS_DATA_REQUEST_TIME
-import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Task
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class TaskListViewModel(
-    private val taskListRepositoryImpl: TaskListRepositoryImpl,
-    private val taskRepositoryImpl: TaskRepositoryImpl,
+class TeacherTaskListViewModel(
+    private val taskListRepositoryImpl: TeacherTaskListRepositoryImpl,
+    private val taskRepositoryImpl: TeacherTaskRepositoryImpl,
     private val auth: FirebaseAuth
 ) : ViewModel() {
     private val _unfinishedTasksList = mutableStateListOf<Task>()

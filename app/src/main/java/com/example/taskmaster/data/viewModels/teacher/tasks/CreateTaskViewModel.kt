@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class CreateTaskViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
-    private val groupsListRepositoryImpl: GroupsListRepositoryImpl,
+    private val groupsListRepositoryImpl: TeacherGroupsListRepositoryImpl,
     private val auth: FirebaseAuth
 ) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(

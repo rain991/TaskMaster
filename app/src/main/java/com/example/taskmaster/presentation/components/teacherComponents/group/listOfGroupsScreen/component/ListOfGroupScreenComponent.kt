@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
-import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.AcceptGroupDeletingDialog
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.SingleGroupComponent
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewModel: GroupDetailedScreenViewModel) {
-    val viewModel = koinViewModel<GroupListScreenViewModel>()
+    val viewModel = koinViewModel<TeacherGroupListScreenViewModel>()
     val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
     val groupToDelete = viewModel.groupToDelete.collectAsState()

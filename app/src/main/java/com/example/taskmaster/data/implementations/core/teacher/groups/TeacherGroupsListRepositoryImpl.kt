@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
-import com.example.taskmaster.domain.repositories.core.teacher.GroupsListRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherGroupsListRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.channels.awaitClose
@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class GroupsListRepositoryImpl(private val database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
-    GroupsListRepository {
+class TeacherGroupsListRepositoryImpl(private val database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
+    TeacherGroupsListRepository {
     override suspend fun getGroupsRelatedToTeacher(teacherUID: String): List<Group> {
         val groupCollection = database.collection("groups")
         return try {

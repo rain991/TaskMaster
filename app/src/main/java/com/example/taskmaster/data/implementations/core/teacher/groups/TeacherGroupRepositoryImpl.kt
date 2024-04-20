@@ -3,10 +3,10 @@ package com.example.taskmaster.data.implementations.core.teacher.groups
 import android.util.Log
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
-import com.example.taskmaster.domain.repositories.core.teacher.GroupRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherGroupRepository
 import com.google.firebase.firestore.FirebaseFirestore
 
-class GroupRepositoryImpl(private val database: FirebaseFirestore) : GroupRepository {
+class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : TeacherGroupRepository {
     override fun createGroup(group: Group) {
         val groupCollection = database.collection("groups")
         val groupId = database.collection("groups").document().id

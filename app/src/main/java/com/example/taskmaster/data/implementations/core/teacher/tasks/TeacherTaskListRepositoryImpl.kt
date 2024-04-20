@@ -2,15 +2,15 @@ package com.example.taskmaster.data.implementations.core.teacher.tasks
 
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
-import com.example.taskmaster.domain.repositories.core.teacher.TaskListRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherTaskListRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-class TaskListRepositoryImpl(private var database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
-    TaskListRepository {
+class TeacherTaskListRepositoryImpl(private var database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
+    TeacherTaskListRepository {
 
     override suspend fun getTeacherTasks(teacherUID: String): Flow<List<Task>> = callbackFlow {
         val tasksCollection = database.collection("tasks")

@@ -2,11 +2,11 @@ package com.example.taskmaster.data.implementations.core.teacher.tasks
 
 import android.util.Log
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
-import com.example.taskmaster.domain.repositories.core.teacher.TaskRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherTaskRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class TaskRepositoryImpl(private val database: FirebaseFirestore) : TaskRepository {
+class TeacherTaskRepositoryImpl(private val database: FirebaseFirestore) : TeacherTaskRepository {
     override suspend fun getTeacherNameByUid(teacherUid: String): String {
         val usersRef = database.collection("users")
         return try {

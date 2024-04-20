@@ -3,12 +3,12 @@ package com.example.taskmaster
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.groups.GroupRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.other.SearchRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.tasks.AddTaskRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.tasks.TaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherAddTaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
@@ -16,9 +16,9 @@ import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
-import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
-import com.example.taskmaster.data.viewModels.teacher.tasks.TaskListViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
@@ -43,14 +43,14 @@ val appModule = module {
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
 
-    single<AddTaskRepositoryImpl> { AddTaskRepositoryImpl(get(), get()) }
-    single<TaskListRepositoryImpl> { TaskListRepositoryImpl(get(), get()) }
-    single<TaskRepositoryImpl> { TaskRepositoryImpl(get()) }
+    single<TeacherAddTaskRepositoryImpl> { TeacherAddTaskRepositoryImpl(get(), get()) }
+    single<TeacherTaskListRepositoryImpl> { TeacherTaskListRepositoryImpl(get(), get()) }
+    single<TeacherTaskRepositoryImpl> { TeacherTaskRepositoryImpl(get()) }
 
-    single<GroupsListRepositoryImpl> { GroupsListRepositoryImpl(get(), get()) }
-    single<GroupRepositoryImpl> { GroupRepositoryImpl(get()) }
+    single<TeacherGroupsListRepositoryImpl> { TeacherGroupsListRepositoryImpl(get(), get()) }
+    single<TeacherGroupRepositoryImpl> { TeacherGroupRepositoryImpl(get()) }
 
-    single<SearchRepositoryImpl> { SearchRepositoryImpl(get()) }
+    single<TeacherSearchRepositoryImpl> { TeacherSearchRepositoryImpl(get()) }
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
 }
 
@@ -67,14 +67,22 @@ val domainModule = module {
 }
 
 val viewModelModule = module {
+    //Auth
     viewModel { RegisterScreenViewModel(get()) }
     viewModel { LoginScreenViewModel(get(), get(), get()) }
+    viewModel { ListenersManagerViewModel(get(), get()) }
+
+    // Common
     viewModel { ScreenManagerViewModel(get(), get()) }
-    viewModel { CreateTaskViewModel(get(), get(), get()) }
-    viewModel { GroupListScreenViewModel(get(), get(), get()) }
+    viewModel { FileSelectorViewModel() }
+
+    // Student
+
+
+    // Teacher
+    viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
+    viewModel { TeacherTaskListViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
-    viewModel { FileSelectorViewModel() }
-    viewModel { TaskListViewModel(get(), get(), get()) }
-    viewModel { ListenersManagerViewModel(get(), get()) }
+    viewModel { CreateTaskViewModel(get(), get(), get()) }
 }

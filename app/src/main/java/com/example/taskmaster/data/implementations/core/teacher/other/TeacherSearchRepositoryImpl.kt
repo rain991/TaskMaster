@@ -4,11 +4,11 @@ import android.util.Log
 import com.example.taskmaster.data.constants.SEARCH_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
-import com.example.taskmaster.domain.repositories.core.teacher.SearchRepository
+import com.example.taskmaster.domain.repositories.core.teacher.TeacherSearchRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class SearchRepositoryImpl(private val database : FirebaseFirestore)  : SearchRepository{
+class TeacherSearchRepositoryImpl(private val database : FirebaseFirestore)  : TeacherSearchRepository{
     override fun searchTeacherGroupByName(name: String, teacherUID: String): List<Group> {
         val groupsCollection = database.collection("groups")
         val resultGroups = mutableListOf<Group>()

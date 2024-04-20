@@ -20,13 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmaster.data.viewModels.teacher.tasks.TaskListViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.task.TeacherTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TaskScreenComponent() {
-    val taskScreenViewModel = koinViewModel<TaskListViewModel>()
+    val taskScreenViewModel = koinViewModel<TeacherTaskListViewModel>()
     val lazyListState = rememberLazyListState()
     val unFinishedTaskList = taskScreenViewModel.unfinishedTasksList
     val teacherUidToNameMap = taskScreenViewModel.teacherUidToNameMap

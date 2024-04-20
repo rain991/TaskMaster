@@ -22,13 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
-import com.example.taskmaster.data.viewModels.teacher.tasks.TaskListViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.task.TeacherTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FinishedTaskScreenComponent() {
-    val taskScreenViewModel = koinViewModel<TaskListViewModel>()
+    val taskScreenViewModel = koinViewModel<TeacherTaskListViewModel>()
     val lazyListState = rememberLazyListState()
     val finishedTaskList = taskScreenViewModel.finishedTasksList
     val teacherUidToNameMap = taskScreenViewModel.teacherUidToNameMap
@@ -41,7 +41,7 @@ fun FinishedTaskScreenComponent() {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(text = "Finished Tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         if (finishedTaskList.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column(
