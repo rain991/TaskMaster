@@ -1,9 +1,11 @@
 package com.example.taskmaster.presentation.components.studentComponents.group.uiComponents
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,13 +25,14 @@ import com.example.taskmaster.presentation.components.common.drawable.CircleWith
 fun StudentGroupSingleComponent(group: Group, teacherName: String, onComponentClick: () -> Unit) {
     Row(
         modifier = Modifier
+            .fillMaxWidth()
             .wrapContentHeight()
             .padding(horizontal = 4.dp)
             .clickable { onComponentClick() }, verticalAlignment = Alignment.CenterVertically
     ) {
         CircleWithText(text = group.name.substring(0..1), modifier = Modifier.size(40.dp))
         Spacer(modifier = Modifier.width(20.dp))
-        Column(modifier = Modifier.wrapContentHeight()) {
+        Column(modifier = Modifier.wrapContentHeight(), verticalArrangement = Arrangement.Center) {
             Text(text = group.name, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = teacherName, style = MaterialTheme.typography.titleMedium)

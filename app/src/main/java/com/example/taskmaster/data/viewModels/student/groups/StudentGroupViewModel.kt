@@ -7,12 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
+import com.example.taskmaster.domain.useCases.student.AddToGroupByIdentifierUseCase
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class StudentGroupScreenViewModel(
     private val studentGroupListRepositoryImpl: StudentGroupListRepositoryImpl,
     private val teacherTaskRepositoryImpl: TeacherTaskRepositoryImpl,
+    private val addToGroupByIdentifierUseCase: AddToGroupByIdentifierUseCase,
     auth: FirebaseAuth
 ) : ViewModel() {
     private val _groupsList = mutableStateListOf<Group>()
@@ -20,6 +24,9 @@ class StudentGroupScreenViewModel(
 
     private val _teacherNameMap = mutableStateMapOf<String, String>()
     val teacherNameMap: Map<String, String> = _teacherNameMap
+
+    private val _warningMessage = MutableStateFlow<String?>(null)
+    val warningMessage = _warningMessage.asStateFlow()
 
     private val currentFirebaseUser = auth.currentUser
 
@@ -34,6 +41,13 @@ class StudentGroupScreenViewModel(
         }
     }
 
+    fun deleteCurrentWarningMessage() {
+        _warningMessage.value = null
+    }
+
+    private fun setCurrentWarningMessage(warningMessage: String) {
+        _warningMessage.value = warningMessage
+    }
 
     private fun fetchTeacherNames() {
         viewModelScope.launch {
@@ -45,12 +59,12 @@ class StudentGroupScreenViewModel(
         }
     }
 
-    suspend fun getTeacherNameByUid(uid: String): String {
-        return teacherTaskRepositoryImpl.getTeacherNameByUid(uid)
-    }
-
     suspend fun addToGroupByIdentifier(groupIdentifier: String) {
-
+        if (groupIdentifier.length == 20 && currentFirebaseUser?.email != null) {
+            addToGroupByIdentifierUseCase(currentFirebaseUser.email!!, groupIdentifier)
+        }else{
+            setCurrentWarningMessage("Group identifier must be 20 characters long")
+        }
     }
 
     private fun setGroupsList(listOfRelatedGroups: List<Group>) {

@@ -24,6 +24,7 @@ import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
+import com.example.taskmaster.domain.useCases.student.AddToGroupByIdentifierUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
@@ -57,7 +58,7 @@ val appModule = module {
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
 
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
-    single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl() }
+    single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl(get()) }
 }
 
 val domainModule = module {
@@ -65,7 +66,9 @@ val domainModule = module {
     single<RegisterUseCase> { RegisterUseCase(get()) }
     single<LoginUseCase> { LoginUseCase(get(), get()) }
 
-    //Teacher
+    // Student
+    single<AddToGroupByIdentifierUseCase> { AddToGroupByIdentifierUseCase(get()) }
+    // Teacher
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
@@ -83,7 +86,7 @@ val viewModelModule = module {
     viewModel { FileSelectorViewModel() }
 
     // Student
-    viewModel { StudentGroupScreenViewModel(get(), get(), get()) }
+    viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
