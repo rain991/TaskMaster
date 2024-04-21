@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +46,9 @@ fun StudentGroupsScreenComponent() {
     val coroutineScope = rememberCoroutineScope()
     val warningMessage = viewModel.warningMessage.collectAsState()
     val localContext = LocalContext.current
+    LaunchedEffect(key1 = groupList) {
+        viewModel.fetchTeacherNames()
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         if (groupList.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
