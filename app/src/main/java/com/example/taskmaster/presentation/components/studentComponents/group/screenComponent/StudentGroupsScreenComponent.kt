@@ -17,7 +17,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +38,7 @@ fun StudentGroupsScreenComponent() {
     val viewModel = koinViewModel<StudentGroupScreenViewModel>()
     val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
+    val teacherUidToNameMap = viewModel.teacherNameMap
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -70,11 +70,7 @@ fun StudentGroupsScreenComponent() {
                         .fillMaxWidth()
                 ) {
                     items(groupList) {
-                        var teacherName = ""
-                        LaunchedEffect(key1 = it) {
-                            teacherName = viewModel.getTeacherNameByUid(it.teacher)
-                        }
-                        StudentGroupSingleComponent(group = it, teacherName = teacherName, onComponentClick = {
+                        StudentGroupSingleComponent(group = it, teacherName = teacherUidToNameMap[it.teacher] ?: "", onComponentClick = {
 
                         })
                         Spacer(modifier = Modifier.height(8.dp))

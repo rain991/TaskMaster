@@ -19,7 +19,6 @@ class App : Application(), KoinComponent {
             modules(listOf(appModule, domainModule, viewModelModule))
         }
     }
-
     fun reinitializeKoin() {
         unloadKoinModules(listOf(appModule, domainModule, viewModelModule))
         loadKoinModules(listOf(appModule, domainModule, viewModelModule))
