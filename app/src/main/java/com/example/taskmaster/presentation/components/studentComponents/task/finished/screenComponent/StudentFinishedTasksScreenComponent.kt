@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
-import com.example.taskmaster.presentation.components.studentComponents.task.common.StudentTaskCard
+import com.example.taskmaster.presentation.components.studentComponents.task.finished.uiComponents.StudentFinishedTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,7 +40,7 @@ fun StudentFinishedTasksScreenComponent() {
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = "Tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
+            Text(text = "Finished tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
         }
         Spacer(modifier = Modifier.height(16.dp))
         if (unFinishedTaskList.isEmpty()) {
@@ -70,18 +70,18 @@ fun StudentFinishedTasksScreenComponent() {
                                 .contains(group.identifier)
                         }
                         val groupName = taskRelatedGroup?.name ?: ""
-                        StudentTaskCard(
+                        StudentFinishedTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher] ?: "",
                             taskName = currentTaskItem.name,
                             groupName = groupName,
-                            endDate = currentTaskItem.endDate,
-                            onSubmitTask = { /*    */ })
+                            grade = 5,  // warning HARDCODED
+                            isSubmitted = true // warning HARDCODED
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
             }
         }
-
         if (warningMessage.value != null) {
             Toast.makeText(localContext, warningMessage.value, Toast.LENGTH_SHORT).show()
             studentTaskScreenViewModel.deleteWarningMessage()

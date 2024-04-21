@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
-import com.example.taskmaster.presentation.components.studentComponents.task.common.StudentTaskCard
+import com.example.taskmaster.presentation.components.studentComponents.task.unfinished.uiComponents.StudentTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

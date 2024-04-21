@@ -1,4 +1,4 @@
-package com.example.taskmaster.presentation.components.studentComponents.task.common
+package com.example.taskmaster.presentation.components.studentComponents.task.finished.uiComponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,23 +24,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
-import com.example.taskmaster.presentation.other.getTimeRemaining
-import java.time.LocalDate
 
 @Composable
-fun StudentTaskCard(
+fun StudentFinishedTaskCard(
     teacherName: String,
     taskName: String,
     groupName: String,
-    endDate: Long,
-    onSubmitTask: () -> Unit,
-    isSubmitted: Boolean = false
+    grade: Int?,
+    isSubmitted: Boolean
 ) {  // for expired and current tasks, also for already submitted
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
-    val timeLeft = getTimeRemaining(endDate)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,56 +63,49 @@ fun StudentTaskCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = if (!isSubmitted) {
-                            timeLeft
-                        } else {
-                            "Already submitted"
-                        }
-                    )
+                    if (isSubmitted) {
+                        Text(
+                            text = if (grade != null) {
+                                "Grade: $grade"
+                            } else {
+                                "Is not graded yet"
+                            }, style = MaterialTheme.typography.titleSmall
+                        )
+                    } else {
+                        Text(
+                            text = "Grade: you have not submitted any answer", style = MaterialTheme.typography.titleSmall
+                        )
+                    }
                 }
             }
             Column(
                 modifier = Modifier
-                    .weight(0.2f).fillMaxHeight(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+                    .weight(0.2f)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                Row(modifier = Modifier.wrapContentWidth(), Arrangement.Center) {
-                    if (!isSubmitted) {
-                        Button(onClick = {
-                            onSubmitTask()
-                        }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "add answer for task",
-                                modifier = Modifier.scale(1.3f)
-                            )
-                        }
-                    } else {
-                        Box(modifier = Modifier.wrapContentWidth()) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = "already submitted",
-                                modifier = Modifier.scale(1.3f)
-                            )
-                        }
+                if (isSubmitted) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "task is submitted",
+                        modifier = Modifier.scale(1.3f)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Submitted")
+                } else {
+                    Box(modifier = Modifier.wrapContentWidth()) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "task is not submitted",
+                            modifier = Modifier.scale(1.3f)
+                        )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Not submitted")
                 }
-
             }
         }
         Spacer(modifier = Modifier.height(4.dp))
     }
-}
-
-
-@Preview(showSystemUi = true)
-@Composable
-private fun prev() {
-    StudentTaskCard(
-        teacherName = "Ivan S",
-        taskName = "Sprawozdanie 1",
-        groupName = "dzsad",
-        endDate = LocalDate.now().toEpochDay() + 5000,
-        onSubmitTask = { /*TODO*/ })
 }
