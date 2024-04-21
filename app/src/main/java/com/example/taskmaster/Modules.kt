@@ -68,6 +68,7 @@ val domainModule = module {
 
     // Student
     single<AddToGroupByIdentifierUseCase> { AddToGroupByIdentifierUseCase(get()) }
+
     // Teacher
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }

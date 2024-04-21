@@ -1,9 +1,11 @@
-package com.example.taskmaster.presentation.components.studentComponents.task
+package com.example.taskmaster.presentation.components.studentComponents.task.common
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,7 +46,7 @@ fun StudentTaskCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
+            .height(120.dp)
     ) {
         Row(
             modifier = Modifier
@@ -79,7 +81,7 @@ fun StudentTaskCard(
             }
             Column(
                 modifier = Modifier
-                    .weight(0.2f), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+                    .weight(0.2f).fillMaxHeight(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Row(modifier = Modifier.wrapContentWidth(), Arrangement.Center) {
@@ -94,7 +96,7 @@ fun StudentTaskCard(
                             )
                         }
                     } else {
-                        Button(onClick = { }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {  // prob onClick to change answer
+                        Box(modifier = Modifier.wrapContentWidth()) {
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "already submitted",
