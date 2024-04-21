@@ -18,6 +18,7 @@ import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
+import com.example.taskmaster.presentation.components.studentComponents.task.unfinished.screenComponent.StudentTaskScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -55,7 +56,7 @@ fun StudentTasksScreen(navController: NavController) {
         )
         {
             // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
-
+            StudentTaskScreenComponent()
         }
     }
 }

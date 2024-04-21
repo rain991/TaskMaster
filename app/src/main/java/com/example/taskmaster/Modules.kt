@@ -5,6 +5,8 @@ import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -17,6 +19,7 @@ import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.student.groups.StudentGroupScreenViewModel
+import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
@@ -38,15 +41,15 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
+    // App and Firebase
     single<App> { App() }
-
     single<FirebaseAuth> { FirebaseAuth.getInstance() }
     single<FirebaseFirestore> { Firebase.firestore }
     single<FirebaseStorage> { FirebaseStorage.getInstance() }
-
+    // Auth
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
-
+    // Teacher
     single<TeacherAddTaskRepositoryImpl> { TeacherAddTaskRepositoryImpl(get(), get()) }
     single<TeacherTaskListRepositoryImpl> { TeacherTaskListRepositoryImpl(get(), get()) }
     single<TeacherTaskRepositoryImpl> { TeacherTaskRepositoryImpl(get()) }
@@ -55,10 +58,14 @@ val appModule = module {
     single<TeacherGroupRepositoryImpl> { TeacherGroupRepositoryImpl(get()) }
 
     single<TeacherSearchRepositoryImpl> { TeacherSearchRepositoryImpl(get()) }
-    single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
-
+    // Student
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
     single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl(get()) }
+
+    single<StudentTaskRepositoryImpl> { StudentTaskRepositoryImpl() }
+    single<StudentTaskListRepositoryImpl> { StudentTaskListRepositoryImpl(get(), get()) }
+    // Common
+    single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
 }
 
 val domainModule = module {
@@ -88,6 +95,7 @@ val viewModelModule = module {
 
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
+    viewModel { StudentTasksViewModel(get(), get(), get(), get()) }
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
