@@ -35,5 +35,4 @@ class StudentGroupListRepositoryImpl(private val database: FirebaseFirestore, pr
         listenersManagerViewModel.addNewListener(listener)
         awaitClose { listener.remove() }
     }
-
 }

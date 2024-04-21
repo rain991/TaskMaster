@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.studentComponents.task.unfinished.screenComponent
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,10 +29,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StudentTaskScreenComponent() {
+    val localContext = LocalContext.current
     val studentTaskScreenViewModel = koinViewModel<StudentTasksViewModel>()
     val lazyListState = rememberLazyListState()
     val unFinishedTaskList = studentTaskScreenViewModel.unfinishedTasksList
     val teacherUidToNameMap = studentTaskScreenViewModel.teacherUidToNameMap
+    val warningMessage = studentTaskScreenViewModel.warningMessage.collectAsState()
     LaunchedEffect(key1 = Unit) {
         studentTaskScreenViewModel.initializeTeacherUidToNameMapForUnfinishedTasks()
     }
@@ -60,10 +65,12 @@ fun StudentTaskScreenComponent() {
                 LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
                     items(count = unFinishedTaskList.size) { itemIndex ->
                         val currentTaskItem = unFinishedTaskList[itemIndex]
-                        val taskRelatedGroup =
-                            studentTaskScreenViewModel.unfinishedTasksList.filter { it.groups == studentTaskScreenViewModel.studentGroups.map { it.identifier } }
-                                .first()
-                        val groupName = taskRelatedGroup.name
+                        val taskRelatedGroup = studentTaskScreenViewModel.studentGroups.firstOrNull { group ->
+                            studentTaskScreenViewModel.unfinishedTasksList
+                                .flatMap { it.groups }
+                                .contains(group.identifier)
+                        }
+                        val groupName = taskRelatedGroup?.name ?: ""
                         StudentTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher] ?: "",
                             taskName = currentTaskItem.name,
@@ -74,6 +81,11 @@ fun StudentTaskScreenComponent() {
                     }
                 }
             }
+        }
+
+        if (warningMessage.value != null) {
+            Toast.makeText(localContext, warningMessage.value, Toast.LENGTH_SHORT).show()
+            studentTaskScreenViewModel.deleteWarningMessage()
         }
     }
 }

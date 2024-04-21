@@ -1,9 +1,11 @@
 package com.example.taskmaster.data.viewModels.student.tasks
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.constants.FINISHED_TASKS_DATA_REQUEST_TIME
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class StudentTasksViewModel(
@@ -46,12 +49,20 @@ class StudentTasksViewModel(
                 val currentTimeMillis = System.currentTimeMillis()
                 studentGroupListRepositoryImpl.getStudentGroups(currentUser.email!!).collect {
                     setStudentGroupList(it)
+                    setAllStudentTasksList(
+                        studentTaskListRepositoryImpl.getStudentTasks(_studentGroups.toList().map { it.identifier }).first()
+                    )
+                    setFinishedTaskList(allStudentTasks.toList().filter { it.endDate < currentTimeMillis })
+                    setUnfinishedTaskList(allStudentTasks.toList().filter { it.endDate >= currentTimeMillis })
+
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: tasklist size : ${allStudentTasks.size}")
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: groupList size : ${_studentGroups.size}")
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: unfinished tasks list size : ${_unfinishedTasksList.size}")
                 }
-                studentTaskListRepositoryImpl.getStudentTasks(_studentGroups.toList().map { it.identifier }).collect {
-                    setAllStudentTasksList(it)
-                }
-                setFinishedTaskList(allStudentTasks.toList().filter { it.endDate < currentTimeMillis })
-                setUnfinishedTaskList(allStudentTasks.filter { it.endDate >= currentTimeMillis })
+
+
+            }else{
+                setWarningMessage("Invalid current user")
             }
         }
     }

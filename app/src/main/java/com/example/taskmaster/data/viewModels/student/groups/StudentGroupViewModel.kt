@@ -53,7 +53,7 @@ class StudentGroupScreenViewModel(
     }
 
     suspend fun fetchTeacherNames() {
-        val teacherUids = _groupsList.map { it.teacher }
+        val teacherUids = _groupsList.map { it.teacher }.distinct()
         Log.d(COMMON_DEBUG_TAG, "fetchTeacherNames: groups list size : ${_groupsList.size} ")
         Log.d(COMMON_DEBUG_TAG, "fetchTeacherNames: teacherUids size : ${teacherUids.size} ")
         teacherUids.forEach { uid ->
