@@ -64,12 +64,17 @@ fun StudentFinishedTasksScreenComponent() {
                 LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
                     items(count = unFinishedTaskList.size) { itemIndex ->
                         val currentTaskItem = unFinishedTaskList[itemIndex]
-                        val taskRelatedGroup = studentTaskScreenViewModel.studentGroups.firstOrNull { group ->
-                            studentTaskScreenViewModel.unfinishedTasksList
-                                .flatMap { it.groups }
-                                .contains(group.identifier)
+                        val listOfStudentGroupsIdentifiers = studentTaskScreenViewModel.studentGroups.map { group -> group.identifier }
+                        val unfinishedTasksGroupsIdentifier = studentTaskScreenViewModel.unfinishedTasksList.flatMap { it.groups }
+                        val taskRelatedGroupIdentifier = listOfStudentGroupsIdentifiers.first { identifier ->
+                            unfinishedTasksGroupsIdentifier.any { unfinishedIdentifier ->
+                                identifier.contains(unfinishedIdentifier)
+                            }
                         }
-                        val groupName = taskRelatedGroup?.name ?: ""
+                        val taskRelatedGroup =
+                            studentTaskScreenViewModel.studentGroups.first { it.identifier == taskRelatedGroupIdentifier }
+
+                        val groupName = taskRelatedGroup.name ?: ""
                         StudentFinishedTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher] ?: "",
                             taskName = currentTaskItem.name,

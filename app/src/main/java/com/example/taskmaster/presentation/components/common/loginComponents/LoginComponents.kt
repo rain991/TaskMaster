@@ -60,7 +60,7 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
             coroutineScope.launch {
-                viewModel.login()
+                viewModel.login(navController)
             }
         }) {
             Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {

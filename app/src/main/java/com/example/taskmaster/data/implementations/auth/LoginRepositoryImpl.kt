@@ -1,17 +1,20 @@
 package com.example.taskmaster.data.implementations.auth
 
 import android.util.Log
+import androidx.navigation.NavController
 import com.example.taskmaster.data.constants.AUTH_DEBUG_TAG
+import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.domain.repositories.login.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class LoginRepositoryImpl(private val database: FirebaseFirestore, private val auth: FirebaseAuth) : LoginRepository {
-    override suspend fun loginUser(email: String, password: String) {
+    override suspend fun loginUser(email: String, password: String, navController: NavController) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d(AUTH_DEBUG_TAG, "User : $email successfully login")
+                navController.navigate(Screen.TaskScreen.route)
             } else {
                 Log.d(AUTH_DEBUG_TAG, "User : $email incorrect login")
             }

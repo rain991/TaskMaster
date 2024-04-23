@@ -14,6 +14,12 @@ class StudentTaskListRepositoryImpl(
     private val listenersManagerViewModel: ListenersManagerViewModel
 ) : StudentTaskListRepository {
     override suspend fun getStudentTasks(studentGroupIdentifiers: List<String>): Flow<List<Task>> = callbackFlow {
+        if (studentGroupIdentifiers.isEmpty()) {
+            trySend(emptyList<Task>()).isSuccess
+            close()
+            return@callbackFlow
+        }
+
         val tasksCollection = database.collection("tasks")
         val listener = tasksCollection
             .whereArrayContainsAny("groups", studentGroupIdentifiers)
@@ -33,8 +39,8 @@ class StudentTaskListRepositoryImpl(
                     }
                 }
             }
+
         listenersManagerViewModel.addNewListener(listener)
         awaitClose { listener.remove() }
     }
-
 }
