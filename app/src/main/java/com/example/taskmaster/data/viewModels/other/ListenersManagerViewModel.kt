@@ -26,6 +26,6 @@ class ListenersManagerViewModel(private val database: FirebaseFirestore, private
         }
         database.terminate().await()
         database.clearPersistence().await()
-        app.reinitializeKoin()
+        app.reinitializeKoinFirebaseModule()
     }
 }

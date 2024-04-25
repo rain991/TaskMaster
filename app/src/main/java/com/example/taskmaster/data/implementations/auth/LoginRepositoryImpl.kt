@@ -2,21 +2,23 @@ package com.example.taskmaster.data.implementations.auth
 
 import android.util.Log
 import androidx.navigation.NavController
-import com.example.taskmaster.data.constants.AUTH_DEBUG_TAG
-import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.domain.repositories.login.LoginRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 
 class LoginRepositoryImpl(private val database: FirebaseFirestore, private val auth: FirebaseAuth) : LoginRepository {
     override suspend fun loginUser(email: String, password: String, navController: NavController) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
-                Log.d(AUTH_DEBUG_TAG, "User : $email successfully login")
-                navController.navigate(Screen.TaskScreen.route)
+                Log.d(COMMON_DEBUG_TAG, "LoginRepositoryImpl : $email successfully login")
+                //     navController.navigate(Screen.TaskScreen.route)
+
+                Log.d(COMMON_DEBUG_TAG, "LoginRepositoryImpl : $email UI redirected in repository")
             } else {
-                Log.d(AUTH_DEBUG_TAG, "User : $email incorrect login")
+                Log.d(COMMON_DEBUG_TAG, "User : $email incorrect login")
             }
         }
     }
@@ -25,24 +27,33 @@ class LoginRepositoryImpl(private val database: FirebaseFirestore, private val a
         return auth.currentUser != null
     }
 
+    private var userTypeReinstantiationCounter = 0
     override suspend fun getCurrentUserType(): String? {
+        if (auth.currentUser == null && userTypeReinstantiationCounter < 10) {
+            delay(200)
+            userTypeReinstantiationCounter
+            getCurrentUserType()
+            Log.d(COMMON_DEBUG_TAG, "userTypeReinstantiationCounter : $userTypeReinstantiationCounter")
+            return null
+        }
         val currentUser = auth.currentUser ?: return null
         val uid = currentUser.uid
         val userCollection = database.collection("users")
-        val querySnapshot = userCollection.whereEqualTo("uid", uid).get().await()
-        val userDocuments = querySnapshot.documents
-        return if (userDocuments.isNotEmpty()) {
-            val userType = userDocuments[0].getString("userType")
-            userType
-        } else {
+        // Use get().addOnSuccessListener instead of get().await() to handle the query result
+        return try {
+            val querySnapshot = userCollection.whereEqualTo("uid", uid).get().await()
+            val userDocuments = querySnapshot.documents
+            if (userDocuments.isNotEmpty()) {
+                val userType = userDocuments[0].getString("userType")
+                Log.d(COMMON_DEBUG_TAG, "User type fetched : $userType")
+                userType
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            // Handle any exceptions, such as Firestore being unavailable
+            Log.e(COMMON_DEBUG_TAG, "Error getting user type: ${e.message}")
             null
         }
     }
 }
-//return try {
-//    val snapshot = database.collection("users").document(currentUser.uid).get().await()
-//    snapshot.get(User::class.java)
-//} catch (e: Exception) {
-//    Log.e(AUTH_DEBUG_TAG, "Error getting current user", e)
-//    null
-//}

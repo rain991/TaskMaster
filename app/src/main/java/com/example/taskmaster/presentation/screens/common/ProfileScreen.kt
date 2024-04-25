@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.taskmaster.App
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
@@ -38,6 +39,7 @@ import java.util.Locale
 @Composable
 fun ProfileScreen(navController: NavController) {
     val auth = koinInject<FirebaseAuth>()
+    val app = koinInject<App>()
     val listenersManagerViewModel = koinViewModel<ListenersManagerViewModel>()
     val currentUserDisplayName = auth.currentUser?.displayName
     val currentUserName = currentUserDisplayName?.substringBefore(" ")
@@ -98,7 +100,6 @@ fun ProfileScreen(navController: NavController) {
                 if (auth.currentUser != null) {
                     Button(onClick = {
                         coroutineScope.launch {
-                            listenersManagerViewModel.removeAllListenersAndTerminateDatabase()
                             auth.signOut()
                         }
                     }) {
@@ -109,4 +110,5 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
-}
+}    //   app.reinitializeKoin()
+// listenersManagerViewModel.removeAllListenersAndTerminateDatabase()

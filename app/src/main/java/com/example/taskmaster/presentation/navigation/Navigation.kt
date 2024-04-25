@@ -52,6 +52,8 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
                 StudentTasksScreen(navController)
             } else if (currentUserType == UserTypes.Teacher) {
                 TeacherTasksScreen(navController)
+            }else{
+                ScreenPlaceholder()
             }
         }
         composable(route = Screen.FinishedScreen.route) {

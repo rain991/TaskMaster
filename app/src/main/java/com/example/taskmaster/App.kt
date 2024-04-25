@@ -16,11 +16,11 @@ class App : Application(), KoinComponent {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
             // workManagerFactory()
-            modules(listOf(appModule, domainModule, viewModelModule))
+            modules(listOf(firebaseModule, appModule, domainModule, viewModelModule))
         }
     }
-    fun reinitializeKoin() {
-        unloadKoinModules(listOf(appModule, domainModule, viewModelModule))
-        loadKoinModules(listOf(appModule, domainModule, viewModelModule))
+    fun reinitializeKoinFirebaseModule() {
+        unloadKoinModules(listOf(firebaseModule))
+        loadKoinModules(listOf(firebaseModule))
     }
 }

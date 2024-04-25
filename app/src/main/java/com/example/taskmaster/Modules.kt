@@ -32,20 +32,23 @@ import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+
+val firebaseModule = module {
+    factory<FirebaseAuth> { FirebaseAuth.getInstance() }
+    factory<FirebaseFirestore> { FirebaseFirestore.getInstance() }
+    factory<FirebaseStorage> { FirebaseStorage.getInstance() }
+}
+
 val appModule = module {
-    // App and Firebase
+    // App
     single<App> { App() }
-    single<FirebaseAuth> { FirebaseAuth.getInstance() }
-    single<FirebaseFirestore> { Firebase.firestore }
-    single<FirebaseStorage> { FirebaseStorage.getInstance() }
+
     // Auth
     single<LoginRepositoryImpl> { LoginRepositoryImpl(get(), get()) }
     single<RegisterRepositoryImpl> { RegisterRepositoryImpl(get(), get()) }
