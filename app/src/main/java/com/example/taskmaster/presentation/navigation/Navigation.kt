@@ -14,6 +14,7 @@ import com.example.taskmaster.presentation.screens.common.ResetPasswordScreen
 import com.example.taskmaster.presentation.screens.common.ScreenPlaceholder
 import com.example.taskmaster.presentation.screens.student.StudentFinishedTasksScreen
 import com.example.taskmaster.presentation.screens.student.StudentGroupsScreen
+import com.example.taskmaster.presentation.screens.student.StudentTaskAnswerScreen
 import com.example.taskmaster.presentation.screens.student.StudentTasksScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupCreateScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupDetailedScreen
@@ -55,6 +56,9 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
             }else{
                 ScreenPlaceholder()
             }
+        }
+        composable(route = Screen.StudentTaskAnswerScreen.route) {
+            StudentTaskAnswerScreen(navController = navController)
         }
         composable(route = Screen.FinishedScreen.route) {
             if (currentUserType == UserTypes.Student) {

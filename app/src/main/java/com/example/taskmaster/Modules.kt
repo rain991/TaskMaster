@@ -6,7 +6,7 @@ import com.example.taskmaster.data.implementations.core.other.PersonRepositoryIm
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -65,7 +65,7 @@ val appModule = module {
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
     single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl(get()) }
 
-    single<StudentTaskRepositoryImpl> { StudentTaskRepositoryImpl(get()) }
+    single<StudentAnswerRepositoryImpl> { StudentAnswerRepositoryImpl(get(),get()) }
     single<StudentTaskListRepositoryImpl> { StudentTaskListRepositoryImpl(get(), get()) }
     // Common
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }

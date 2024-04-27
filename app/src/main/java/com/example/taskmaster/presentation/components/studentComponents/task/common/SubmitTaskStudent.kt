@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -13,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,10 +21,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -42,13 +38,10 @@ fun SubmitTaskStudent(
     onBackButton: () -> Unit,
     onDownloadAll: () -> Unit
 ) {  // functions will be deleted and got in straight way from Viewmodel
-
-    Card(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
+            .fillMaxSize()
     ) {
-        var teacherName by remember{ mutableStateOf("") }
         LaunchedEffect(key1 = Unit) {
 
         }
@@ -85,8 +78,29 @@ fun SubmitTaskStudent(
         }
         Spacer(modifier = Modifier.height(8.dp))
         StudentFilesRow(/*params*/) // FROM VM
-        Spacer(modifier = Modifier.height(8.dp))
-        ButtonsRow()
+        Spacer(modifier = Modifier.weight(1f))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            OutlinedButton(
+                modifier = Modifier.scale(0.8f),
+                onClick = { /*TODO*/ }
+            ) {
+                Text("Unattach files")
+            }
+            OutlinedButton(
+                modifier = Modifier.scale(0.8f),
+                onClick = {
+                    /*TODO*/
+                }) {
+                Text("Attach files")
+            }
+            FilledTonalButton(onClick = { /*TODO*/ }, modifier = Modifier.scale(0.8f)) {
+                Text("Submit")
+            }
+        }
     }
 }
 
@@ -125,31 +139,3 @@ private fun StudentFilesRow(
         }
     }
 }
-
-@Composable
-private fun ButtonsRow() {  // VM in params
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        OutlinedButton(
-            modifier = Modifier.scale(0.8f),
-            onClick = { /*TODO*/ }
-        ) {
-            Text("Unattach files")
-        }
-        OutlinedButton(
-            modifier = Modifier.scale(0.8f),
-            onClick = {
-                /*TODO*/
-            }) {
-            Text("Attach files")
-        }
-        FilledTonalButton(onClick = { /*TODO*/ }, modifier = Modifier.scale(0.8f)) {
-            Text("Submit")
-        }
-    }
-}
-
-
