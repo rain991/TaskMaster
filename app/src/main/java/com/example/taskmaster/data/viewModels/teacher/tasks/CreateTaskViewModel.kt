@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskmaster.data.constants.TASK_MINIMUM_DEADLINE_MILLIS
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Task
@@ -44,7 +45,7 @@ class CreateTaskViewModel(
 
     suspend fun createTask(context: Context) {
         val currentTimeMillis = System.currentTimeMillis()
-        if (_createTaskScreenState.value.selectedDate != null && _createTaskScreenState.value.selectedDate!! > currentTimeMillis + 600000 && auth.currentUser != null && _createTaskScreenState.value.title != "") {
+        if (_createTaskScreenState.value.selectedDate != null && _createTaskScreenState.value.selectedDate!! > currentTimeMillis + TASK_MINIMUM_DEADLINE_MILLIS && auth.currentUser != null && _createTaskScreenState.value.title != "") {
             if (_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()) {
                 val selectedGroupIdentifiers = teacherGroups.filter { group ->
                     _createTaskScreenState.value.listOfSelectedGroupNames.contains(group.name)
@@ -67,7 +68,7 @@ class CreateTaskViewModel(
                 setWarningMessage("You should attach task files or add any task description")
             }
             if (_createTaskScreenState.value.selectedDate == null) {
-                setWarningMessage("Task minimum deadline is 10 minutes")
+                setWarningMessage("Task minimum deadline is ${TASK_MINIMUM_DEADLINE_MILLIS/60000} minutes")
             }
         }
     }

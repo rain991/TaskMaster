@@ -70,7 +70,7 @@ fun TeacherTaskScreenComponent() {
                         TeacherTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher].toString(),
                             taskName = currentTaskItem.name,
-                            groupName = groupMessage!!,
+                            groupName = groupMessage ?: "",
                             endDate = currentTaskItem.endDate
                         ) {
 
