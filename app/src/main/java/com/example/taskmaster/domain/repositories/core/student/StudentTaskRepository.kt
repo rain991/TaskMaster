@@ -1,5 +1,7 @@
 package com.example.taskmaster.domain.repositories.core.student
 
-interface StudentTaskRepository {
+import com.example.taskmaster.data.models.entities.StudentAnswer
 
+interface StudentTaskRepository {
+    suspend fun addAnswerToTask(studentAnswer: StudentAnswer)
 }

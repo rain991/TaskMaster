@@ -21,8 +21,8 @@ class CreateTaskViewModel(
 ) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
         CreateTaskScreenState(
-            title = "",
-            description = "",
+            title = "Task title",
+            description = "Description",
             listOfGroupNames = listOf(),
             listOfSelectedGroupNames = listOf(),
             selectedDate = null,
@@ -43,10 +43,9 @@ class CreateTaskViewModel(
     }
 
     suspend fun createTask(context: Context) {
-
-        if (_createTaskScreenState.value.selectedDate != null && auth.currentUser != null && _createTaskScreenState.value.title != "") {
-
-            if(_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()){
+        val currentTimeMillis = System.currentTimeMillis()
+        if (_createTaskScreenState.value.selectedDate != null && _createTaskScreenState.value.selectedDate!! > currentTimeMillis + 600000 && auth.currentUser != null && _createTaskScreenState.value.title != "") {
+            if (_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()) {
                 val selectedGroupIdentifiers = teacherGroups.filter { group ->
                     _createTaskScreenState.value.listOfSelectedGroupNames.contains(group.name)
                 }.map { it.identifier }
@@ -60,16 +59,15 @@ class CreateTaskViewModel(
                 )
                 createTaskUseCase(task = currentTask, localUriFilesList = _createTaskScreenState.value.attachedFiles, context = context)
             }
-
         } else {
-            if(_createTaskScreenState.value.title == ""){
-                setWarningMessage("Incorrect task title")
+            if (_createTaskScreenState.value.title == "") {
+                setWarningMessage("Task title should not be empty")
             }
-            if(_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()){
+            if (_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()) {
                 setWarningMessage("You should attach task files or add any task description")
             }
-            if(_createTaskScreenState.value.selectedDate == null){
-                setWarningMessage("Incorrect task deadline")
+            if (_createTaskScreenState.value.selectedDate == null) {
+                setWarningMessage("Task minimum deadline is 10 minutes")
             }
         }
     }

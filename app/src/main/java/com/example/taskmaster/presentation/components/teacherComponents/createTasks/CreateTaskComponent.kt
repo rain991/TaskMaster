@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
@@ -44,6 +45,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.components.files.getFileName
@@ -114,8 +117,7 @@ fun CreateTaskComponent() {
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.14.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                emptyTextLabel = "Task title"
+                )
             ) {
                 viewModel.setTitle(it)
             }
@@ -136,8 +138,7 @@ fun CreateTaskComponent() {
                     fontSize = 14.sp,
                     letterSpacing = 1.16.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                emptyTextLabel = "Description"
+                )
             ) {
                 viewModel.setDescription(it)
             }
@@ -274,7 +275,6 @@ private fun AmountInput(
     controller: SoftwareKeyboardController?,
     currentText: String,
     textStyle: TextStyle,
-    emptyTextLabel: String,
     onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -284,24 +284,17 @@ private fun AmountInput(
             .width(IntrinsicSize.Min)
             .padding(start = 6.dp),
         textStyle = textStyle,
-        value = if (currentText == "") {
-            emptyTextLabel
-        } else {
-            currentText
-        },
+        value = currentText
+        ,
         onValueChange = { newText ->
-            if (newText == emptyTextLabel) {
-                onValueChange("")
-            } else {
-                onValueChange(newText)
-            }
+            onValueChange(newText)
         },
         keyboardActions = KeyboardActions(
             onDone = {
                 controller?.hide()
                 focusManager.clearFocus()
             }
-        )
+        ), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
     )
 }
 

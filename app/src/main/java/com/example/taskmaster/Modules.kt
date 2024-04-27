@@ -65,7 +65,7 @@ val appModule = module {
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
     single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl(get()) }
 
-    single<StudentTaskRepositoryImpl> { StudentTaskRepositoryImpl() }
+    single<StudentTaskRepositoryImpl> { StudentTaskRepositoryImpl(get()) }
     single<StudentTaskListRepositoryImpl> { StudentTaskListRepositoryImpl(get(), get()) }
     // Common
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
