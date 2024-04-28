@@ -67,7 +67,7 @@ class CreateTaskViewModel(
             if (_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()) {
                 setWarningMessage("You should attach task files or add any task description")
             }
-            if (_createTaskScreenState.value.selectedDate == null) {
+            if (_createTaskScreenState.value.selectedDate == null && _createTaskScreenState.value.selectedDate!! <= currentTimeMillis + TASK_MINIMUM_DEADLINE_MILLIS) {
                 setWarningMessage("Task minimum deadline is ${TASK_MINIMUM_DEADLINE_MILLIS/60000} minutes")
             }
         }
