@@ -73,7 +73,7 @@ fun CreateTaskComponent() {
     val focusRequester = remember { FocusRequester() }
     val selectFileActivity =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
-            val filesToAdd = result.take(5).filter { fileUri ->
+            val filesToAdd = result.take(MAX_FILES_TO_SELECT).filter { fileUri ->
                 if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
                     true
                 } else {
@@ -86,7 +86,7 @@ fun CreateTaskComponent() {
                 }
             }
 
-            val newAttachedFiles = if (screenState.value.attachedFiles != null) {
+            val newAttachedFiles = if (screenState.value.attachedFiles.isNotEmpty()) {
                 (screenState.value.attachedFiles + filesToAdd).take(MAX_FILES_TO_SELECT)
             } else {
                 filesToAdd.take(MAX_FILES_TO_SELECT)

@@ -2,6 +2,7 @@ package com.example.taskmaster.data.viewModels.student.answers
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.data.components.files.FileDownloader
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Task
@@ -24,6 +25,8 @@ class StudentAnswerScreenViewModel(
     )
     val studentAnswerScreenState = _studentAnswerScreenState.asStateFlow()
 
+    private val fileDownloader = FileDownloader()
+
     suspend fun addAnswer() {
 
     }
@@ -35,14 +38,24 @@ class StudentAnswerScreenViewModel(
     }
 
     suspend fun downloadTaskFiles() {
-
+        if(_studentAnswerScreenState.value.currentTask?.relatedFilesURL?.isNotEmpty() == true){
+            _studentAnswerScreenState.value.currentTask?.relatedFilesURL!!.forEachIndexed { index, url ->
+                val fileName = url.substringAfter("files%2F").substringBefore("?alt")
+                if(fileName.length<2){
+                    fileDownloader.downloadFile(url, "File $index")
+                }else{
+                    fileDownloader.downloadFile(url, fileName)
+                }
+            }
+        }
     }
 
-    fun attachFiles(){
-
-    }
     fun unAttachStudentFiles() {
-
+        if(_studentAnswerScreenState.value.studentFiles.isNotEmpty()){
+            _studentAnswerScreenState.value = studentAnswerScreenState.value.copy(studentFiles = emptyList())
+        }else{
+            setWarningMessage("You have not attached files")
+        }
     }
 
     fun setCurrentAnswerTask(task: Task) {
@@ -61,7 +74,7 @@ class StudentAnswerScreenViewModel(
         _studentAnswerScreenState.value = studentAnswerScreenState.value.copy(warningMessage = null)
     }
 
-    private fun setWarningMessage(value: String) {
+     fun setWarningMessage(value: String) {
         _studentAnswerScreenState.value = studentAnswerScreenState.value.copy(warningMessage = value)
     }
 }

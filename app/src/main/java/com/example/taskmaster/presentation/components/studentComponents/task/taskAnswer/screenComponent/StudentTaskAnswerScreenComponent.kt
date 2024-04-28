@@ -1,5 +1,9 @@
 package com.example.taskmaster.presentation.components.studentComponents.task.taskAnswer.screenComponent
 
+import android.Manifest
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,11 +26,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.data.components.files.FileDownloader
+import com.example.taskmaster.data.components.files.checkReadFromStoragePermission
+import com.example.taskmaster.data.components.files.getFileName
+import com.example.taskmaster.data.components.files.getFileSize
 import com.example.taskmaster.data.constants.FILE_NAME_SUBSTRING_EDGE
+import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
+import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
 import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import kotlinx.coroutines.launch
@@ -37,6 +48,48 @@ fun StudentTaskAnswerScreenComponent() {
     val viewModel = koinViewModel<StudentAnswerScreenViewModel>()
     val currentScreenState = viewModel.studentAnswerScreenState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val localContext = LocalContext.current
+    val mimeTypeFilter = arrayOf("*/*")
+
+    val selectFileActivity =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
+            val filesToAdd = result.take(MAX_FILES_TO_SELECT).filter { fileUri ->
+                if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
+                    true
+                } else {
+                    Toast.makeText(
+                        localContext,
+                        "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    false
+                }
+            }
+
+            val newAttachedFiles = if (currentScreenState.value.studentFiles.isNotEmpty()) {
+                (currentScreenState.value.studentFiles + filesToAdd).take(MAX_FILES_TO_SELECT)
+            } else {
+                filesToAdd.take(MAX_FILES_TO_SELECT)
+            }
+
+            viewModel.setAnswerFiles(newAttachedFiles)
+        }
+
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+
+        } else {
+            viewModel.setWarningMessage("You have not granted storage access permissions")
+        }
+    }
+
+    if (currentScreenState.value.warningMessage != null) {
+        Toast.makeText(localContext, currentScreenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+        viewModel.deleteWarningMessage()
+    }
+
     if (currentScreenState.value.currentTask == null) {
         Column(
             modifier = Modifier
@@ -141,7 +194,11 @@ fun StudentTaskAnswerScreenComponent() {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Button(onClick = {
                     coroutineScope.launch {
-                        viewModel.downloadTaskFiles()
+                        if (!checkReadFromStoragePermission(localContext)) {
+                            requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        } else {
+                            viewModel.downloadTaskFiles()
+                        }
                     }
                 }) {
                     Text(text = "Download", style = MaterialTheme.typography.bodyMedium)
@@ -200,7 +257,7 @@ fun StudentTaskAnswerScreenComponent() {
                 OutlinedButton(
                     modifier = Modifier.scale(0.8f),
                     onClick = {
-                        /*TODO*/
+                        selectFileActivity.launch(mimeTypeFilter)
                     }) {
                     Text("Attach files")
                 }
