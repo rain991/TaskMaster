@@ -1,8 +1,5 @@
 package com.example.taskmaster.presentation.components.studentComponents.task.taskAnswer.screenComponent
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,10 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.components.files.getFileSize
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.constants.ANSWER_MAX_LENGTH
 import com.example.taskmaster.data.constants.FILE_NAME_SUBSTRING_EDGE
 import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
 import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
@@ -50,7 +46,6 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
     val coroutineScope = rememberCoroutineScope()
     val localContext = LocalContext.current
     val mimeTypeFilter = arrayOf("*/*")
-    val permissionState = rememberPermissionState(permission = Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val selectFileActivity = rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
         val filesToAdd = result.take(MAX_FILES_TO_SELECT).filter { fileUri ->
             if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
@@ -73,17 +68,6 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
         viewModel.setAnswerFiles(newAttachedFiles)
     }
 
-    Log.d(COMMON_DEBUG_TAG, "StudentTaskAnswerScreenComponent: current task : ${currentScreenState.value.currentTask}")
-
-    val requestPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            Log.d(COMMON_DEBUG_TAG, "StudentTaskAnswerScreenComponent: permissions granted1")
-        } else {
-            viewModel.setWarningMessage("You have not granted storage access permissions")
-        }
-    }
 
     if (currentScreenState.value.warningMessage != null) {
         Toast.makeText(localContext, currentScreenState.value.warningMessage, Toast.LENGTH_SHORT).show()
@@ -175,16 +159,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Button(onClick = {
                         coroutineScope.launch {
-                            if (ContextCompat.checkSelfPermission(
-                                    localContext,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE
-                                ) != PackageManager.PERMISSION_GRANTED
-                            ) {
-                                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                                Log.d(COMMON_DEBUG_TAG, "StudentTaskAnswerScreenComponent: permissions requested")
-                            } else {
-                                viewModel.downloadTaskFiles()
-                            }
+                            viewModel.downloadTaskFiles()
                         }
                     }) {
                         Text(text = "Download", style = MaterialTheme.typography.bodyMedium)
@@ -211,7 +186,9 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
             Text(text = "Your answer:", style = MaterialTheme.typography.titleSmall)
             Spacer(modifier = Modifier.height(8.dp))
             GradientInputTextField(value = currentScreenState.value.studentAnswer, label = "Answer goes here", onValueChange = {
-                viewModel.setStudentAnswer(it)
+               if(it.length < ANSWER_MAX_LENGTH){
+                   viewModel.setStudentAnswer(it)
+               }
             }, maxLines = 8)
             Spacer(modifier = Modifier.height(16.dp))
 
