@@ -6,17 +6,16 @@ import android.os.Environment
 import androidx.core.net.toUri
 
 class FileDownloader(
-    private val context: Context
+   context: Context
 ): Downloader {
 
     private val downloadManager = context.getSystemService(DownloadManager::class.java)
 
     override fun downloadFile(url: String): Long {
         val request = DownloadManager.Request(url.toUri())
-            .setMimeType("image/jpeg")
+            .setMimeType("*/*")
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setTitle("image.jpg")
             .addRequestHeader("Authorization", "Bearer <token>")
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "image.jpg")
         return downloadManager.enqueue(request)

@@ -30,7 +30,7 @@ class StudentAnswerScreenViewModel(
     )
     val studentAnswerScreenState = _studentAnswerScreenState.asStateFlow()
 
-    private val fileDownloader = FileDownloader()
+    private val fileDownloader = FileDownloader(context)
 
     suspend fun addAnswer() {
 
@@ -42,7 +42,7 @@ class StudentAnswerScreenViewModel(
         }
     }
 
-    suspend fun downloadTaskFiles() {
+    fun downloadTaskFiles() {
         if (_studentAnswerScreenState.value.currentTask?.relatedFilesURL?.isNotEmpty() == true) {
             _studentAnswerScreenState.value.currentTask?.relatedFilesURL!!.forEachIndexed { index, url ->
                 val fileName = url.substringAfter("files%2F").substringBefore("?alt")
