@@ -36,6 +36,7 @@ import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -103,7 +104,7 @@ val viewModelModule = module {
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
     viewModel { StudentTasksViewModel(get(), get(), get(), get()) }
-    viewModel { StudentAnswerScreenViewModel(get(),get())}
+    viewModel { StudentAnswerScreenViewModel(get(),get(), androidContext())}
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }

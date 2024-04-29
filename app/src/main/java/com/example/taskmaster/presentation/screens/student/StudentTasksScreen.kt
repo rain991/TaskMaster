@@ -16,6 +16,7 @@ import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.studentComponents.task.unfinished.screenComponent.StudentTaskScreenComponent
@@ -24,7 +25,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun StudentTasksScreen(navController: NavController) {
+fun StudentTasksScreen(navController: NavController, studentAnswerScreenViewModel : StudentAnswerScreenViewModel) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
@@ -56,7 +57,7 @@ fun StudentTasksScreen(navController: NavController) {
         )
         {
             // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
-            StudentTaskScreenComponent(navController)
+            StudentTaskScreenComponent(navController, studentAnswerScreenViewModel)
         }
     }
 }

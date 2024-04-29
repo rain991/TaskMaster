@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.studentComponents.task.unfinished.screenComponent
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,13 +25,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
 import com.example.taskmaster.presentation.components.studentComponents.task.unfinished.uiComponents.StudentTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun StudentTaskScreenComponent(navController: NavController) {
+fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreenViewModel : StudentAnswerScreenViewModel) {
     val localContext = LocalContext.current
     val studentTaskScreenViewModel = koinViewModel<StudentTasksViewModel>()
     val lazyListState = rememberLazyListState()
@@ -78,7 +81,11 @@ fun StudentTaskScreenComponent(navController: NavController) {
                             taskName = currentTaskItem.name,
                             groupName = groupName,
                             endDate = currentTaskItem.endDate,
-                            onSubmitTask = { navController.navigate(Screen.StudentTaskAnswerScreen.route) })
+                            onSubmitTask = {
+                                Log.d(COMMON_DEBUG_TAG, "StudentTaskScreenComponent: currentTaskItem set : $currentTaskItem ")
+                                studentAnswerScreenViewModel.setCurrentAnswerTask(currentTaskItem)
+                                navController.navigate(Screen.StudentTaskAnswerScreen.route)
+                            })
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }

@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.presentation.screens.common.LoginScreen
 import com.example.taskmaster.presentation.screens.common.ProfileScreen
@@ -29,6 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: UserTypes?) {
     val navController = rememberNavController()
     val groupDetailedViewModel = koinViewModel<GroupDetailedScreenViewModel>()
+    val taskAnswerViewModel = koinViewModel<StudentAnswerScreenViewModel>()
     NavHost(
         navController = navController,
         startDestination = startDestination  // startDestination
@@ -50,7 +52,7 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {
-                StudentTasksScreen(navController)
+                StudentTasksScreen(navController , taskAnswerViewModel)
             } else if (currentUserType == UserTypes.Teacher) {
                 TeacherTasksScreen(navController)
             }else{
@@ -58,7 +60,7 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
             }
         }
         composable(route = Screen.StudentTaskAnswerScreen.route) {
-            StudentTaskAnswerScreen(navController = navController)
+            StudentTaskAnswerScreen(navController = navController, viewModel = taskAnswerViewModel)
         }
         composable(route = Screen.FinishedScreen.route) {
             if (currentUserType == UserTypes.Student) {

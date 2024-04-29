@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
     private val auth: FirebaseAuth by inject()
@@ -29,20 +28,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val app = koinInject<App>()
             val coroutineScope = rememberCoroutineScope()
             var isLogined by remember { mutableStateOf(false) }
             var currentUserType by remember { mutableStateOf<UserTypes?>(null) }
             var isLoading by remember { mutableStateOf(true) }
-
             if (isLoading) {
                 ScreenPlaceholder()
-                Log.d(COMMON_DEBUG_TAG, "onCreate: SCREEN PLACEHOLDER CALLED")
-                Log.d(COMMON_DEBUG_TAG, "onCreate: current user type  (placeholder): ${currentUserType?.name}")
             } else {
-                Log.d(COMMON_DEBUG_TAG, "onCreate: current user type : ${currentUserType?.name}")
-                Log.d(COMMON_DEBUG_TAG, "onCreate: user uid : ${auth.currentUser?.uid}")
-                Log.d(COMMON_DEBUG_TAG, "onCreate: NAVIGATION CALLED")
                 TaskMasterTheme {
                     Navigation(
                         isLogined = isLogined,

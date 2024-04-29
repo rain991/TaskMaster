@@ -76,5 +76,4 @@ class GroupDetailedScreenViewModel(
     private fun setWarningMessage(value: String) {
         _warningMessage.value = value
     }
-
 }
