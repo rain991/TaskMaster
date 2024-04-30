@@ -53,6 +53,8 @@ import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.components.files.getFileSize
 import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
 import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
+import com.example.taskmaster.data.constants.TASK_DESCRIPTION_MAX_LENGTH
+import com.example.taskmaster.data.constants.TASK_NAME_MAX_LENGTH
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -119,7 +121,9 @@ fun CreateTaskComponent() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             ) {
-                viewModel.setTitle(it)
+                if(it.length<TASK_NAME_MAX_LENGTH){
+                    viewModel.setTitle(it)
+                }
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -140,7 +144,9 @@ fun CreateTaskComponent() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             ) {
-                viewModel.setDescription(it)
+                if(it.length < TASK_DESCRIPTION_MAX_LENGTH){
+                    viewModel.setDescription(it)
+                }
             }
         }
         Spacer(modifier = Modifier.weight(1f))

@@ -7,7 +7,7 @@ data class StudentAnswer(
     val studentUid: String,
     val answer: String?,
     val teacherComment: String? = null,
-    val fileUrls: List<String> = listOf() // it is list of URL firebase storage reference, dont use this for local URI
+    val fileUrls: List<String> // it is list of URL firebase storage reference, dont use this for local URI
 ) {
-    constructor() : this(false, "", "", null, "", listOf<String>())
+    constructor() : this(false, "", "", null, null, listOf<String>())
 }

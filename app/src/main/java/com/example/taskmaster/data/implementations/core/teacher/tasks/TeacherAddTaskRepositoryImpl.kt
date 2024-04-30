@@ -19,15 +19,17 @@ class TeacherAddTaskRepositoryImpl(private val database: FirebaseFirestore, priv
     TeacherAddTaskRepository {
     override suspend fun addTask(task: Task, localUriFilesList: List<Uri>, context: Context) {
         val tasksReference = database.collection("tasks")
+        val taskId = database.collection("tasks").document().id
+        val taskWithId = task.copy(identifier = taskId)
         val storageUrlList = addFilesToStorage(localUriFilesList, context)
-        val taskWithActualURLList = task.copy(relatedFilesURL = storageUrlList)
+        val taskWithActualURLList = taskWithId.copy(relatedFilesURL = storageUrlList)
         tasksReference.add(taskWithActualURLList).addOnCompleteListener {
             Log.d(COMMON_DEBUG_TAG, "Successful adding new task")
             Toast.makeText(context, "Successful adding new task", Toast.LENGTH_LONG).show()
         }.addOnFailureListener { exception ->
-                Log.d(COMMON_DEBUG_TAG, "Error adding new task: ", exception)
-                Toast.makeText(context, "Error adding new task ${exception.message}", Toast.LENGTH_LONG).show()
-            }
+            Log.d(COMMON_DEBUG_TAG, "Error adding new task: ", exception)
+            Toast.makeText(context, "Error adding new task ${exception.message}", Toast.LENGTH_LONG).show()
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.taskmaster.data.models.entities
 
 data class Task(
+    val identifier: String,
     val name: String,
     val description: String,
     val groups: List<String>,
@@ -8,6 +9,6 @@ data class Task(
     val relatedFilesURL: List<String>, // it is list of URL firebase storage reference, dont use this for local URI
     val endDate: Long   // (in app java.util.date or timeMillis)
 ){
-    constructor() : this("", "", listOf<String>(), "", listOf<String>(), 0)
+    constructor() : this("","", "", listOf<String>(), "", listOf<String>(), 0)
 }
 

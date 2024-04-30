@@ -51,6 +51,7 @@ class CreateTaskViewModel(
                     _createTaskScreenState.value.listOfSelectedGroupNames.contains(group.name)
                 }.map { it.identifier }
                 val currentTask = Task(
+                    identifier = "",
                     name = _createTaskScreenState.value.title,
                     description = _createTaskScreenState.value.description,
                     groups = selectedGroupIdentifiers,

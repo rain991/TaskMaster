@@ -3,21 +3,25 @@ package com.example.taskmaster.data.viewModels.student.answers
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.components.files.FileDownloader
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
-import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
+import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.models.entities.Task
+import com.example.taskmaster.domain.useCases.student.SubmitTaskUseCase
 import com.example.taskmaster.presentation.states.student.StudentAnswerScreenState
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class StudentAnswerScreenViewModel(
-    private val studentAnswerRepositoryImpl: StudentAnswerRepositoryImpl,
+    private val submitTaskUseCase: SubmitTaskUseCase,
     private val teacherTaskRepositoryImpl: TeacherTaskRepositoryImpl,
-    context : Context
+    private val auth: FirebaseAuth,
+    context: Context
 ) : ViewModel() {
     private val _studentAnswerScreenState = MutableStateFlow(
         StudentAnswerScreenState(
@@ -32,8 +36,27 @@ class StudentAnswerScreenViewModel(
 
     private val fileDownloader = FileDownloader(context)
 
-    suspend fun addAnswer() {
+    suspend fun addAnswer(localContext: Context) {
+        if (auth.currentUser?.uid != null && _studentAnswerScreenState.value.currentTask?.identifier != null) {
 
+            if (_studentAnswerScreenState.value.studentAnswer != "" || _studentAnswerScreenState.value.studentFiles.isNotEmpty()) {
+                val studentAnswer = StudentAnswer(
+                    isAccepted = false,
+                    taskIdentifier = _studentAnswerScreenState.value.currentTask!!.identifier,
+                    studentUid = auth.currentUser!!.uid,
+                    answer = _studentAnswerScreenState.value.studentAnswer,
+                    teacherComment = null,
+                    fileUrls = listOf()
+                )
+                submitTaskUseCase(studentAnswer, _studentAnswerScreenState.value.studentFiles, localContext)
+                resetScreenState()
+            } else {
+                Toast.makeText(localContext, "Answer should not be empty or contain at least 1 file", Toast.LENGTH_SHORT).show()
+            }
+
+        } else {
+            Toast.makeText(localContext, "Authentication error", Toast.LENGTH_SHORT).show()
+        }
     }
 
     suspend fun fetchTeacherName() {
@@ -84,7 +107,15 @@ class StudentAnswerScreenViewModel(
     fun setWarningMessage(value: String) {
         _studentAnswerScreenState.value = _studentAnswerScreenState.value.copy(warningMessage = value)
     }
-    private fun setTeacherFetchedName(value : String){
+
+    private fun setTeacherFetchedName(value: String) {
         _studentAnswerScreenState.value = _studentAnswerScreenState.value.copy(fetchedTeacherName = value)
+    }
+
+    private fun resetScreenState() {
+        _studentAnswerScreenState.value = _studentAnswerScreenState.value.copy(
+            studentAnswer = "",
+            studentFiles = listOf()
+        )
     }
 }

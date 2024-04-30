@@ -59,7 +59,6 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                 false
             }
         }
-
         val newAttachedFiles = if (currentScreenState.value.studentFiles.isNotEmpty()) {
             (currentScreenState.value.studentFiles + filesToAdd).take(MAX_FILES_TO_SELECT)
         } else {
@@ -228,7 +227,6 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                     .fillMaxWidth()
                     .wrapContentHeight(), horizontalArrangement = Arrangement.End
             ) {
-
                 if (currentScreenState.value.studentFiles.isNotEmpty()) {
                     OutlinedButton(
                         modifier = Modifier,
@@ -248,7 +246,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                 Spacer(modifier = Modifier.width(8.dp))
                 FilledTonalButton(onClick = {
                     coroutineScope.launch {
-                        viewModel.addAnswer()
+                        viewModel.addAnswer(localContext)
                     }
                 }, modifier = Modifier) {
                     Text("Submit")

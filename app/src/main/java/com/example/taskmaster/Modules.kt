@@ -29,6 +29,7 @@ import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewM
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
 import com.example.taskmaster.domain.useCases.student.AddToGroupByIdentifierUseCase
+import com.example.taskmaster.domain.useCases.student.SubmitTaskUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
@@ -69,7 +70,7 @@ val appModule = module {
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
     single<StudentGroupRepositoryImpl> { StudentGroupRepositoryImpl(get()) }
 
-    single<StudentAnswerRepositoryImpl> { StudentAnswerRepositoryImpl(get(),get()) }
+    single<StudentAnswerRepositoryImpl> { StudentAnswerRepositoryImpl(get(), get()) }
     single<StudentTaskListRepositoryImpl> { StudentTaskListRepositoryImpl(get(), get()) }
 
     // Common
@@ -83,6 +84,7 @@ val domainModule = module {
 
     // Student
     single<AddToGroupByIdentifierUseCase> { AddToGroupByIdentifierUseCase(get()) }
+    single<SubmitTaskUseCase> { SubmitTaskUseCase(get()) }
 
     // Teacher
     single<CreateTaskUseCase> { CreateTaskUseCase(get()) }
@@ -104,7 +106,7 @@ val viewModelModule = module {
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
     viewModel { StudentTasksViewModel(get(), get(), get(), get()) }
-    viewModel { StudentAnswerScreenViewModel(get(),get(), androidContext())}
+    viewModel { StudentAnswerScreenViewModel(get(), get(),get(), androidContext()) }
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
