@@ -8,7 +8,7 @@ import com.example.taskmaster.data.implementations.core.student.groups.StudentGr
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherRelatedAnswerListRepositoryRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherRelatedAnswerListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -17,7 +17,6 @@ import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTas
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.viewModels.auth.LoginScreenViewModel
 import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
-import com.example.taskmaster.data.viewModels.other.FileSelectorViewModel
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
@@ -27,6 +26,7 @@ import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewMode
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.domain.useCases.common.RegisterUseCase
@@ -67,7 +67,7 @@ val appModule = module {
     single<TeacherGroupRepositoryImpl> { TeacherGroupRepositoryImpl(get()) }
 
     single<TeacherSearchRepositoryImpl> { TeacherSearchRepositoryImpl(get()) }
-    single<TeacherRelatedAnswerListRepositoryRepositoryImpl> { TeacherRelatedAnswerListRepositoryRepositoryImpl(get(), get()) }
+    single<TeacherRelatedAnswerListRepositoryImpl> { TeacherRelatedAnswerListRepositoryImpl(get(), get(), get()) }
 
     // Student
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
@@ -105,11 +105,10 @@ val viewModelModule = module {
 
     // Common
     viewModel { ScreenManagerViewModel(get(), get()) }
-    viewModel { FileSelectorViewModel() }
 
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
-    viewModel { StudentTasksViewModel(get(), get(), get(), get(),get()) }
+    viewModel { StudentTasksViewModel(get(), get(), get(), get(), get()) }
     viewModel { StudentAnswerScreenViewModel(get(), get(), get(), androidContext()) }
 
     // Teacher
@@ -118,4 +117,5 @@ val viewModelModule = module {
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
+    viewModel { TeacherTaskDetailedViewModel(get(),get(),get()) }
 }

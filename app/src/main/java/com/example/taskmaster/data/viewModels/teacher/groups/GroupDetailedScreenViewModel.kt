@@ -33,7 +33,6 @@ class GroupDetailedScreenViewModel(
     }
 
     suspend fun setCurrentDetailedGroup(group: Group?) {
-        // _currentDetailedGroup.value = group
         if (group != null) {
             groupsListRepositoryImpl.getTeacherGroup(group.teacher, group.identifier).collect{
                 _currentDetailedGroup.value = it

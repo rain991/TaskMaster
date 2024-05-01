@@ -19,20 +19,19 @@ import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.component.GroupDetailedScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherGroupDetailedScreen(navController: NavController, viewModel: GroupDetailedScreenViewModel) {
+fun TeacherTaskDetailedScreen(navController: NavController, viewModel: GroupDetailedScreenViewModel) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     LaunchedEffect(key1 = Unit) {
-        screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
+        screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.TaskDetailedScreen)
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -56,7 +55,9 @@ fun TeacherGroupDetailedScreen(navController: NavController, viewModel: GroupDet
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            GroupDetailedScreenComponent(viewModel)
+            //GroupDetailedScreenComponent(viewModel)
+
+
         }
     }
 }
