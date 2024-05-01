@@ -31,7 +31,7 @@ import com.example.taskmaster.presentation.components.studentComponents.task.unf
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreenViewModel : StudentAnswerScreenViewModel) {
+fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreenViewModel: StudentAnswerScreenViewModel) {
     val localContext = LocalContext.current
     val studentTaskScreenViewModel = koinViewModel<StudentTasksViewModel>()
     val lazyListState = rememberLazyListState()
@@ -82,7 +82,9 @@ fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreen
                             onSubmitTask = {
                                 studentAnswerScreenViewModel.setCurrentAnswerTask(currentTaskItem)
                                 navController.navigate(Screen.StudentTaskAnswerScreen.route)
-                            })
+                            },
+                            isSubmitted = false
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }

@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
             auth.addAuthStateListener { state ->
+                isLoading = true
                 Log.d(COMMON_DEBUG_TAG, "onCreate: auth state changed")
                 val currentUserUID = state.currentUser?.uid
                 if(currentUserUID == null){

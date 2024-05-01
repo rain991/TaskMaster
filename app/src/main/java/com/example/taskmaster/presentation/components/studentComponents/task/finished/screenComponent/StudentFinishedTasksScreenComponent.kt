@@ -33,6 +33,7 @@ fun StudentFinishedTasksScreenComponent() {
     val studentTaskScreenViewModel = koinViewModel<StudentTasksViewModel>()
     val lazyListState = rememberLazyListState()
     val unFinishedTaskList = studentTaskScreenViewModel.finishedTasksList
+    val studentAnswers = studentTaskScreenViewModel.studentAnswersList
     val teacherUidToNameMap = studentTaskScreenViewModel.teacherUidToNameMap
     val warningMessage = studentTaskScreenViewModel.warningMessage.collectAsState()
     LaunchedEffect(key1 = Unit) {
@@ -64,23 +65,20 @@ fun StudentFinishedTasksScreenComponent() {
                 LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
                     items(count = unFinishedTaskList.size) { itemIndex ->
                         val currentTaskItem = unFinishedTaskList[itemIndex]
-                        val listOfStudentGroupsIdentifiers = studentTaskScreenViewModel.studentGroups.map { group -> group.identifier }
-                        val unfinishedTasksGroupsIdentifier = studentTaskScreenViewModel.unfinishedTasksList.flatMap { it.groups }
-                        val taskRelatedGroupIdentifier = listOfStudentGroupsIdentifiers.first { identifier ->
-                            unfinishedTasksGroupsIdentifier.any { unfinishedIdentifier ->
-                                identifier.contains(unfinishedIdentifier)
-                            }
+                        val isSubmitted = studentAnswers.map { it.taskIdentifier }.contains(currentTaskItem.identifier)
+                        val studentAnswer = studentAnswers.firstOrNull { it.taskIdentifier == currentTaskItem.identifier }
+                        val taskRelatedGroup = studentTaskScreenViewModel.studentGroups.firstOrNull { group ->
+                            studentTaskScreenViewModel.finishedTasksList
+                                .flatMap { it.groups }
+                                .contains(group.identifier)
                         }
-                        val taskRelatedGroup =
-                            studentTaskScreenViewModel.studentGroups.first { it.identifier == taskRelatedGroupIdentifier }
-
-                        val groupName = taskRelatedGroup.name ?: ""
+                        val groupName = taskRelatedGroup?.name ?: ""
                         StudentFinishedTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher] ?: "",
                             taskName = currentTaskItem.name,
                             groupName = groupName,
-                            grade = 5,  // warning HARDCODED
-                            isSubmitted = true // warning HARDCODED
+                            grade = studentAnswer?.grade?.toString(),
+                            isSubmitted = isSubmitted
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }

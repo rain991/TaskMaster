@@ -8,7 +8,7 @@ import com.example.taskmaster.data.implementations.core.student.groups.StudentGr
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
-import com.example.taskmaster.data.implementations.core.teacher.TeacherRelatedAnswerListRepositoryRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherRelatedAnswerListRepositoryRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -109,7 +109,7 @@ val viewModelModule = module {
 
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
-    viewModel { StudentTasksViewModel(get(), get(), get(), get()) }
+    viewModel { StudentTasksViewModel(get(), get(), get(), get(),get()) }
     viewModel { StudentAnswerScreenViewModel(get(), get(), get(), androidContext()) }
 
     // Teacher

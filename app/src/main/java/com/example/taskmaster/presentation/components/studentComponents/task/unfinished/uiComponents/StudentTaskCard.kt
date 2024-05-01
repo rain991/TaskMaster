@@ -37,7 +37,8 @@ fun StudentTaskCard(
     groupName: String,
     endDate: Long,
     onSubmitTask: () -> Unit,
-    isSubmitted: Boolean = false
+    isSubmitted: Boolean = false,
+    grade : Float = 0f
 ) {  // for expired and current tasks, also for already submitted
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
     val timeLeft = getTimeRemaining(endDate)
@@ -72,7 +73,7 @@ fun StudentTaskCard(
                         text = if (!isSubmitted) {
                             timeLeft
                         } else {
-                            "Already submitted"
+                            "Grade: no grade yet"   // WARNING Place for grade
                         }
                     )
                 }

@@ -32,7 +32,7 @@ fun StudentFinishedTaskCard(
     teacherName: String,
     taskName: String,
     groupName: String,
-    grade: Int?,
+    grade: String?,
     isSubmitted: Boolean
 ) {  // for expired and current tasks, also for already submitted
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
@@ -88,21 +88,17 @@ fun StudentFinishedTaskCard(
                 if (isSubmitted) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "task is submitted",
+                        contentDescription = "Task is submitted",
                         modifier = Modifier.scale(1.3f)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Submitted")
                 } else {
                     Box(modifier = Modifier.wrapContentWidth()) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "task is not submitted",
+                            contentDescription = "Task is not submitted",
                             modifier = Modifier.scale(1.3f)
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Not submitted")
                 }
             }
         }

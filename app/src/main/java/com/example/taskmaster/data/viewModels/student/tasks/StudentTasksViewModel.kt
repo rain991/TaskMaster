@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.constants.FINISHED_TASKS_DATA_REQUEST_TIME
+import com.example.taskmaster.data.implementations.core.student.answers.StudentsRelatedAnswerListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
+import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.models.entities.Task
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
@@ -23,6 +25,7 @@ class StudentTasksViewModel(
     private val studentTaskListRepositoryImpl: StudentTaskListRepositoryImpl,
     private val studentGroupListRepositoryImpl: StudentGroupListRepositoryImpl,
     private val teacherTaskRepositoryImpl: TeacherTaskRepositoryImpl,
+    private val studentsRelatedAnswerListRepositoryImpl: StudentsRelatedAnswerListRepositoryImpl,
     private val auth: FirebaseAuth
 ) : ViewModel() {
     private val _unfinishedTasksList = mutableStateListOf<Task>()
@@ -30,6 +33,9 @@ class StudentTasksViewModel(
 
     private val _finishedTasksList = mutableStateListOf<Task>()
     val finishedTasksList: List<Task> = _finishedTasksList
+
+    private val _studentAnswersList = mutableStateListOf<StudentAnswer>()
+    val studentAnswersList: List<StudentAnswer> = _studentAnswersList
 
     private val _studentGroups = mutableStateListOf<Group>()
     val studentGroups: List<Group> = _studentGroups
@@ -47,21 +53,29 @@ class StudentTasksViewModel(
         viewModelScope.launch {
             if (currentUser?.email != null) {
                 val currentTimeMillis = System.currentTimeMillis()
-                studentGroupListRepositoryImpl.getStudentGroups(currentUser.email!!).collect {
-                    setStudentGroupList(it)
+                studentGroupListRepositoryImpl.getStudentGroups(currentUser.email!!).collect { groups ->
+
+                    setStudentGroupList(groups)
                     setAllStudentTasksList(
                         studentTaskListRepositoryImpl.getStudentTasks(_studentGroups.toList().map { it.identifier }).first()
                     )
-                    setFinishedTaskList(allStudentTasks.toList().filter { it.endDate < currentTimeMillis })
-                    setUnfinishedTaskList(allStudentTasks.toList().filter { it.endDate >= currentTimeMillis })
-
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: tasklist size : ${allStudentTasks.size}")
+                    setStudentsAnswerList(
+                        studentsRelatedAnswerListRepositoryImpl.getStudentRelatedAnswerList(auth.currentUser!!.uid).first()
+                    )
+                    setFinishedTaskList(
+                        allStudentTasks.toList().filter { task ->
+                            task.endDate < currentTimeMillis || studentAnswersList.map { answer -> answer.taskIdentifier }
+                                .contains(task.identifier)
+                        })
+                    setUnfinishedTaskList(allStudentTasks.toList().filter { it.endDate >= currentTimeMillis }
+                        .filter { it -> !studentAnswersList.map { it.taskIdentifier }.contains(it.identifier) })
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: taskList size : ${allStudentTasks.size}")
                     Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: groupList size : ${_studentGroups.size}")
                     Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: unfinished tasks list size : ${_unfinishedTasksList.size}")
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: finished tasks list size : ${_finishedTasksList.size}")
+                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: answers list size : ${studentAnswersList.size}")
                 }
-
-
-            }else{
+            } else {
                 setWarningMessage("Invalid current user")
             }
         }
@@ -131,5 +145,10 @@ class StudentTasksViewModel(
     private fun setAllStudentTasksList(value: List<Task>) {
         allStudentTasks.clear()
         allStudentTasks.addAll(value)
+    }
+
+    private fun setStudentsAnswerList(value: List<StudentAnswer>) {
+        _studentAnswersList.clear()
+        _studentAnswersList.addAll(value)
     }
 }

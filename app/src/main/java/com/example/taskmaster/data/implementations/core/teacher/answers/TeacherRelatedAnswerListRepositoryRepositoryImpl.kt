@@ -1,4 +1,4 @@
-package com.example.taskmaster.data.implementations.core.teacher
+package com.example.taskmaster.data.implementations.core.teacher.answers
 
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
@@ -13,6 +13,11 @@ class TeacherRelatedAnswerListRepositoryRepositoryImpl(
     private val listenersManagerViewModel: ListenersManagerViewModel
 ) : TeacherRelatedAnswerListRepository {
     override suspend fun getTeacherRelatedAnswerList(teacherTaskIdentifiers : List<String>) = callbackFlow {
+        if(teacherTaskIdentifiers.isEmpty()){
+            trySend(emptyList<StudentAnswer>())
+            close()
+            return@callbackFlow
+        }
         val answersCollection = database.collection("answers")
         val listener = answersCollection
             .whereArrayContains("taskIdentifier", teacherTaskIdentifiers)

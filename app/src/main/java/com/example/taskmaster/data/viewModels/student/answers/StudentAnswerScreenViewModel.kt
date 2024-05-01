@@ -46,7 +46,8 @@ class StudentAnswerScreenViewModel(
                     studentUid = auth.currentUser!!.uid,
                     answer = _studentAnswerScreenState.value.studentAnswer,
                     teacherComment = null,
-                    fileUrls = listOf()
+                    grade = 0f,
+                    fileUrls = listOf<String>()
                 )
                 submitTaskUseCase(studentAnswer, _studentAnswerScreenState.value.studentFiles, localContext)
                 resetScreenState()
