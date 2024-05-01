@@ -3,10 +3,12 @@ package com.example.taskmaster
 import com.example.taskmaster.data.implementations.auth.LoginRepositoryImpl
 import com.example.taskmaster.data.implementations.auth.RegisterRepositoryImpl
 import com.example.taskmaster.data.implementations.core.other.PersonRepositoryImpl
+import com.example.taskmaster.data.implementations.core.student.answers.StudentsRelatedAnswerListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentAnswerRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.tasks.StudentTaskListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.TeacherRelatedAnswerListRepositoryRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
@@ -65,6 +67,7 @@ val appModule = module {
     single<TeacherGroupRepositoryImpl> { TeacherGroupRepositoryImpl(get()) }
 
     single<TeacherSearchRepositoryImpl> { TeacherSearchRepositoryImpl(get()) }
+    single<TeacherRelatedAnswerListRepositoryRepositoryImpl> { TeacherRelatedAnswerListRepositoryRepositoryImpl(get(), get()) }
 
     // Student
     single<StudentGroupListRepositoryImpl> { StudentGroupListRepositoryImpl(get(), get()) }
@@ -72,6 +75,7 @@ val appModule = module {
 
     single<StudentAnswerRepositoryImpl> { StudentAnswerRepositoryImpl(get(), get()) }
     single<StudentTaskListRepositoryImpl> { StudentTaskListRepositoryImpl(get(), get()) }
+    single<StudentsRelatedAnswerListRepositoryImpl> { StudentsRelatedAnswerListRepositoryImpl(get(), get()) }
 
     // Common
     single<PersonRepositoryImpl> { PersonRepositoryImpl(get()) }
@@ -106,7 +110,7 @@ val viewModelModule = module {
     // Student
     viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
     viewModel { StudentTasksViewModel(get(), get(), get(), get()) }
-    viewModel { StudentAnswerScreenViewModel(get(), get(),get(), androidContext()) }
+    viewModel { StudentAnswerScreenViewModel(get(), get(), get(), androidContext()) }
 
     // Teacher
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }

@@ -1,6 +1,5 @@
 package com.example.taskmaster.presentation.components.studentComponents.task.unfinished.screenComponent
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
@@ -82,7 +80,6 @@ fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreen
                             groupName = groupName,
                             endDate = currentTaskItem.endDate,
                             onSubmitTask = {
-                                Log.d(COMMON_DEBUG_TAG, "StudentTaskScreenComponent: currentTaskItem set : $currentTaskItem ")
                                 studentAnswerScreenViewModel.setCurrentAnswerTask(currentTaskItem)
                                 navController.navigate(Screen.StudentTaskAnswerScreen.route)
                             })
