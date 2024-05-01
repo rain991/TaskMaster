@@ -45,7 +45,7 @@ class StudentAnswerScreenViewModel(
                     taskIdentifier = _studentAnswerScreenState.value.currentTask!!.identifier,
                     studentUid = auth.currentUser!!.uid,
                     answer = _studentAnswerScreenState.value.studentAnswer,
-                    teacherComment = null,
+                    teacherComment = "",
                     grade = 0f,
                     fileUrls = listOf<String>()
                 )

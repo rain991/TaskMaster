@@ -5,8 +5,8 @@ data class StudentAnswer(
     val isAccepted: Boolean,
     val taskIdentifier: String,
     val studentUid: String,
-    val answer: String?,
-    val teacherComment: String? = null,
+    val answer: String,
+    val teacherComment: String = "",
     val grade: Float,
     val fileUrls: List<String> // it is list of URL firebase storage reference, dont use this for local URI
 ) {

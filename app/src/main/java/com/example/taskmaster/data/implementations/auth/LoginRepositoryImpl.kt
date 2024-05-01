@@ -14,9 +14,6 @@ class LoginRepositoryImpl(private val database: FirebaseFirestore, private val a
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 Log.d(COMMON_DEBUG_TAG, "LoginRepositoryImpl : $email successfully login")
-                //     navController.navigate(Screen.TaskScreen.route)
-
-                Log.d(COMMON_DEBUG_TAG, "LoginRepositoryImpl : $email UI redirected in repository")
             } else {
                 Log.d(COMMON_DEBUG_TAG, "User : $email incorrect login")
             }
@@ -33,26 +30,21 @@ class LoginRepositoryImpl(private val database: FirebaseFirestore, private val a
             delay(200)
             userTypeReinstantiationCounter
             getCurrentUserType()
-            Log.d(COMMON_DEBUG_TAG, "userTypeReinstantiationCounter : $userTypeReinstantiationCounter")
             return null
         }
         val currentUser = auth.currentUser ?: return null
         val uid = currentUser.uid
         val userCollection = database.collection("users")
-        // Use get().addOnSuccessListener instead of get().await() to handle the query result
         return try {
             val querySnapshot = userCollection.whereEqualTo("uid", uid).get().await()
             val userDocuments = querySnapshot.documents
             if (userDocuments.isNotEmpty()) {
                 val userType = userDocuments[0].getString("userType")
-                Log.d(COMMON_DEBUG_TAG, "User type fetched : $userType")
                 userType
             } else {
                 null
             }
         } catch (e: Exception) {
-            // Handle any exceptions, such as Firestore being unavailable
-            Log.e(COMMON_DEBUG_TAG, "Error getting user type: ${e.message}")
             null
         }
     }

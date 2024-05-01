@@ -33,6 +33,7 @@ fun StudentFinishedTaskCard(
     taskName: String,
     groupName: String,
     grade: String?,
+    teacherComment: String?,
     isSubmitted: Boolean
 ) {  // for expired and current tasks, also for already submitted
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
@@ -59,7 +60,7 @@ fun StudentFinishedTaskCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Group: $groupName")
+                    Text(text = "Group: $groupName", style = MaterialTheme.typography.titleSmall)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -74,6 +75,16 @@ fun StudentFinishedTaskCard(
                     } else {
                         Text(
                             text = "Grade: you have not submitted any answer", style = MaterialTheme.typography.titleSmall
+                        )
+                    }
+                }
+                if (teacherComment != null) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 4.dp)) {
+                        Text(
+                            text = teacherComment, style = MaterialTheme.typography.bodySmall
                         )
                     }
                 }

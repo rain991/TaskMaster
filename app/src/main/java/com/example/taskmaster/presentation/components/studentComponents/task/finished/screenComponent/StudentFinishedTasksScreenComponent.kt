@@ -78,6 +78,7 @@ fun StudentFinishedTasksScreenComponent() {
                             taskName = currentTaskItem.name,
                             groupName = groupName,
                             grade = studentAnswer?.grade?.toString(),
+                            teacherComment = studentAnswer?.teacherComment,
                             isSubmitted = isSubmitted
                         )
                         Spacer(modifier = Modifier.height(8.dp))
