@@ -86,21 +86,18 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
             Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: currentRelatedTask $currentTask")
             Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: students list size ${studentsList.size}")
             LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
-                //  val studentsUidList = studentsList.map { it.uid }
                 items(count = studentsList.size) { studentIndex ->
                     val currentStudent = studentsList[studentIndex]
                     val currentAnswer = taskRelatedAnswers.find { it.studentUid == currentStudent.uid }
-
                     StudentAnswerCard(
                         studentName = currentStudent.name,
                         studentSurname = currentStudent.surname,
-                        isAssigned = currentAnswer != null
+                        isAssigned = currentAnswer != null,
+                        onCardClick = {
+
+                        }
                     )
-//                    val currentStudentUid = studentsUidList.filter { it == currentAnswer.studentUid }.firstOrNull()
-//                    val currentStudent = studentsList.filter { it.uid == currentStudentUid }.firstOrNull()
-//                    val studentName = currentStudent?.name ?: ""
-//                    val studentSurname = currentStudent?.surname ?: ""
-//                    val isAssigned =
+
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }

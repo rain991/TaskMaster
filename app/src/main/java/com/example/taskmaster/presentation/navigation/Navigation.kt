@@ -8,6 +8,7 @@ import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.presentation.screens.common.LoginScreen
 import com.example.taskmaster.presentation.screens.common.ProfileScreen
@@ -18,6 +19,7 @@ import com.example.taskmaster.presentation.screens.student.StudentFinishedTasksS
 import com.example.taskmaster.presentation.screens.student.StudentGroupsScreen
 import com.example.taskmaster.presentation.screens.student.StudentTaskAnswerScreen
 import com.example.taskmaster.presentation.screens.student.StudentTasksScreen
+import com.example.taskmaster.presentation.screens.teacher.additional.TeacherAnswerDetailedScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupCreateScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherGroupDetailedScreen
 import com.example.taskmaster.presentation.screens.teacher.additional.TeacherTaskDetailedScreen
@@ -34,6 +36,7 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
     val groupDetailedViewModel = koinViewModel<GroupDetailedScreenViewModel>()
     val taskAnswerViewModel = koinViewModel<StudentAnswerScreenViewModel>()
     val teacherTaskDetailedViewModel = koinViewModel<TeacherTaskDetailedViewModel>()
+    val teacherAnswerViewModel = koinViewModel<TeacherAnswerViewModel>()
     NavHost(
         navController = navController,
         startDestination = startDestination  // startDestination
@@ -55,10 +58,10 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
         }
         composable(route = Screen.TaskScreen.route) {
             if (currentUserType == UserTypes.Student) {
-                StudentTasksScreen(navController , taskAnswerViewModel)
+                StudentTasksScreen(navController, taskAnswerViewModel)
             } else if (currentUserType == UserTypes.Teacher) {
                 TeacherTasksScreen(navController, teacherTaskDetailedViewModel)
-            }else{
+            } else {
                 ScreenPlaceholder()
             }
         }
@@ -87,12 +90,19 @@ fun Navigation(isLogined: Boolean, startDestination: String, currentUserType: Us
             TeacherGroupCreateScreen(navController)
         }
 
-        composable(route = Screen.TaskDetailedScreen.route){
-            TeacherTaskDetailedScreen(navController = navController, viewModel = teacherTaskDetailedViewModel)
-        }
-
         composable(route = Screen.GroupDetailedScreen.route) {
             TeacherGroupDetailedScreen(navController, groupDetailedViewModel)
         }
+        composable(route = Screen.TaskDetailedScreen.route) {
+            TeacherTaskDetailedScreen(
+                navController = navController,
+                screenViewmodel = teacherTaskDetailedViewModel,
+                answerDetailedViewModel = teacherAnswerViewModel
+            )
+        }
+        composable(route = Screen.AnswerDetailedScreen.route) {
+            TeacherAnswerDetailedScreen(navController = navController, answerDetailedViewModel = teacherAnswerViewModel)
+        }
+
     }
 }

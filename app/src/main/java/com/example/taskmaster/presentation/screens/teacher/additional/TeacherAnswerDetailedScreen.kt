@@ -1,36 +1,43 @@
 package com.example.taskmaster.presentation.screens.teacher.additional
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
 import com.example.taskmaster.data.constants.TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
-import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
-import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.screenComponents.TeacherTaskDetailedScreenComponent
+import com.example.taskmaster.presentation.components.teacherComponents.answerDetailed.screenComponents.TeacherAnswerDetailedScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherTaskDetailedScreen(
-    navController: NavController,
-    screenViewmodel: TeacherTaskDetailedViewModel,
-    answerDetailedViewModel: TeacherAnswerViewModel
-) {
+fun TeacherAnswerDetailedScreen(navController: NavController, answerDetailedViewModel : TeacherAnswerViewModel) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
@@ -42,9 +49,24 @@ fun TeacherTaskDetailedScreen(
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             if (currentUserName != null) {
-                SimplifiedTopBar(
-                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
-                )
+//                SimplifiedTopBar(
+//                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
+//                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(horizontal = 4.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
+                ) {
+                      Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
+
+                    Spacer(modifier = Modifier.weight(1f))
+                    Image(
+                        painter = painterResource(id = R.drawable.appicon1),
+                        contentDescription = stringResource(R.string.app_icon),
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
             }
         }, bottomBar = {
             TaskMasterBottomBar(
@@ -62,7 +84,8 @@ fun TeacherTaskDetailedScreen(
         )
         {
             //GroupDetailedScreenComponent(viewModel)
-            TeacherTaskDetailedScreenComponent(viewModel = screenViewmodel)
+            //TeacherTaskDetailedScreenComponent(viewModel = viewModel)
+            TeacherAnswerDetailedScreenComponent()
         }
     }
 }

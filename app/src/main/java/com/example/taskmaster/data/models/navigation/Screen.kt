@@ -18,6 +18,7 @@ sealed class Screen(val route: String) {
     object GroupDetailedScreen : Screen("group_detailed_screen")
     object CreateGroupScreen : Screen("create_group_screen")
     object TaskDetailedScreen : Screen("task_detailed_screen")
+    object AnswerDetailedScreen : Screen("answer_detailed_screen")
 
     // Student related
     object StudentTaskAnswerScreen : Screen("student_task_answer_screen")

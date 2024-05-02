@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.uiComponents
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +27,17 @@ import androidx.compose.ui.unit.dp
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 
 @Composable
-fun StudentAnswerCard(studentName: String, studentSurname: String, isAssigned: Boolean) {
+fun StudentAnswerCard(studentName: String, studentSurname: String, isAssigned: Boolean, onCardClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable { onCardClick() }
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
             CircleWithText(text = studentSurname.substring(0, 1) + studentName.substring(0, 1), modifier = Modifier.size(40.dp))
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.wrapContentWidth(), verticalArrangement = Arrangement.SpaceEvenly) {

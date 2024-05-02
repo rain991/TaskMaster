@@ -26,6 +26,7 @@ import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewMode
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
@@ -117,5 +118,6 @@ val viewModelModule = module {
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
-    viewModel { TeacherTaskDetailedViewModel(get(),get(),get(),get()) }
+    viewModel { TeacherTaskDetailedViewModel(get(), get(), get(), get()) }
+    viewModel { TeacherAnswerViewModel() }
 }
