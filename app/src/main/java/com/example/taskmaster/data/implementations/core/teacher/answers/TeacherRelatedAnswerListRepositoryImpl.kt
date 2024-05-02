@@ -1,6 +1,7 @@
 package com.example.taskmaster.data.implementations.core.teacher.answers
 
 import android.util.Log
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
@@ -19,15 +20,14 @@ class TeacherRelatedAnswerListRepositoryImpl(
     private val teacherSearchRepositoryImpl: TeacherSearchRepositoryImpl,
     private val listenersManagerViewModel: ListenersManagerViewModel
 ) : TeacherRelatedAnswerListRepository {
-    override suspend fun getTeacherRelatedAnswerList(teacherTaskIdentifiers : List<String>) = callbackFlow {
-        if(teacherTaskIdentifiers.isEmpty()){
+    override suspend fun getTeacherRelatedAnswerList(teacherTaskIdentifiers : List<String>) = callbackFlow {         if(teacherTaskIdentifiers.isEmpty()){
             trySend(emptyList<StudentAnswer>())
             close()
             return@callbackFlow
         }
         val answersCollection = database.collection("answers")
         val listener = answersCollection
-            .whereArrayContains("taskIdentifier", teacherTaskIdentifiers)
+            .whereIn("taskIdentifier", teacherTaskIdentifiers)
             .addSnapshotListener { querySnapshot, exception ->
                 if (exception != null) {
                     close(exception)
@@ -38,6 +38,7 @@ class TeacherRelatedAnswerListRepositoryImpl(
                         val answers = querySnapshot.documents.mapNotNull { document ->
                             document.toObject<StudentAnswer>()
                         }
+                        Log.d(COMMON_DEBUG_TAG, "getTeacherRelatedAnswerList: answers size is ${answers.size}")
                         trySend(answers).isSuccess
                     } catch (e: Exception) {
                         close(e)

@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.uiComponents.StudentAnswerCard
@@ -32,6 +33,9 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
     val studentsList = viewModel.studentsList
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
+    LaunchedEffect(key1 = Unit) {
+        viewModel.initializeAllTeacherRelatedAnswers()
+    }
     if (currentTask.value == null) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -48,8 +52,15 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
+                    text = "Task answers",
+                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 32.sp)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                Text(
                     text = currentTask.value?.name ?: "",
-                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
+                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 26.sp)
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))

@@ -11,8 +11,8 @@ import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.models.entities.Task
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class TeacherTaskDetailedViewModel(
@@ -23,7 +23,7 @@ class TeacherTaskDetailedViewModel(
 ) :
     ViewModel() {
     private val _currentTask = MutableStateFlow<Task?>(null)
-    val currentTask = _currentTask.asSharedFlow()
+    val currentTask = _currentTask.asStateFlow()
 
     private val _taskRelatedAnswers = mutableStateListOf<StudentAnswer>()
     val taskRelatedAnswers: List<StudentAnswer> = _taskRelatedAnswers
@@ -35,34 +35,17 @@ class TeacherTaskDetailedViewModel(
 
     init {
         viewModelScope.launch {
-            _currentTask.collect{currentTask ->
-                if(currentTask!=null){
-                    teacherTaskListRepositoryImpl.getTeacherTasks(auth.currentUser?.uid!!).collect { listOfTeacherTasks ->
-                        allTeacherRelatedAnswers.clear()
-                        allTeacherRelatedAnswers.addAll(
-                            teacherRelatedAnswerListRepositoryImpl.getTeacherRelatedAnswerList(
-                                listOfTeacherTasks.map { it.identifier }).first()
-                        )
-                        if(_currentTask.value != null){
-                            setStudentsList(teacherRelatedAnswerListRepositoryImpl.getAllStudentsFromGroups(listOfRelatedGroupsIdentifiers = _currentTask.value!!.groups))
-                            setTaskRelatedAnswers(allTeacherRelatedAnswers.filter { studentAnswer ->
-                                studentAnswer.taskIdentifier == _currentTask.value!!.identifier
-                            })
-                        }
-                    }
-
-
-                }else{
-
+            _currentTask.collect { currentTask ->
+              //  initializeAllTeacherRelatedAnswers()
+                if (currentTask != null) {
+                    setStudentsList(teacherRelatedAnswerListRepositoryImpl.getAllStudentsFromGroups(listOfRelatedGroupsIdentifiers = _currentTask.value!!.groups))
+                    setTaskRelatedAnswers(allTeacherRelatedAnswers.filter { studentAnswer ->
+                        studentAnswer.taskIdentifier == _currentTask.value!!.identifier
+                    })
+                } else {
+                    clearAllLists()
                 }
             }
-
-
-
-//            if (auth.currentUser?.uid != null    /*_currentTask.value != null*/ /* && _currentTask.value?.groups?.isNotEmpty() == true && auth.currentUser?.uid != null*/) {
-//             //   Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedViewModel: viewModelScope")
-//
-//            }
         }
     }
 
@@ -70,17 +53,37 @@ class TeacherTaskDetailedViewModel(
         return teacherTaskRepositoryImpl.getGroupNameByIdentifier(groupIdentifier)
     }
 
+    suspend fun initializeAllTeacherRelatedAnswers() {
+        teacherTaskListRepositoryImpl.getTeacherTasks(auth.currentUser?.uid!!).collect { listOfTeacherTasks ->
+            teacherRelatedAnswerListRepositoryImpl.getTeacherRelatedAnswerList(
+                listOfTeacherTasks.map { it.identifier }).collect {
+                setAllTeacherRelatedAnswersList(it)
+            }
+        }
+    }
+
     fun setCurrentTask(value: Task?) {
-        _currentTask.value = value
+        _currentTask.update { value }
     }
 
     private fun setTaskRelatedAnswers(value: List<StudentAnswer>) {
         _taskRelatedAnswers.clear()
         _taskRelatedAnswers.addAll(value)
+
     }
 
     private fun setStudentsList(value: List<Student>) {
         _studentsList.clear()
         _studentsList.addAll(value)
+    }
+
+    private fun setAllTeacherRelatedAnswersList(value: List<StudentAnswer>) {
+        allTeacherRelatedAnswers.clear()
+        allTeacherRelatedAnswers.addAll(value)
+    }
+
+    private fun clearAllLists() {
+        _studentsList.clear()
+        // _taskRelatedAnswers.clear()
     }
 }
