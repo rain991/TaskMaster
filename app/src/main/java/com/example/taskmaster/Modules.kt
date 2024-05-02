@@ -117,5 +117,5 @@ val viewModelModule = module {
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
-    viewModel { TeacherTaskDetailedViewModel(get(),get(),get()) }
+    viewModel { TeacherTaskDetailedViewModel(get(),get(),get(),get()) }
 }

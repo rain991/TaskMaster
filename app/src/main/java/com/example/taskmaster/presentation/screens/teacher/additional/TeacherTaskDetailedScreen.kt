@@ -16,15 +16,16 @@ import com.example.taskmaster.data.constants.TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
-import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
+import com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.screenComponents.TeacherTaskDetailedScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherTaskDetailedScreen(navController: NavController, viewModel: GroupDetailedScreenViewModel) {
+fun TeacherTaskDetailedScreen(navController: NavController, viewModel: TeacherTaskDetailedViewModel) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
@@ -56,8 +57,7 @@ fun TeacherTaskDetailedScreen(navController: NavController, viewModel: GroupDeta
         )
         {
             //GroupDetailedScreenComponent(viewModel)
-
-
+            TeacherTaskDetailedScreenComponent(viewModel = viewModel)
         }
     }
 }

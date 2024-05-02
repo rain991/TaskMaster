@@ -20,12 +20,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.task.TeacherTaskCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TeacherTaskScreenComponent() {
+fun TeacherTaskScreenComponent(navController: NavController, teacherTaskDetailedViewModel: TeacherTaskDetailedViewModel) {
     val taskScreenViewModel = koinViewModel<TeacherTaskListViewModel>()
     val lazyListState = rememberLazyListState()
     val unFinishedTaskList = taskScreenViewModel.unfinishedTasksList
@@ -73,7 +76,8 @@ fun TeacherTaskScreenComponent() {
                             groupName = groupMessage ?: "",
                             endDate = currentTaskItem.endDate
                         ) {
-
+                            teacherTaskDetailedViewModel.setCurrentTask(currentTaskItem)
+                            navController.navigate(Screen.TaskDetailedScreen.route)
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
