@@ -39,6 +39,7 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
     val viewModel = koinViewModel<LoginScreenViewModel>()
     val screenState = viewModel.screenState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val localContext = LocalContext.current
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(40.dp))
         Box(modifier = Modifier.size(220.dp)) {
@@ -75,7 +76,7 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
         }
         Spacer(modifier = Modifier.weight(1f))
         if (screenState.value.warningMessage != null) {
-            Toast.makeText(LocalContext.current, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, screenState.value.warningMessage!!.asString(localContext), Toast.LENGTH_SHORT).show()
             viewModel.deleteWarningMessage()
         }
     }

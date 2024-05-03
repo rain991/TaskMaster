@@ -2,18 +2,16 @@ package com.example.taskmaster.data.viewModels.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.validateEmail
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import com.example.taskmaster.presentation.states.auth.LoginScreenState
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class LoginScreenViewModel(
-    private val loginUseCase: LoginUseCase,
-    private val auth: FirebaseAuth,
-    private val database: FirebaseFirestore
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
     private val _screenState = MutableStateFlow(
         LoginScreenState(
@@ -25,10 +23,12 @@ class LoginScreenViewModel(
 
     suspend fun login(navController: NavController) {
         if (!validateEmail(_screenState.value.email)) {
-            setWarningMessage("Incorrect email")
+            setWarningMessage(UiText(R.string.login_incorrect_email))
+            return
         }
         if (_screenState.value.password.length < 6) {
-            setWarningMessage("Incorrect password")
+            setWarningMessage(UiText(R.string.login_incorrect_password))
+            return
         }
         loginUseCase(email = _screenState.value.email, password = _screenState.value.password, navController = navController)
     }
@@ -45,7 +45,7 @@ class LoginScreenViewModel(
         _screenState.value = screenState.value.copy(warningMessage = null)
     }
 
-    private fun setWarningMessage(value: String?) {
+    private fun setWarningMessage(value: UiText?) {
         _screenState.value = screenState.value.copy(warningMessage = value)
     }
 }

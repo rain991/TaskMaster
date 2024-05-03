@@ -1,6 +1,7 @@
 package com.example.taskmaster.presentation.states.auth
 
 import com.example.taskmaster.data.models.entities.UserTypes
+import com.example.taskmaster.presentation.UiText.UiText
 
 data class RegisterScreenState(
     val userType : UserTypes,
@@ -9,5 +10,5 @@ data class RegisterScreenState(
     val email : String,
     val password : String,
     val repeatPassword: String,
-    val warningMessage : String? = null
+    val warningMessage : UiText? = null
 )

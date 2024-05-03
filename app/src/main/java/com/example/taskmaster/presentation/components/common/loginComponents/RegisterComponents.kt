@@ -46,6 +46,7 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
     val viewModel = koinViewModel<RegisterScreenViewModel>()
     val screenState = viewModel.registerScreenState.collectAsState()
     val registerOptions = listOf(UserTypes.Student, UserTypes.Teacher)
+    val localContext = LocalContext.current
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(24.dp))
         Box(modifier = Modifier.size(220.dp)) {
@@ -117,7 +118,7 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
         Spacer(modifier = Modifier.height(40.dp))
 
         if(screenState.value.warningMessage !=null){
-            Toast.makeText(LocalContext.current, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, screenState.value.warningMessage!!.asString(localContext), Toast.LENGTH_SHORT).show()
             viewModel.deleteWarningMessage()
         }
     }

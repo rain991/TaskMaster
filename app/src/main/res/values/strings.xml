@@ -7,4 +7,10 @@
     <string name="finished">Finished</string>
     <string name="groups">Groups</string>
     <string name="create_task">Create task</string>
+    <string name="login_incorrect_email">Incorrect email</string>
+    <string name="login_incorrect_password">Password length should min.length is 6</string>
+    <string name="register_name_length_error">Your name or surname should be at least 2 characters</string>
+    <string name="registe_prohibited_characters_error">Email shouldn\'t contain prohibited characters</string>
+    <string name="register_repeat_password_does_not_match_error">Repeat password does not match</string>
+    <string name="register_password_length_should_be_at_least_error">Password length should be at least 6</string>
 </resources>

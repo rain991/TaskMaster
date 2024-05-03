@@ -103,7 +103,7 @@ val domainModule = module {
 val viewModelModule = module {
     //Auth
     viewModel { RegisterScreenViewModel(get()) }
-    viewModel { LoginScreenViewModel(get(), get(), get()) }
+    viewModel { LoginScreenViewModel(get()) }
     viewModel { ListenersManagerViewModel(get(), get()) }
 
     // Common

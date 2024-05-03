@@ -23,8 +23,6 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
     )
     val teacherAnswerScreenState = _teacherAnswerScreenState.asStateFlow()
 
-
-
     suspend fun grade() {
         if (_teacherAnswerScreenState.value.currentStudentAnswer != null) {
             if (_teacherAnswerScreenState.value.teacherGrade != 0.0f) {
