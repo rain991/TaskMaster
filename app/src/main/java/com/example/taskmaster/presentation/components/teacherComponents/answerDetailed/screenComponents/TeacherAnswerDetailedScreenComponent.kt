@@ -1,5 +1,6 @@
 package com.example.taskmaster.presentation.components.teacherComponents.answerDetailed.screenComponents
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,10 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             .fillMaxSize()
             .padding(8.dp)
     ) {
+        if(screenState.value.warningMessage!=null){
+            Toast.makeText(localContext, screenState.value.warningMessage,Toast.LENGTH_SHORT).show()
+            answerDetailedViewModel.deleteWarningMessage()
+        }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "Student answer",
@@ -124,11 +129,17 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             Spacer(modifier = Modifier.weight(1f))
             //Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: answers list size ${taskRelatedAnswers.size}")
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                OutlinedButton(onClick = { /*TODO*/ }) {
+                OutlinedButton(onClick = { coroutineScope.launch{
+                    answerDetailedViewModel.sentBack()
+                  //  Toast.makeText(localContext, "Sent back",Toast.LENGTH_SHORT).show()
+                } }) {
                     Text(text = "Send back")
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                FilledTonalButton(onClick = { /*TODO*/ }) {
+                FilledTonalButton(onClick = {coroutineScope.launch {
+                    answerDetailedViewModel.grade()
+                  //  Toast.makeText(localContext, "Added grade",Toast.LENGTH_SHORT).show()
+                } }) {
                     Text(text = "Grade")
                 }
             }
