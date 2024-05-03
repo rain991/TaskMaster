@@ -12,6 +12,7 @@ import com.example.taskmaster.domain.repositories.core.teacher.TeacherRelatedAns
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
@@ -20,7 +21,8 @@ class TeacherRelatedAnswerListRepositoryImpl(
     private val teacherSearchRepositoryImpl: TeacherSearchRepositoryImpl,
     private val listenersManagerViewModel: ListenersManagerViewModel
 ) : TeacherRelatedAnswerListRepository {
-    override suspend fun getTeacherRelatedAnswerList(teacherTaskIdentifiers : List<String>) = callbackFlow {         if(teacherTaskIdentifiers.isEmpty()){
+    override suspend fun getTeacherRelatedAnswerList(teacherTaskIdentifiers : List<String>) = callbackFlow {
+        if(teacherTaskIdentifiers.isEmpty()){
             trySend(emptyList<StudentAnswer>())
             close()
             return@callbackFlow
@@ -93,5 +95,29 @@ class TeacherRelatedAnswerListRepositoryImpl(
             Log.d(QUERY_DEBUG_TAG, "Error fetching groups for teacher", e)
             emptyList()
         }
+    }
+
+    override suspend fun getStudentsEmailsFlowFromGroup(groupIdentifier: String): Flow<List<String>> = callbackFlow{
+        val groupCollection = database.collection("groups")
+        val listener = groupCollection.whereEqualTo("identifier", groupIdentifier)
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    close(exception)
+                    return@addSnapshotListener
+                }
+                if (querySnapshot != null) {
+                    try {
+                        val groups = querySnapshot.documents.mapNotNull { document ->
+                            document.toObject<Group>()
+                        }
+                        val listOfStudentsEmails = groups.flatMap {  it.students }
+                        trySend(listOfStudentsEmails).isSuccess
+                    } catch (e: Exception) {
+                        close(e)
+                    }
+                }
+            }
+        listenersManagerViewModel.addNewListener(listener)
+        awaitClose { listener.remove() }
     }
 }

@@ -77,6 +77,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
-        auth.removeAuthStateListener(authStateListener)
+     //   auth.removeAuthStateListener(authStateListener)
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,9 +43,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
+fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
-    val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val lazyListState = rememberLazyListState()
     val localContext = LocalContext.current
     val currentDetailedGroup = viewModel.currentDetailedGroup.collectAsState()
@@ -53,6 +53,12 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
+    }
+    DisposableEffect(key1 = Unit) {
+        onDispose {
+            viewModel.setCurrentDetailedGroup(null)
+            viewModel.clearStudentsList()
+        }
     }
     if (currentDetailedGroup.value == null) {
         Column(
@@ -63,7 +69,7 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
             Text(text = stringResource(R.string.group_detailed_screen_error1), style = MaterialTheme.typography.titleSmall)
         }
     } else {
-        val listOfGroupStudents = currentDetailedGroup.value!!.students
+        val listOfGroupStudents = viewModel.listOfGroupStudents
         val searchedStudentsList = viewModel.searchedStudentsList
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

@@ -42,6 +42,7 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchCurrentGroups()
+        groupDetailedViewModel.setCurrentDetailedGroup(null)
     }
     if (groupList.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {

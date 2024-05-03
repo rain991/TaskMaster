@@ -9,4 +9,5 @@ interface TeacherRelatedAnswerListRepository {
     suspend fun getAllStudentsFromGroups(listOfRelatedGroupsIdentifiers : List<String>): List<Student>
     suspend fun getStudentsEmailsFromGroup(groupIdentifier : String) : List<String>
 
+    suspend fun getStudentsEmailsFlowFromGroup(groupIdentifier : String) : Flow<List<String>>
 }
