@@ -19,7 +19,7 @@ import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.component.GroupDetailedScreenComponent
+import com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.component.TeacherGroupDetailedScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -33,6 +33,7 @@ fun TeacherGroupDetailedScreen(navController: NavController, viewModel: GroupDet
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
+        viewModel.fetchStudentsList(viewModel.currentDetailedGroup.value?.identifier ?: "")
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -56,7 +57,7 @@ fun TeacherGroupDetailedScreen(navController: NavController, viewModel: GroupDet
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            GroupDetailedScreenComponent(viewModel)
+            TeacherGroupDetailedScreenComponent(viewModel)
         }
     }
 }

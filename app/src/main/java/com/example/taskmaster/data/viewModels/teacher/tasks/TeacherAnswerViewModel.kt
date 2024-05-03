@@ -2,9 +2,11 @@ package com.example.taskmaster.data.viewModels.teacher.tasks
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.FileDownloader
 import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherAnswerRepositoryImpl
 import com.example.taskmaster.data.models.entities.StudentAnswer
+import com.example.taskmaster.presentation.UiText.UiText
 import com.example.taskmaster.presentation.states.teacher.TeacherAnswerScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,8 +25,6 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
     )
     val teacherAnswerScreenState = _teacherAnswerScreenState.asStateFlow()
 
-
-
     suspend fun grade() {
         if (_teacherAnswerScreenState.value.currentStudentAnswer != null) {
             if (_teacherAnswerScreenState.value.teacherGrade != 0.0f) {
@@ -35,7 +35,7 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
                     comment = _teacherAnswerScreenState.value.teacherAnswer
                 )
             } else {
-                setWarningMessage("Grade should not be 0")
+                setWarningMessage(UiText(R.string.teacher_answer_grade_should_not_be_0))
             }
         }
     }
@@ -49,7 +49,7 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
                     comment = _teacherAnswerScreenState.value.teacherAnswer
                 )
             } else {
-                setWarningMessage("Comment should not be empty")
+                setWarningMessage(UiText(R.string.teacher_answer_comment_should_not_be_empty))
             }
         }
     }
@@ -87,7 +87,7 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
         _teacherAnswerScreenState.update { teacherAnswerScreenState.value.copy(fetchedStudentName = value) }
     }
 
-    private fun setWarningMessage(value: String?) {
+    private fun setWarningMessage(value: UiText?) {
         _teacherAnswerScreenState.update { teacherAnswerScreenState.value.copy(warningMessage = value) }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.screenComponents
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,11 +18,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
@@ -46,7 +46,7 @@ fun TeacherTaskDetailedScreenComponent(screenViewModel: TeacherTaskDetailedViewM
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "No selected task")
+                Text(text = stringResource(R.string.teacher_task_detailed_no_selected_task))
             }
         }
     } else {
@@ -55,7 +55,7 @@ fun TeacherTaskDetailedScreenComponent(screenViewModel: TeacherTaskDetailedViewM
         ) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
-                    text = "Task answers",
+                    text = stringResource(R.string.teacher_task_detailed_task_answers),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 32.sp)
                 )
             }
@@ -79,14 +79,11 @@ fun TeacherTaskDetailedScreenComponent(screenViewModel: TeacherTaskDetailedViewM
                     text = if (currentTask.value?.groups?.size == 1) {
                         groupName
                     } else {
-                        "${currentTask.value?.groups?.size} groups assigned"
+                        stringResource(R.string.teacher_task_detailed_groups_assigned, currentTask.value?.groups?.size ?: 0)
                     }, style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: answers list size ${taskRelatedAnswers.size}")
-            Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: currentRelatedTask $currentTask")
-            Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: students list size ${studentsList.size}")
             LazyColumn(modifier = Modifier.fillMaxWidth(), state = lazyListState) {
                 items(count = studentsList.size) { studentIndex ->
                     val currentStudent = studentsList[studentIndex]

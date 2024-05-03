@@ -46,6 +46,7 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
     val viewModel = koinViewModel<RegisterScreenViewModel>()
     val screenState = viewModel.registerScreenState.collectAsState()
     val registerOptions = listOf(UserTypes.Student, UserTypes.Teacher)
+    val localContext = LocalContext.current
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(24.dp))
         Box(modifier = Modifier.size(220.dp)) {
@@ -85,39 +86,39 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(value = screenState.value.name, label = "Name") {
+        GradientInputTextField(value = screenState.value.name, label = stringResource(R.string.name_label)) {
             viewModel.setName(it)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        GradientInputTextField(value = screenState.value.surname, label = "Surname") {
+        GradientInputTextField(value = screenState.value.surname, label = stringResource(R.string.surname_label)) {
             viewModel.setSurname(it)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        GradientInputTextField(value = screenState.value.email, label = "Email") {
+        GradientInputTextField(value = screenState.value.email, label = stringResource(R.string.email_label)) {
             viewModel.setEmail(it)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        GradientInputTextField(value = screenState.value.password, label = "Password", keyboardType = KeyboardType.Password) {
+        GradientInputTextField(value = screenState.value.password, label = stringResource(R.string.password_label), keyboardType = KeyboardType.Password) {
             viewModel.setPassword(it)
         }
         Spacer(modifier = Modifier.height(12.dp))
-        GradientInputTextField(value = screenState.value.repeatPassword, label = "Repeat Password", keyboardType = KeyboardType.Password) {
+        GradientInputTextField(value = screenState.value.repeatPassword, label = stringResource(R.string.repeat_password_label), keyboardType = KeyboardType.Password) {
             viewModel.setRepeatPassword(it)
         }
         Spacer(modifier = Modifier.height(4.dp))
         TextButton(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
-            Text(text = "have account?")
+            Text(text = stringResource(R.string.register_screen_have_account_button))
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { viewModel.tryRegisterNewUser() }) {
             Row(modifier = Modifier.fillMaxWidth(0.36f), horizontalArrangement = Arrangement.Center) {
-                Text(text = "Register")
+                Text(text = stringResource(R.string.register_button))
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
 
         if(screenState.value.warningMessage !=null){
-            Toast.makeText(LocalContext.current, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, screenState.value.warningMessage!!.asString(localContext), Toast.LENGTH_SHORT).show()
             viewModel.deleteWarningMessage()
         }
     }

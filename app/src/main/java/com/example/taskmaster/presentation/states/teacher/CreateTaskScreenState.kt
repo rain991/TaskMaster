@@ -2,6 +2,7 @@ package com.example.taskmaster.presentation.states.teacher
 
 
 import android.net.Uri
+import com.example.taskmaster.presentation.UiText.UiText
 
 data class CreateTaskScreenState (
     val title : String,
@@ -13,5 +14,5 @@ data class CreateTaskScreenState (
     val attachedFiles : List<Uri>,
     val datePickerState : Boolean = false,
     val timePickerState : Boolean = false,
-    val warningMessage : String? = null
+    val warningMessage : UiText? = null
 )

@@ -23,8 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 
 @Composable
@@ -35,7 +37,7 @@ fun StudentFinishedTaskCard(
     grade: String?,
     teacherComment: String?,
     isSubmitted: Boolean
-) {  // for expired and current tasks, also for already submitted
+) {
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
     Card(
         modifier = Modifier
@@ -60,21 +62,21 @@ fun StudentFinishedTaskCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Group: $groupName", style = MaterialTheme.typography.titleSmall)
+                    Text(text = stringResource(R.string.student_finished_task_card_group, groupName), style = MaterialTheme.typography.titleSmall)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
                     if (isSubmitted) {
                         Text(
                             text = if (grade != null) {
-                                "Grade: $grade"
+                                stringResource(R.string.student_finished_task_card_grade, grade)
                             } else {
-                                "Is not graded yet"
+                                stringResource(R.string.student_finished_task_card_no_grade_message)
                             }, style = MaterialTheme.typography.titleSmall
                         )
                     } else {
                         Text(
-                            text = "Grade: you have not submitted any answer", style = MaterialTheme.typography.titleSmall
+                            text = stringResource(R.string.student_finished_task_card_no_submitted_answer), style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }
@@ -99,14 +101,14 @@ fun StudentFinishedTaskCard(
                 if (isSubmitted) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "Task is submitted",
+                        contentDescription = stringResource(R.string.student_finished_task_card_task_submitted_CD),
                         modifier = Modifier.scale(1.3f)
                     )
                 } else {
                     Box(modifier = Modifier.wrapContentWidth()) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "Task is not submitted",
+                            contentDescription = stringResource(R.string.student_finished_task_card_task_not_submitted_CD),
                             modifier = Modifier.scale(1.3f)
                         )
                     }

@@ -9,5 +9,12 @@ const val TASK_DESCRIPTION_MAX_LENGTH = 2000
 // Answer
 const val ANSWER_MAX_LENGTH = 800
 
-//Group
+// Group
 const val GROUP_NAME_MAX_LENGTH = 100
+
+// User
+const val USER_DEFAULT_DESTINATION = "users"
+const val USER_NAME_FIELD = "name"
+const val USER_SURNAME_FIELD = "surname"
+const val USER_UID_FIELD = "uid"
+const val USER_USERTYPE_FIELD = "userType"

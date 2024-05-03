@@ -21,7 +21,7 @@ import com.example.taskmaster.data.viewModels.auth.RegisterScreenViewModel
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.data.viewModels.student.answers.StudentAnswerScreenViewModel
-import com.example.taskmaster.data.viewModels.student.groups.StudentGroupScreenViewModel
+import com.example.taskmaster.data.viewModels.student.groups.StudentGroupViewModel
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
@@ -103,14 +103,14 @@ val domainModule = module {
 val viewModelModule = module {
     //Auth
     viewModel { RegisterScreenViewModel(get()) }
-    viewModel { LoginScreenViewModel(get(), get(), get()) }
+    viewModel { LoginScreenViewModel(get()) }
     viewModel { ListenersManagerViewModel(get(), get()) }
 
     // Common
     viewModel { ScreenManagerViewModel(get(), get()) }
 
     // Student
-    viewModel { StudentGroupScreenViewModel(get(), get(), get(), get()) }
+    viewModel { StudentGroupViewModel(get(), get(), get(), get()) }
     viewModel { StudentTasksViewModel(get(), get(), get(), get(), get()) }
     viewModel { StudentAnswerScreenViewModel(get(), get(), get(), androidContext()) }
 
@@ -118,7 +118,7 @@ val viewModelModule = module {
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
     viewModel { TeacherTaskListViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
-    viewModel { GroupDetailedScreenViewModel(get(), get()) }
+    viewModel { GroupDetailedScreenViewModel(get(), get(),get()) }
     viewModel { CreateTaskViewModel(get(), get(), get()) }
     viewModel { TeacherTaskDetailedViewModel(get(), get(), get(), get()) }
     viewModel { TeacherAnswerViewModel(get()) }

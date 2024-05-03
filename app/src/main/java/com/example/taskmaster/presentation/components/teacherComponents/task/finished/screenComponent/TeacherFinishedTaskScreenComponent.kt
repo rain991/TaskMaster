@@ -1,6 +1,5 @@
 package com.example.taskmaster.presentation.components.teacherComponents.task.finished.screenComponent
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.R
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.task.TeacherTaskCard
 import org.koin.androidx.compose.koinViewModel
@@ -39,7 +39,7 @@ fun TeacherFinishedTaskScreenComponent() {
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = "Finished Tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
+            Text(text = stringResource(id = R.string.finished_tasks_header), style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
         }
         Spacer(modifier = Modifier.height(8.dp))
         if (finishedTaskList.isEmpty()) {
@@ -49,9 +49,9 @@ fun TeacherFinishedTaskScreenComponent() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "You don't have finished tasks")
+                    Text(text = stringResource(R.string.teacher_finished_message1))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Easily create new one using Create Task screen")
+                    Text(text = stringResource(R.string.teacher_finished_message2))
                 }
             }
         } else {
@@ -64,11 +64,10 @@ fun TeacherFinishedTaskScreenComponent() {
                     items(count = finishedTaskList.size) {
                         val currentTaskItem = finishedTaskList[it]
                         val groupMessage = if (currentTaskItem.groups.size > 1) {
-                            "${currentTaskItem.groups.size} groups was assigned"
+                            stringResource(R.string.teacher_finished_groups_was_assigned, currentTaskItem.groups.size)
                         } else {
                             groupIdentifierToNameMap[currentTaskItem.groups.first()]
                         }
-                        Log.d(COMMON_DEBUG_TAG, "FinishedTaskScreenComponent:  groupIdentifierToNameMap size is ${groupIdentifierToNameMap.size}")
                         TeacherTaskCard(
                             teacherName = teacherUidToNameMap[currentTaskItem.teacher].toString(),
                             taskName = currentTaskItem.name,

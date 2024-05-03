@@ -19,10 +19,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
 import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
@@ -40,6 +42,7 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         viewModel.fetchCurrentGroups()
+        groupDetailedViewModel.setCurrentDetailedGroup(null)
     }
     if (groupList.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -48,9 +51,9 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "You don't have group yet.")
+                Text(text = stringResource(R.string.list_of_group_screen_no_group_message))
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "Easily create new one using button below")
+                Text(text = stringResource(R.string.list_of_group_screen_additional_message))
             }
         }
     } else {

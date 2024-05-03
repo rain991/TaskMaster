@@ -23,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 
 @Composable
@@ -49,7 +51,7 @@ fun StudentAnswerCard(studentName: String, studentSurname: String, isAssigned: B
                 Box(modifier = Modifier.wrapContentWidth()) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "already submitted",
+                        contentDescription = stringResource(R.string.student_answer_card_already_submitted_CD),
                         modifier = Modifier.scale(1.3f)
                     )
                 }
@@ -57,7 +59,7 @@ fun StudentAnswerCard(studentName: String, studentSurname: String, isAssigned: B
                 Box(modifier = Modifier.wrapContentWidth()) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "not submitted",
+                        contentDescription = stringResource(R.string.student_answer_card_already_not_submitted_CD),
                         modifier = Modifier.scale(1.3f)
                     )
                 }

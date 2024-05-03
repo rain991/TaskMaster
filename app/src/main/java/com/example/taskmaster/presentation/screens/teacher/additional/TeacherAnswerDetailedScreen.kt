@@ -58,7 +58,7 @@ fun TeacherAnswerDetailedScreen(navController: NavController, answerDetailedView
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Go back",
+                        contentDescription = stringResource(R.string.answer_detailed_screen_go_back),
                         modifier = Modifier
                             .size(36.dp)
                             .clickable { navController.navigate(Screen.TaskDetailedScreen.route) })

@@ -26,11 +26,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmaster.data.components.files.getFileName
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.getFileSize
 import com.example.taskmaster.data.constants.ANSWER_MAX_LENGTH
 import com.example.taskmaster.data.constants.FILE_NAME_SUBSTRING_EDGE
@@ -53,7 +54,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
             } else {
                 Toast.makeText(
                     localContext,
-                    "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
+                    localContext.getText(R.string.create_task_file_size_error),
                     Toast.LENGTH_SHORT
                 ).show()
                 false
@@ -69,7 +70,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
 
 
     if (currentScreenState.value.warningMessage != null) {
-        Toast.makeText(localContext, currentScreenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+        Toast.makeText(localContext, currentScreenState.value.warningMessage?.asString(localContext), Toast.LENGTH_SHORT).show()
         viewModel.deleteWarningMessage()
     }
 
@@ -78,7 +79,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
             modifier = Modifier
                 .fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "There is no selected task to answer", style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(R.string.student_task_answer_no_selected_task), style = MaterialTheme.typography.titleMedium)
         }
     } else {
         Column(
@@ -111,7 +112,10 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                     .fillMaxWidth()
                     .wrapContentHeight(), horizontalArrangement = Arrangement.Start
             ) {
-                Text(text = "Description", style = MaterialTheme.typography.titleSmall)
+                Text(
+                    text = stringResource(R.string.description),
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row(
@@ -134,7 +138,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                     .wrapContentHeight(), horizontalArrangement = Arrangement.Start
             ) {
                 Text(
-                    text = "Task files:",
+                    text = stringResource(R.string.student_task_answer_task_files),
                     style = MaterialTheme.typography.titleSmall
                 )
             }
@@ -147,7 +151,11 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                             .wrapContentHeight(), horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "File $index : ${item.substring(0, FILE_NAME_SUBSTRING_EDGE)}",
+                            text = stringResource(
+                                R.string.student_task_answer_task_current_file,
+                                index,
+                                item.substring(0, FILE_NAME_SUBSTRING_EDGE)
+                            ),
                             style = MaterialTheme.typography.titleSmall
                         )
                         Spacer(modifier = Modifier.height(4.dp))
@@ -161,7 +169,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                             viewModel.downloadTaskFiles()
                         }
                     }) {
-                        Text(text = "Download", style = MaterialTheme.typography.bodyMedium)
+                        Text(text = stringResource(R.string.download), style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             } else {
@@ -171,7 +179,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                         .wrapContentHeight(), horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
-                        text = "There is no task files",
+                        text = stringResource(R.string.there_is_no_task_files),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -182,9 +190,9 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
             HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = MaterialTheme.colorScheme.primary)
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text(text = "Your answer:", style = MaterialTheme.typography.titleSmall)
+            Text(text = stringResource(R.string.student_task_answer_your_answer), style = MaterialTheme.typography.titleSmall)
             Spacer(modifier = Modifier.height(8.dp))
-            GradientInputTextField(value = currentScreenState.value.studentAnswer, label = "Answer goes here", onValueChange = {
+            GradientInputTextField(value = currentScreenState.value.studentAnswer, label = stringResource(R.string.student_task_answer_answer_goes_here), onValueChange = {
                if(it.length < ANSWER_MAX_LENGTH){
                    viewModel.setStudentAnswer(it)
                }
@@ -193,7 +201,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
 
 
 
-            Text(text = "Your attached files:", style = MaterialTheme.typography.titleSmall)
+            Text(text = stringResource(R.string.student_task_answer_your_attached_files), style = MaterialTheme.typography.titleSmall)
             Spacer(modifier = Modifier.height(8.dp))
             if (currentScreenState.value.studentFiles.isNotEmpty()) {
                 currentScreenState.value.studentFiles.forEachIndexed { index, item ->
@@ -203,7 +211,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                             .wrapContentHeight(), horizontalArrangement = Arrangement.Start
                     ) {
                         Text(
-                            text = "File $index : ${item.toString().substring(0, FILE_NAME_SUBSTRING_EDGE)}",
+                            text = stringResource(id = R.string.student_task_answer_task_current_file),
                             style = MaterialTheme.typography.titleSmall
                         )
                         Spacer(modifier = Modifier.height(4.dp))
@@ -216,7 +224,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                         .wrapContentHeight(), horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
-                        text = "You haven't attached files yet",
+                        text = stringResource(R.string.student_task_answer_no_attached_files_message),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -232,7 +240,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                         modifier = Modifier,
                         onClick = { viewModel.unAttachStudentFiles() }
                     ) {
-                        Text("Unattach files")
+                        Text(stringResource(R.string.unattach_files))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                 }
@@ -241,7 +249,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                     onClick = {
                         selectFileActivity.launch(mimeTypeFilter)
                     }) {
-                    Text("Attach files")
+                    Text(stringResource(R.string.attach_files))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 FilledTonalButton(onClick = {
@@ -249,7 +257,7 @@ fun StudentTaskAnswerScreenComponent(viewModel: StudentAnswerScreenViewModel) {
                         viewModel.addAnswer(localContext)
                     }
                 }, modifier = Modifier) {
-                    Text("Submit")
+                    Text(stringResource(R.string.submit))
                 }
             }
         }

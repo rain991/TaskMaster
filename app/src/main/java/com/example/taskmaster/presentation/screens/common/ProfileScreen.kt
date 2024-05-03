@@ -25,22 +25,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.taskmaster.App
 import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
-import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 import java.util.Locale
 
 @Composable
 fun ProfileScreen(navController: NavController) {
     val auth = koinInject<FirebaseAuth>()
-    val app = koinInject<App>()
-    val listenersManagerViewModel = koinViewModel<ListenersManagerViewModel>()
     val currentUserDisplayName = auth.currentUser?.displayName
     val currentUserName = currentUserDisplayName?.substringBefore(" ")
     val currentUserSurname = currentUserDisplayName?.substringAfter(" ")
@@ -53,7 +48,7 @@ fun ProfileScreen(navController: NavController) {
                     .padding(horizontal = 8.dp), horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(onClick = { navController.navigate(Screen.TaskScreen.route) }) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back to main screen")
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.go_back_to_main_screen))
                 }
                 Image(
                     painter = painterResource(id = R.drawable.appicon1),
@@ -110,5 +105,4 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
-}    //   app.reinitializeKoin()
-// listenersManagerViewModel.removeAllListenersAndTerminateDatabase()
+}

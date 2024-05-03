@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskListViewModel
@@ -40,7 +42,7 @@ fun TeacherTaskScreenComponent(navController: NavController, teacherTaskDetailed
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = "Tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
+            Text(text = stringResource(id = R.string.tasks_header), style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -51,9 +53,9 @@ fun TeacherTaskScreenComponent(navController: NavController, teacherTaskDetailed
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "You don't have unfinished tasks")
+                    Text(text = stringResource(R.string.teacher_task_message1))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Easily create new one using Create Task screen")
+                    Text(text = stringResource(R.string.teacher_task_message2))
                 }
             }
         } else {
@@ -66,7 +68,7 @@ fun TeacherTaskScreenComponent(navController: NavController, teacherTaskDetailed
                     items(count = unFinishedTaskList.size) {
                         val currentTaskItem = unFinishedTaskList[it]
                         val groupMessage = if (currentTaskItem.groups.size > 1) {
-                            "${currentTaskItem.groups.size} groups was assigned"
+                            stringResource(R.string.teacher_task_groups_was_assigned, currentTaskItem.groups.size)
                         } else {
                             groupIdentifierToNameMap[currentTaskItem.groups[0]]
                         }

@@ -20,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.taskmaster.R
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 
 @Composable
@@ -60,7 +62,7 @@ fun GroupSelector(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Groups", style = MaterialTheme.typography.titleMedium)
+                    Text(text = stringResource(id = R.string.groups), style = MaterialTheme.typography.titleMedium)
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 LazyColumn(modifier = Modifier.fillMaxWidth(0.64f)) {

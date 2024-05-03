@@ -22,10 +22,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.R
 import com.example.taskmaster.data.constants.ANSWER_MAX_LENGTH
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
@@ -44,12 +46,12 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             .padding(8.dp)
     ) {
         if(screenState.value.warningMessage!=null){
-            Toast.makeText(localContext, screenState.value.warningMessage,Toast.LENGTH_SHORT).show()
+            Toast.makeText(localContext, screenState.value.warningMessage?.asString(localContext),Toast.LENGTH_SHORT).show()
             answerDetailedViewModel.deleteWarningMessage()
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
-                text = "Student answer",
+                text = stringResource(R.string.teacher_answer_detailed_screen_student_answer_header),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 32.sp)
             )
         }
@@ -73,7 +75,7 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             Spacer(modifier = Modifier.weight(1f))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
-                    text = "This student has not assigned any answer",
+                    text = stringResource(R.string.teacher_answer_detailed_screen_no_answer_placer),
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
                 )
             }
@@ -81,7 +83,7 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
         } else {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Student answer:",
+                text = stringResource(R.string.teacher_answer_detailed_screen_student_answer),
                 style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold)
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -97,7 +99,10 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Student attached ${screenState.value.currentStudentAnswer?.fileUrls?.size} files",
+                text = stringResource(
+                    R.string.teacher_answer_detailed_screen_attached_files_counter,
+                    screenState.value.currentStudentAnswer?.fileUrls?.size ?: 0
+                ),
                 style = MaterialTheme.typography.titleSmall
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -108,12 +113,12 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
                     }
                 }
             }) {
-                Text(text = "Download all")
+                Text(text = stringResource(R.string.download_all))
             }
             Spacer(modifier = Modifier.height(16.dp))
             HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = MaterialTheme.colorScheme.primary)
             Spacer(modifier = Modifier.height(16.dp))
-            GradientInputTextField(value = screenState.value.teacherAnswer, label = "Your comment") {
+            GradientInputTextField(value = screenState.value.teacherAnswer, label = stringResource(R.string.teacher_answer_detailed_screen_your_comment)) {
                 if (it.length < ANSWER_MAX_LENGTH) {
                     answerDetailedViewModel.setTeacherAnswer(it)
                 }
@@ -121,26 +126,25 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             Spacer(modifier = Modifier.height(16.dp))
             GradientInputTextField(
                 value = screenState.value.teacherGrade.toString(),
-                label = "Grade",
+                label = stringResource(R.string.grade),
                 keyboardType = KeyboardType.Number
             ) {
                 answerDetailedViewModel.setTeacherGrade(it.toFloat())
             }
             Spacer(modifier = Modifier.weight(1f))
-            //Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: answers list size ${taskRelatedAnswers.size}")
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 OutlinedButton(onClick = { coroutineScope.launch{
                     answerDetailedViewModel.sentBack()
                   //  Toast.makeText(localContext, "Sent back",Toast.LENGTH_SHORT).show()
                 } }) {
-                    Text(text = "Send back")
+                    Text(text = stringResource(R.string.teacher_answer_detailed_screen_send_back))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 FilledTonalButton(onClick = {coroutineScope.launch {
                     answerDetailedViewModel.grade()
                   //  Toast.makeText(localContext, "Added grade",Toast.LENGTH_SHORT).show()
                 } }) {
-                    Text(text = "Grade")
+                    Text(text = stringResource(R.string.grade))
                 }
             }
         }

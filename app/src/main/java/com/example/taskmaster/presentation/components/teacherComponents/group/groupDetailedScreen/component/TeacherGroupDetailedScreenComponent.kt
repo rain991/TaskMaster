@@ -1,6 +1,5 @@
 package com.example.taskmaster.presentation.components.teacherComponents.group.groupDetailedScreen.component
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,15 +23,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.entities.UserTypes
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
@@ -42,9 +43,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
+fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
-    val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val lazyListState = rememberLazyListState()
     val localContext = LocalContext.current
     val currentDetailedGroup = viewModel.currentDetailedGroup.collectAsState()
@@ -54,16 +54,22 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
     }
+    DisposableEffect(key1 = Unit) {
+        onDispose {
+            viewModel.setCurrentDetailedGroup(null)
+            viewModel.clearStudentsList()
+        }
+    }
     if (currentDetailedGroup.value == null) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "There is no current selected group", style = MaterialTheme.typography.titleSmall)
+            Text(text = stringResource(R.string.group_detailed_screen_error1), style = MaterialTheme.typography.titleSmall)
         }
     } else {
-        val listOfGroupStudents = currentDetailedGroup.value!!.students
+        val listOfGroupStudents = viewModel.listOfGroupStudents
         val searchedStudentsList = viewModel.searchedStudentsList
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -74,7 +80,7 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Text(text = "group", style = MaterialTheme.typography.titleSmall)
+                Text(text = stringResource(R.string.group), style = MaterialTheme.typography.titleSmall)
             }
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -87,13 +93,12 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                 onQueryChange = {
                     viewModel.setSearchText(it.trim())
                     viewModel.searchStudent()
-                    Log.d(COMMON_DEBUG_TAG, "GroupDetailedScreenComponent: searched list size: ${searchedStudentsList.size}")
                 },
                 onSearch = {
                         viewModel.searchStudent()
                 },
                 placeholder = {
-                    Text(text = "Search students")
+                    Text(text = stringResource(R.string.group_detailed_search_students))
                 },
                 leadingIcon = {
                     Icon(
@@ -125,7 +130,10 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                                     }) {
                                         Icon(
                                             imageVector = Icons.Default.Clear,
-                                            contentDescription = "delete $currentStudent student from group"
+                                            contentDescription = stringResource(
+                                                R.string.group_detailed_delete_student_from_group_CD,
+                                                currentStudent
+                                            )
                                         )
                                     }
                                 }
@@ -153,7 +161,10 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
                                     }) {
                                         Icon(
                                             imageVector = Icons.Default.Clear,
-                                            contentDescription = "delete $currentStudent student from group"
+                                            contentDescription = stringResource(
+                                                R.string.group_detailed_delete_student_from_group_CD,
+                                                currentStudent
+                                            )
                                         )
                                     }
                                 }
@@ -168,13 +179,13 @@ fun GroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel) {
             Spacer(modifier = Modifier.height(8.dp))
             if (listOfGroupStudents.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Group is empty", style = MaterialTheme.typography.titleMedium)
+                    Text(text = stringResource(R.string.group_detailed_group_is_empty_message), style = MaterialTheme.typography.titleMedium)
                 }
             }
         }
     }
-    if (warningMessage.value != "") {
-        Toast.makeText(localContext, warningMessage.value, Toast.LENGTH_SHORT).show()
+    if (warningMessage.value != null) {
+        Toast.makeText(localContext, warningMessage.value?.asString(localContext), Toast.LENGTH_SHORT).show()
         viewModel.deleteWarningMessage()
     }
 }
