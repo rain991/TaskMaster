@@ -62,7 +62,7 @@ fun TeacherTaskDetailedScreen(
         )
         {
             //GroupDetailedScreenComponent(viewModel)
-            TeacherTaskDetailedScreenComponent(viewModel = screenViewmodel)
+            TeacherTaskDetailedScreenComponent(screenViewModel = screenViewmodel, answerDetailedViewModel = answerDetailedViewModel, navController = navController)
         }
     }
 }

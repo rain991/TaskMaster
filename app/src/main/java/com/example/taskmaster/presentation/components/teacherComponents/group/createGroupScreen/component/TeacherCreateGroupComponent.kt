@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.data.constants.GROUP_NAME_MAX_LENGTH
 import com.example.taskmaster.data.viewModels.teacher.groups.CreateGroupViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import kotlinx.coroutines.launch
@@ -54,7 +55,9 @@ fun TeacherCreateGroupComponent() {
 
         Spacer(modifier = Modifier.height(32.dp))
         GradientInputTextField(value = groupName.value, label = "Group name") {
-            viewModel.setGroupName(it)
+           if(it.length< GROUP_NAME_MAX_LENGTH){
+               viewModel.setGroupName(it)
+           }
         }
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(

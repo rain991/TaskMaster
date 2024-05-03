@@ -8,3 +8,6 @@ const val TASK_DESCRIPTION_MAX_LENGTH = 2000
 
 // Answer
 const val ANSWER_MAX_LENGTH = 800
+
+//Group
+const val GROUP_NAME_MAX_LENGTH = 100

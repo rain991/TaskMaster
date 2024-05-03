@@ -22,19 +22,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.models.navigation.Screen
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherAnswerViewModel
 import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.taskDetailed.uiComponents.StudentAnswerCard
 
 @Composable
-fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) {
-    val currentTask = viewModel.currentTask.collectAsState(initial = null)
-    val taskRelatedAnswers = viewModel.taskRelatedAnswers
-    val studentsList = viewModel.studentsList
+fun TeacherTaskDetailedScreenComponent(screenViewModel: TeacherTaskDetailedViewModel, answerDetailedViewModel : TeacherAnswerViewModel, navController : NavController) {
+    val currentTask = screenViewModel.currentTask.collectAsState(initial = null)
+    val taskRelatedAnswers = screenViewModel.taskRelatedAnswers
+    val studentsList = screenViewModel.studentsList
     val coroutineScope = rememberCoroutineScope()
     val lazyListState = rememberLazyListState()
     LaunchedEffect(key1 = Unit) {
-        viewModel.initializeAllTeacherRelatedAnswers()
+        screenViewModel.initializeAllTeacherRelatedAnswers()
     }
     if (currentTask.value == null) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -69,7 +72,7 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
                 val group = currentTask.value?.groups?.firstOrNull()
                 LaunchedEffect(key1 = Unit) {
                     if (group != null) {
-                        groupName = viewModel.getGroupNameByIdentifier(group)
+                        groupName = screenViewModel.getGroupNameByIdentifier(group)
                     }
                 }
                 Text(
@@ -81,7 +84,6 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-
             Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: answers list size ${taskRelatedAnswers.size}")
             Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: currentRelatedTask $currentTask")
             Log.d(COMMON_DEBUG_TAG, "TeacherTaskDetailedScreenComponent: students list size ${studentsList.size}")
@@ -94,14 +96,14 @@ fun TeacherTaskDetailedScreenComponent(viewModel: TeacherTaskDetailedViewModel) 
                         studentSurname = currentStudent.surname,
                         isAssigned = currentAnswer != null,
                         onCardClick = {
-
+                            answerDetailedViewModel.setCurrentStudentAnswer(currentAnswer)
+                            answerDetailedViewModel.setFetchedStudentName(currentStudent.name + " " + currentStudent.surname)
+                            navController.navigate(Screen.AnswerDetailedScreen.route)
                         }
                     )
-
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
         }
     }
 }

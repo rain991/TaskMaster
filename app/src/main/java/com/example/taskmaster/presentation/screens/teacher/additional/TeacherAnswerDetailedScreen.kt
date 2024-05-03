@@ -1,6 +1,7 @@
 package com.example.taskmaster.presentation.screens.teacher.additional
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,29 +38,30 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherAnswerDetailedScreen(navController: NavController, answerDetailedViewModel : TeacherAnswerViewModel) {
+fun TeacherAnswerDetailedScreen(navController: NavController, answerDetailedViewModel: TeacherAnswerViewModel) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
     val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     LaunchedEffect(key1 = Unit) {
-        screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.TaskDetailedScreen)
+        screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.AnswerDetailedScreen)
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             if (currentUserName != null) {
-//                SimplifiedTopBar(
-//                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
-//                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(horizontal = 4.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically
                 ) {
-                      Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
-
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Go back",
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clickable { navController.navigate(Screen.TaskDetailedScreen.route) })
                     Spacer(modifier = Modifier.weight(1f))
                     Image(
                         painter = painterResource(id = R.drawable.appicon1),
@@ -83,9 +85,7 @@ fun TeacherAnswerDetailedScreen(navController: NavController, answerDetailedView
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            //GroupDetailedScreenComponent(viewModel)
-            //TeacherTaskDetailedScreenComponent(viewModel = viewModel)
-            TeacherAnswerDetailedScreenComponent()
+            TeacherAnswerDetailedScreenComponent(answerDetailedViewModel)
         }
     }
 }

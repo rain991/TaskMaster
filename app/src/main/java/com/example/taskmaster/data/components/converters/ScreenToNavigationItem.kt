@@ -12,6 +12,7 @@ fun convertScreenToNavigationItem(screen: Screen): NavigationItem {
         is Screen.CreateGroupScreen -> NavigationItem.GroupScreen
         is Screen.CreateTaskScreen -> NavigationItem.CreateTaskScreen
         is Screen.TaskDetailedScreen -> NavigationItem.TaskScreen
+        is Screen.AnswerDetailedScreen ->NavigationItem.TaskScreen
         else -> {
             NavigationItem.TaskScreen
         }
