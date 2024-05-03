@@ -4,7 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsListRepositoryImpl
+import com.example.taskmaster.data.constants.TASK_MINIMUM_DEADLINE_MILLIS
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
@@ -16,13 +17,13 @@ import kotlinx.coroutines.launch
 
 class CreateTaskViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
-    private val groupsListRepositoryImpl: GroupsListRepositoryImpl,
+    private val groupsListRepositoryImpl: TeacherGroupsListRepositoryImpl,
     private val auth: FirebaseAuth
 ) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
         CreateTaskScreenState(
-            title = "",
-            description = "",
+            title = "Task title",
+            description = "Description",
             listOfGroupNames = listOf(),
             listOfSelectedGroupNames = listOf(),
             selectedDate = null,
@@ -43,14 +44,14 @@ class CreateTaskViewModel(
     }
 
     suspend fun createTask(context: Context) {
-
-        if (_createTaskScreenState.value.selectedDate != null && auth.currentUser != null && _createTaskScreenState.value.title != "") {
-
-            if(_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()){
+        val currentTimeMillis = System.currentTimeMillis()
+        if (_createTaskScreenState.value.selectedDate != null && _createTaskScreenState.value.selectedDate!! > currentTimeMillis + TASK_MINIMUM_DEADLINE_MILLIS && auth.currentUser != null && _createTaskScreenState.value.title != "") {
+            if (_createTaskScreenState.value.description != "" || _createTaskScreenState.value.attachedFiles.isNotEmpty()) {
                 val selectedGroupIdentifiers = teacherGroups.filter { group ->
                     _createTaskScreenState.value.listOfSelectedGroupNames.contains(group.name)
                 }.map { it.identifier }
                 val currentTask = Task(
+                    identifier = "",
                     name = _createTaskScreenState.value.title,
                     description = _createTaskScreenState.value.description,
                     groups = selectedGroupIdentifiers,
@@ -60,16 +61,15 @@ class CreateTaskViewModel(
                 )
                 createTaskUseCase(task = currentTask, localUriFilesList = _createTaskScreenState.value.attachedFiles, context = context)
             }
-
         } else {
-            if(_createTaskScreenState.value.title == ""){
-                setWarningMessage("Incorrect task title")
+            if (_createTaskScreenState.value.title == "") {
+                setWarningMessage("Task title should not be empty")
             }
-            if(_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()){
+            if (_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()) {
                 setWarningMessage("You should attach task files or add any task description")
             }
-            if(_createTaskScreenState.value.selectedDate == null){
-                setWarningMessage("Incorrect task deadline")
+            if (_createTaskScreenState.value.selectedDate == null && _createTaskScreenState.value.selectedDate!! <= currentTimeMillis + TASK_MINIMUM_DEADLINE_MILLIS) {
+                setWarningMessage("Task minimum deadline is ${TASK_MINIMUM_DEADLINE_MILLIS/60000} minutes")
             }
         }
     }

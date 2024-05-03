@@ -5,6 +5,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.component.KoinComponent
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 import org.koin.core.logger.Level
 
 class App : Application(), KoinComponent {
@@ -14,7 +16,11 @@ class App : Application(), KoinComponent {
             androidLogger(Level.DEBUG)
             androidContext(this@App)
             // workManagerFactory()
-            modules(listOf(appModule, domainModule, viewModelModule))
+            modules(listOf(firebaseModule, appModule, domainModule, viewModelModule))
         }
+    }
+    fun reinitializeKoinFirebaseModule() {
+        unloadKoinModules(listOf(firebaseModule))
+        loadKoinModules(listOf(firebaseModule))
     }
 }

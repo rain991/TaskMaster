@@ -50,6 +50,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
                     password = _registerScreenState.value.password,
                     name = _registerScreenState.value.name,
                     surname = _registerScreenState.value.surname,
+                    uid = "",
                     groups = listOf(),
                     tasks = listOf()
                 )

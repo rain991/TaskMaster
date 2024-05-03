@@ -2,7 +2,7 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.taskmaster.data.implementations.core.teacher.groups.GroupsListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 
 class GroupDetailedScreenViewModel(
     private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase,
-    private val groupsListRepositoryImpl : GroupsListRepositoryImpl
+    private val groupsListRepositoryImpl : TeacherGroupsListRepositoryImpl
 ) : ViewModel() {
     private val _currentDetailedGroup = MutableStateFlow<Group?>(null)
     val currentDetailedGroup = _currentDetailedGroup.asStateFlow()
@@ -33,7 +33,6 @@ class GroupDetailedScreenViewModel(
     }
 
     suspend fun setCurrentDetailedGroup(group: Group?) {
-        // _currentDetailedGroup.value = group
         if (group != null) {
             groupsListRepositoryImpl.getTeacherGroup(group.teacher, group.identifier).collect{
                 _currentDetailedGroup.value = it
@@ -76,5 +75,4 @@ class GroupDetailedScreenViewModel(
     private fun setWarningMessage(value: String) {
         _warningMessage.value = value
     }
-
 }

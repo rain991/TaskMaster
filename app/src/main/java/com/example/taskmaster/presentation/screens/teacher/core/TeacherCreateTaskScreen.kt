@@ -12,30 +12,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
+import com.example.taskmaster.data.constants.TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
-import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
 import com.example.taskmaster.presentation.components.teacherComponents.createTasks.CreateTaskComponent
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
 fun TeacherCreateTaskScreen(navController: NavController) {
-//    val auth = koinInject<FirebaseAuth>()
-//    val currentUserName = auth.currentUser?.displayName
+    val auth = koinInject<FirebaseAuth>()
+    val currentUserName = auth.currentUser?.displayName
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
-    val bottomBarNavigationItems =
-        listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
+    val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.CreateTaskScreen)
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            //  TaskMasterScreenHeader(isTeacherScreen = true, userName = currentUserName ?: DEFAULT_USER_NAME)
-            SimplifiedTopBar()
+            if (currentUserName != null) {
+                SimplifiedTopBar(
+                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
+                )
+            }
         }, bottomBar = {
             TaskMasterBottomBar(
                 items = bottomBarNavigationItems,

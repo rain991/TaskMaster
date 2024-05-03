@@ -11,3 +11,6 @@ data class Teacher(
     val groups: List<String>,  // groups IDs
     val tasks: List<String>
 ) : User()
+{
+    constructor() : this("teacher", "", "", "", "", listOf<String>(), listOf<String>() )
+}

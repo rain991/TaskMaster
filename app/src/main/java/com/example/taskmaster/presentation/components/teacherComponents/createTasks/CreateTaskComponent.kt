@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
@@ -44,12 +45,16 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.components.files.getFileSize
 import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
 import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
+import com.example.taskmaster.data.constants.TASK_DESCRIPTION_MAX_LENGTH
+import com.example.taskmaster.data.constants.TASK_NAME_MAX_LENGTH
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -70,7 +75,7 @@ fun CreateTaskComponent() {
     val focusRequester = remember { FocusRequester() }
     val selectFileActivity =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenMultipleDocuments()) { result ->
-            val filesToAdd = result.take(5).filter { fileUri ->
+            val filesToAdd = result.take(MAX_FILES_TO_SELECT).filter { fileUri ->
                 if (fileUri.getFileSize(localContext) <= MAX_FILE_SIZE_BYTES) {
                     true
                 } else {
@@ -83,7 +88,7 @@ fun CreateTaskComponent() {
                 }
             }
 
-            val newAttachedFiles = if (screenState.value.attachedFiles != null) {
+            val newAttachedFiles = if (screenState.value.attachedFiles.isNotEmpty()) {
                 (screenState.value.attachedFiles + filesToAdd).take(MAX_FILES_TO_SELECT)
             } else {
                 filesToAdd.take(MAX_FILES_TO_SELECT)
@@ -114,10 +119,11 @@ fun CreateTaskComponent() {
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.14.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                emptyTextLabel = "Task title"
+                )
             ) {
-                viewModel.setTitle(it)
+                if(it.length<TASK_NAME_MAX_LENGTH){
+                    viewModel.setTitle(it)
+                }
             }
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -136,10 +142,11 @@ fun CreateTaskComponent() {
                     fontSize = 14.sp,
                     letterSpacing = 1.16.sp,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                emptyTextLabel = "Description"
+                )
             ) {
-                viewModel.setDescription(it)
+                if(it.length < TASK_DESCRIPTION_MAX_LENGTH){
+                    viewModel.setDescription(it)
+                }
             }
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -274,7 +281,6 @@ private fun AmountInput(
     controller: SoftwareKeyboardController?,
     currentText: String,
     textStyle: TextStyle,
-    emptyTextLabel: String,
     onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -284,24 +290,17 @@ private fun AmountInput(
             .width(IntrinsicSize.Min)
             .padding(start = 6.dp),
         textStyle = textStyle,
-        value = if (currentText == "") {
-            emptyTextLabel
-        } else {
-            currentText
-        },
+        value = currentText
+        ,
         onValueChange = { newText ->
-            if (newText == emptyTextLabel) {
-                onValueChange("")
-            } else {
-                onValueChange(newText)
-            }
+            onValueChange(newText)
         },
         keyboardActions = KeyboardActions(
             onDone = {
                 controller?.hide()
                 focusManager.clearFocus()
             }
-        )
+        ), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done)
     )
 }
 

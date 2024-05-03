@@ -25,15 +25,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.teacher.groups.GroupDetailedScreenViewModel
-import com.example.taskmaster.data.viewModels.teacher.groups.GroupListScreenViewModel
+import com.example.taskmaster.data.viewModels.teacher.groups.TeacherGroupListScreenViewModel
 import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.AcceptGroupDeletingDialog
-import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.SingleGroupComponent
+import com.example.taskmaster.presentation.components.teacherComponents.group.listOfGroupsScreen.screenContent.TeacherGroupSingleComponent
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewModel: GroupDetailedScreenViewModel) {
-    val viewModel = koinViewModel<GroupListScreenViewModel>()
+    val viewModel = koinViewModel<TeacherGroupListScreenViewModel>()
     val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
     val groupToDelete = viewModel.groupToDelete.collectAsState()
@@ -61,7 +61,7 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
                 items(groupList) {
-                    SingleGroupComponent(group = it, onComponentClick = {
+                    TeacherGroupSingleComponent(group = it, onComponentClick = {
                         coroutineScope.launch {
                             groupDetailedViewModel.setCurrentDetailedGroup(it)
                         }

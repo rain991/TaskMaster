@@ -15,12 +15,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GradientInputTextField(value : String, label : String, keyboardType: KeyboardType = KeyboardType.Text, onValueChange: (String) -> Unit) {
+fun GradientInputTextField(value : String, label : String, keyboardType: KeyboardType = KeyboardType.Text, maxLines : Int = 1, onValueChange: (String) -> Unit) {
     TextField(
         value = value,
         onValueChange = { onValueChange(it) },
         label = { Text(label) },
-        maxLines = 1,
+        maxLines = maxLines,
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .border(

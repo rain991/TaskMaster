@@ -2,7 +2,7 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.taskmaster.data.implementations.core.teacher.other.SearchRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class CreateGroupViewModel(
-    private val searchRepositoryImpl: SearchRepositoryImpl,
+    private val searchRepositoryImpl: TeacherSearchRepositoryImpl,
     private val createGroupUseCase: CreateGroupUseCase,
     private val auth: FirebaseAuth
 ) :

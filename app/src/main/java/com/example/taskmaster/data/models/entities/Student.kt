@@ -8,8 +8,9 @@ data class Student(
     override val password: String,
     override val name: String,
     override val surname: String,
+    val uid : String,
     val groups: List<String>,  // groups IDs
     val tasks: List<String>  // tasks IDs
 ) : User() {
-    constructor() : this("", "", "", "", "", listOf(), listOf())
+    constructor() : this("", "", "", "", "","", listOf(), listOf())
 }

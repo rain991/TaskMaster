@@ -12,31 +12,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
+import com.example.taskmaster.data.constants.TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
-import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
+import com.example.taskmaster.data.viewModels.teacher.tasks.TeacherTaskDetailedViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.TaskMasterBottomBar
-import com.example.taskmaster.presentation.components.teacherComponents.task.unfinished.screenComponent.TaskScreenComponent
+import com.example.taskmaster.presentation.components.teacherComponents.task.unfinished.screenComponent.TeacherTaskScreenComponent
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun TeacherTasksScreen(navController: NavController) {
+fun TeacherTasksScreen(navController: NavController, teacherTaskDetailedViewModel: TeacherTaskDetailedViewModel) {
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
-    val bottomBarNavigationItems =
-        listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
+    val bottomBarNavigationItems = TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.TaskScreen)
     }
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            SimplifiedTopBar()
+            if (currentUserName != null) {
+                SimplifiedTopBar(
+                    onPersonIconClick = { navController.navigate(Screen.ProfileScreen.route) }
+                )
+            }
         },
         bottomBar = {
             TaskMasterBottomBar(
@@ -54,7 +58,7 @@ fun TeacherTasksScreen(navController: NavController) {
         )
         {
             // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
-            TaskScreenComponent()
+            TeacherTaskScreenComponent(navController, teacherTaskDetailedViewModel)
         }
     }
 }
