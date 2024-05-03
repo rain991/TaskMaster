@@ -25,8 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.other.getTimeRemaining
 
@@ -37,11 +40,11 @@ fun StudentTaskCard(
     groupName: String,
     endDate: Long,
     onSubmitTask: () -> Unit,
-    isSubmitted: Boolean = false,
-    grade : Float = 0f
-) {  // for expired and current tasks, also for already submitted
+    isSubmitted: Boolean = false
+) {
+    val localContext = LocalContext.current
     val trimmedGroupName = groupName.trim().substring(0, minOf(groupName.length, 2))
-    val timeLeft = getTimeRemaining(endDate)
+    val timeLeft = getTimeRemaining(localContext, endDate)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,7 +68,7 @@ fun StudentTaskCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Group: $groupName")
+                    Text(text = stringResource(R.string.student_task_card_group_name, groupName))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -73,14 +76,15 @@ fun StudentTaskCard(
                         text = if (!isSubmitted) {
                             timeLeft
                         } else {
-                            "Grade: no grade yet"   // WARNING Place for grade
+                            stringResource(R.string.student_task_card_no_grade)
                         }
                     )
                 }
             }
             Column(
                 modifier = Modifier
-                    .weight(0.2f).fillMaxHeight(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+                    .weight(0.2f)
+                    .fillMaxHeight(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Row(modifier = Modifier.wrapContentWidth(), Arrangement.Center) {
@@ -90,7 +94,7 @@ fun StudentTaskCard(
                         }, shape = RoundedCornerShape(8.dp), modifier = Modifier.wrapContentWidth()) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "add answer for task",
+                                contentDescription = stringResource(R.string.add_answer_for_task_CD),
                                 modifier = Modifier.scale(1.3f)
                             )
                         }
@@ -98,7 +102,7 @@ fun StudentTaskCard(
                         Box(modifier = Modifier.wrapContentWidth()) {
                             Icon(
                                 imageVector = Icons.Default.Check,
-                                contentDescription = "already submitted",
+                                contentDescription = stringResource(R.string.already_submitted_CD),
                                 modifier = Modifier.scale(1.3f)
                             )
                         }

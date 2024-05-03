@@ -43,12 +43,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.components.files.getFileSize
 import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
@@ -56,6 +58,7 @@ import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
 import com.example.taskmaster.data.constants.TASK_DESCRIPTION_MAX_LENGTH
 import com.example.taskmaster.data.constants.TASK_NAME_MAX_LENGTH
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
+import com.example.taskmaster.presentation.UiText.UiText
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.Calendar
@@ -81,7 +84,7 @@ fun CreateTaskComponent() {
                 } else {
                     Toast.makeText(
                         localContext,
-                        "File ${fileUri.getFileName(localContext)} exceeds size limit 4MB",
+                        localContext.getString(R.string.create_task_file_size_error, fileUri.getFileName(localContext)),
                         Toast.LENGTH_SHORT
                     ).show()
                     false
@@ -152,23 +155,22 @@ fun CreateTaskComponent() {
         Spacer(modifier = Modifier.weight(1f))
 
         Button(onClick = { viewModel.setIsGroupSelectorShown(true) }) {
-            Text("Groups")
+            Text(stringResource(id = R.string.groups))
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = { viewModel.setDatePickerState(true) }) {
-            Text("Deadline date")
+            Text(stringResource(R.string.create_task_deadline_date))
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = { viewModel.setTimePickerState(true) }) {
-            Text("Deadline time")
+            Text(stringResource(R.string.create_task_deadline_time))
         }
         if (screenState.value.selectedDate != null) {
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Selected date", style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(R.string.create_task_selected_date), style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = Date(screenState.value.selectedDate!!).toString())
         }
-        // Date and Time pickers below
         if (screenState.value.datePickerState) {
             val datePickerState = rememberDatePickerState(screenState.value.selectedDate)
             DatePickerDialog(
@@ -184,7 +186,7 @@ fun CreateTaskComponent() {
                             }
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 },
                 dismissButton = {
@@ -193,7 +195,7 @@ fun CreateTaskComponent() {
                             viewModel.setDatePickerState(false)
                         }
                     ) {
-                        Text("CANCEL")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             ) {
@@ -221,11 +223,11 @@ fun CreateTaskComponent() {
                                 val selectedDateTimeMillis = selectedDate + selectedTimeMillis
                                 viewModel.setSelectedDate(selectedDateTimeMillis)
                             } else {
-                                viewModel.setWarningMessage("Select date first")
+                                viewModel.setWarningMessage(UiText(R.string.create_task_select_date_first_message))
                             }
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 }, dismissButton = {
                     TextButton(
@@ -233,7 +235,7 @@ fun CreateTaskComponent() {
                             viewModel.setTimePickerState(false)
                         }
                     ) {
-                        Text("CANCEL")
+                        Text(stringResource(id = R.string.cancel))
                     }
                 }) {
                 TimePicker(state = timePickerState)
@@ -241,7 +243,7 @@ fun CreateTaskComponent() {
         }
         if (screenState.value.attachedFiles.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Attached files")
+            Text(stringResource(R.string.create_task_attached_files))
             Spacer(modifier = Modifier.height(4.dp))
             screenState.value.attachedFiles.forEach {
                 FileRow(name = it.toString()) {
@@ -256,7 +258,7 @@ fun CreateTaskComponent() {
                     selectFileActivity.launch(mimeTypeFilter)
                 }
             }) {
-                Text(text = "Attach files")
+                Text(text = stringResource(R.string.create_task_attach_files))
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(onClick = {
@@ -264,12 +266,12 @@ fun CreateTaskComponent() {
                     viewModel.createTask(localContext)
                 }
             }) {
-                Text(text = "Assign task")
+                Text(text = stringResource(R.string.create_task_assign_task))
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
         if (screenState.value.warningMessage != null) {
-            Toast.makeText(localContext, screenState.value.warningMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(localContext, screenState.value.warningMessage?.asString(localContext), Toast.LENGTH_SHORT).show()
             viewModel.deleteWarningMessage()
         }
     }
@@ -313,7 +315,7 @@ private fun FileRow(name: String, onDeleteClick: () -> Unit) {
     ) {
         Text(text = name, style = MaterialTheme.typography.bodyMedium)
         Button(onClick = { onDeleteClick() }) {
-            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete $name task file")
+            Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.create_task_delete_task_file_CD, name))
         }
     }
 }

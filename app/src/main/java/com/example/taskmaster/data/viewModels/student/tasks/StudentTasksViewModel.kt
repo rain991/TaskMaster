@@ -1,11 +1,10 @@
 package com.example.taskmaster.data.viewModels.student.tasks
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.R
 import com.example.taskmaster.data.constants.FINISHED_TASKS_DATA_REQUEST_TIME
 import com.example.taskmaster.data.implementations.core.student.answers.StudentsRelatedAnswerListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
@@ -14,6 +13,7 @@ import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTas
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.models.entities.Task
+import com.example.taskmaster.presentation.UiText.UiText
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,7 +43,7 @@ class StudentTasksViewModel(
     private val _teacherUidToNameMap = mutableStateMapOf<String, String>() // uid to name + surname
     val teacherUidToNameMap: Map<String, String> = _teacherUidToNameMap
 
-    private val _warningMessage = MutableStateFlow<String?>(null)
+    private val _warningMessage = MutableStateFlow<UiText?>(null)
     val warningMessage = _warningMessage.asStateFlow()
 
     private val currentUser = auth.currentUser
@@ -69,14 +69,9 @@ class StudentTasksViewModel(
                         })
                     setUnfinishedTaskList(allStudentTasks.toList().filter { it.endDate >= currentTimeMillis }
                         .filter { it -> !studentAnswersList.map { it.taskIdentifier }.contains(it.identifier) })
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: taskList size : ${allStudentTasks.size}")
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: groupList size : ${_studentGroups.size}")
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: unfinished tasks list size : ${_unfinishedTasksList.size}")
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: finished tasks list size : ${_finishedTasksList.size}")
-                    Log.d(COMMON_DEBUG_TAG, "StudentTasksViewModel: answers list size : ${studentAnswersList.size}")
                 }
             } else {
-                setWarningMessage("Invalid current user")
+                setWarningMessage(UiText(R.string.student_tasks_invalid_current_user_error))
             }
         }
     }
@@ -133,7 +128,7 @@ class StudentTasksViewModel(
         }
     }
 
-    private fun setWarningMessage(value: String) {
+    private fun setWarningMessage(value: UiText) {
         _warningMessage.value = value
     }
 

@@ -15,8 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.other.getTimeRemaining
 
@@ -28,13 +31,15 @@ fun TeacherTaskCard(
     endDate: Long,
     onRowClick: () -> Unit
 ) {
+    val localContext = LocalContext.current
     val trimmedTaskName = taskName.trim().substring(0, minOf(groupName.length, 3))
-    val timeLeft = getTimeRemaining(endDate)
+    val timeLeft = getTimeRemaining(localContext,endDate)
     val isEndedTask = System.currentTimeMillis() > endDate
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight().clickable { onRowClick() }
+            .wrapContentHeight()
+            .clickable { onRowClick() }
     ) {
         Row(
             modifier = Modifier
@@ -62,7 +67,7 @@ fun TeacherTaskCard(
                         text = if (!isEndedTask) {
                             timeLeft
                         } else {
-                            "This task is ended"
+                            stringResource(R.string.teacher_task_card_this_task_is_ended)
                         }
                     )
                 }

@@ -74,7 +74,7 @@ fun ResetPasswordComponent(paddingValues: PaddingValues, navController: NavContr
                             }
                         }
                 } else {
-                    Toast.makeText(localContext, "Type correct email address", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(localContext, localContext.getString(R.string.reset_password_password_error), Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth(0.36f)

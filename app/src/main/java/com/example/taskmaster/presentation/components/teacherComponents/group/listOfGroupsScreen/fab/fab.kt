@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TaskMasterFAB(onClick: () -> Unit, contentDescription : String) {  // "Add new students group"
+fun TaskMasterFAB(onClick: () -> Unit, contentDescription : String) {
     Box(
         modifier = Modifier
             .fillMaxSize()

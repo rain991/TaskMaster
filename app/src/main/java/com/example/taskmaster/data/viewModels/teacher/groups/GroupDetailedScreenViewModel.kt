@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,7 +26,7 @@ class GroupDetailedScreenViewModel(
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
-    private val _warningMessage = MutableStateFlow("")
+    private val _warningMessage = MutableStateFlow<UiText?>(null)
     val warningMessage = _warningMessage.asStateFlow()
 
     init {
@@ -45,7 +46,7 @@ class GroupDetailedScreenViewModel(
     }
 
     fun deleteWarningMessage() {
-        _warningMessage.value = ""
+        _warningMessage.value = null
     }
 
     fun setSearchText(value: String) {
@@ -72,7 +73,7 @@ class GroupDetailedScreenViewModel(
         _listOfGroupStudents.addAll(listOfGroupStudents)
     }
 
-    private fun setWarningMessage(value: String) {
+    private fun setWarningMessage(value: UiText?) {
         _warningMessage.value = value
     }
 }

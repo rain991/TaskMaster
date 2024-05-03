@@ -51,11 +51,15 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
         }
         Text(text = stringResource(R.string.task_master), style = MaterialTheme.typography.titleMedium)
         Spacer(modifier = Modifier.weight(1f))
-        GradientInputTextField(value = screenState.value.email, label = "Email") {
+        GradientInputTextField(value = screenState.value.email, label = stringResource(id = R.string.email_label)) {
             viewModel.setEmail(it)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        GradientInputTextField(value = screenState.value.password, label = "Password", keyboardType = KeyboardType.Password) {
+        GradientInputTextField(
+            value = screenState.value.password,
+            label = stringResource(R.string.password_label),
+            keyboardType = KeyboardType.Password
+        ) {
             viewModel.setPassword(it)
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -69,10 +73,10 @@ fun LoginScreenComponent(paddingValues: PaddingValues, navController: NavControl
             }
         }
         TextButton(onClick = { navController.navigate(Screen.ResetPasswordScreen.route) }) {
-            Text(text = "reset password")
+            Text(text = stringResource(R.string.login_reset_password))
         }
         TextButton(onClick = { navController.navigate(Screen.RegisterScreen.route) }) {
-            Text(text = "no account yet?")
+            Text(text = stringResource(R.string.login_no_account_yet))
         }
         Spacer(modifier = Modifier.weight(1f))
         if (screenState.value.warningMessage != null) {

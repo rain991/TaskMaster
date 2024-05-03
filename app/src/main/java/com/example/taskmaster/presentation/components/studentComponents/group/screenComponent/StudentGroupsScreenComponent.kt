@@ -28,10 +28,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.taskmaster.data.viewModels.student.groups.StudentGroupScreenViewModel
+import com.example.taskmaster.R
+import com.example.taskmaster.data.viewModels.student.groups.StudentGroupViewModel
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 import com.example.taskmaster.presentation.components.studentComponents.group.uiComponents.StudentGroupSingleComponent
 import kotlinx.coroutines.launch
@@ -39,7 +41,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StudentGroupsScreenComponent() {
-    val viewModel = koinViewModel<StudentGroupScreenViewModel>()
+    val viewModel = koinViewModel<StudentGroupViewModel>()
     val lazyListState = rememberLazyListState()
     val groupList = viewModel.groupsList
     val teacherUidToNameMap = viewModel.teacherNameMap
@@ -57,9 +59,9 @@ fun StudentGroupsScreenComponent() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "You don't have groups yet.")
+                    Text(text = stringResource(R.string.student_group_no_groups_yet_message))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "Easily join to group using group identifier")
+                    Text(text = stringResource(R.string.student_group_additional_message))
                 }
             }
         } else {
@@ -69,7 +71,10 @@ fun StudentGroupsScreenComponent() {
                     .weight(0.8f)
             ) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Text(text = "Groups", style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
+                    Text(
+                        text = stringResource(id = R.string.groups),
+                        style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold)
+                    )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn(
@@ -100,11 +105,10 @@ fun StudentGroupsScreenComponent() {
                 modifier = Modifier
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Asign to new group", style = MaterialTheme.typography.titleMedium)
+                Text(text = stringResource(R.string.student_group_assign_to_new_group), style = MaterialTheme.typography.titleMedium)
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row(
-
                 modifier = Modifier
                     .fillMaxWidth(0.64f), horizontalArrangement = Arrangement.Center
             ) {
@@ -123,7 +127,7 @@ fun StudentGroupsScreenComponent() {
                             viewModel.addToGroupByIdentifier(inputIdentifier)
                         }
                     }) {
-                        Text(text = "Add to group", style = MaterialTheme.typography.titleSmall)
+                        Text(text = stringResource(R.string.student_groups_add_to_group), style = MaterialTheme.typography.titleSmall)
                     }
                 }
             }
@@ -133,7 +137,7 @@ fun StudentGroupsScreenComponent() {
         }
 
         if (warningMessage.value != null) {
-            Toast.makeText(localContext, warningMessage.value, Toast.LENGTH_SHORT).show()
+            Toast.makeText(localContext, warningMessage.value?.asString(localContext), Toast.LENGTH_SHORT).show()
             viewModel.deleteCurrentWarningMessage()
         }
     }

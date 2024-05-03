@@ -26,9 +26,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.presentation.components.common.textfields.GradientInputTextField
 
@@ -59,14 +61,14 @@ fun AcceptGroupDeletingDialog(group: Group, onDeclineButton: () -> Unit, onAccep
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Text(text = "Delete group", style = MaterialTheme.typography.titleMedium)
+                    Text(text = stringResource(R.string.group_deleting_dialog_delete_group), style = MaterialTheme.typography.titleMedium)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-                    Text(text = "To delete ${group.name}, type group name below and accept deleting")
+                    Text(text = stringResource(R.string.group_deleting_dialog_accepting_message, group.name))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                GradientInputTextField(value = textField, label = "Group name") {
+                GradientInputTextField(value = textField, label = stringResource(R.string.group_deleting_dialog_group_name_label)) {
                     textField = it
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -76,7 +78,7 @@ fun AcceptGroupDeletingDialog(group: Group, onDeclineButton: () -> Unit, onAccep
                         .wrapContentHeight(), horizontalArrangement = Arrangement.End
                 ) {
                     OutlinedButton(onClick = { onDeclineButton() }) {
-                        Text(text = "Decline")
+                        Text(text = stringResource(R.string.decline))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = {
@@ -86,7 +88,7 @@ fun AcceptGroupDeletingDialog(group: Group, onDeclineButton: () -> Unit, onAccep
                             Toast.makeText(localContext, "Group name does not match", Toast.LENGTH_LONG).show()
                         }
                     }) {
-                        Text(text = "Accept")
+                        Text(text = stringResource(R.string.accept))
                     }
                 }
             }

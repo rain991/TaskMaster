@@ -4,11 +4,13 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskmaster.R
 import com.example.taskmaster.data.constants.TASK_MINIMUM_DEADLINE_MILLIS
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import com.example.taskmaster.presentation.states.teacher.CreateTaskScreenState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -63,13 +65,13 @@ class CreateTaskViewModel(
             }
         } else {
             if (_createTaskScreenState.value.title == "") {
-                setWarningMessage("Task title should not be empty")
+                setWarningMessage(UiText(R.string.create_task_error1))
             }
             if (_createTaskScreenState.value.description == "" || _createTaskScreenState.value.attachedFiles.isEmpty()) {
-                setWarningMessage("You should attach task files or add any task description")
+                setWarningMessage(UiText(R.string.create_task_error2))
             }
             if (_createTaskScreenState.value.selectedDate == null && _createTaskScreenState.value.selectedDate!! <= currentTimeMillis + TASK_MINIMUM_DEADLINE_MILLIS) {
-                setWarningMessage("Task minimum deadline is ${TASK_MINIMUM_DEADLINE_MILLIS/60000} minutes")
+                setWarningMessage(UiText(R.string.create_task_message1, TASK_MINIMUM_DEADLINE_MILLIS / 60000))
             }
         }
     }
@@ -118,21 +120,13 @@ class CreateTaskViewModel(
             _createTaskScreenState.value = createTaskScreenState.value.copy(listOfSelectedGroupNames = listOfSelectedNames)
         }
     }
-
-    //    fun addURI (value : Uri){
-//        val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
-//        if(!attachedFiles.contains(value)){
-//            attachedFiles.add(value)
-//        }
-//        _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
-//    }
     fun deleteURI(value: Uri) {
         val attachedFiles = _createTaskScreenState.value.attachedFiles.toMutableList()
         attachedFiles.remove(value)
         _createTaskScreenState.value = createTaskScreenState.value.copy(attachedFiles = attachedFiles)
     }
 
-    fun setWarningMessage(value: String) {
+    fun setWarningMessage(value: UiText) {
         _createTaskScreenState.value = createTaskScreenState.value.copy(warningMessage = value)
     }
 

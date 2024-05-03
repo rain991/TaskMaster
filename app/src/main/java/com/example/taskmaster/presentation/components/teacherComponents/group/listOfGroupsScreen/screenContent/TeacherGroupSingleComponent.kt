@@ -18,7 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.presentation.components.common.drawable.CircleWithText
 import com.example.taskmaster.presentation.components.common.other.TextButtonWithClipboard
@@ -38,7 +40,7 @@ fun TeacherGroupSingleComponent(group: Group, onComponentClick: () -> Unit, onBu
             Text(text = group.name, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
             Row {
-                Text(text = "identifier: ")
+                Text(text = stringResource(R.string.group_single_component_identifier))
                 TextButtonWithClipboard(text = group.identifier)
             }
         }

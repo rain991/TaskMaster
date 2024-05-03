@@ -2,15 +2,15 @@ package com.example.taskmaster.data.viewModels.student.answers
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.FileDownloader
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.domain.useCases.student.SubmitTaskUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import com.example.taskmaster.presentation.states.student.StudentAnswerScreenState
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,7 +76,6 @@ class StudentAnswerScreenViewModel(
                     fileDownloader.downloadFile(url)
                 }
             }
-            Log.d(COMMON_DEBUG_TAG, "downloadTaskFiles: files are downloaded")
         }
     }
 
@@ -84,13 +83,12 @@ class StudentAnswerScreenViewModel(
         if (_studentAnswerScreenState.value.studentFiles.isNotEmpty()) {
             _studentAnswerScreenState.value = studentAnswerScreenState.value.copy(studentFiles = emptyList())
         } else {
-            setWarningMessage("You have not attached files")
+            setWarningMessage(UiText(R.string.student_answer_you_have_not_attached_files_error))
         }
     }
 
     fun setCurrentAnswerTask(task: Task?) {
         _studentAnswerScreenState.update { studentAnswerScreenState.value.copy(currentTask = task) }
-        Log.d(COMMON_DEBUG_TAG, "StudentTaskAnswerScreenComponent: current task : ${_studentAnswerScreenState.value.currentTask}")
     }
 
     fun setStudentAnswer(value: String) {
@@ -105,7 +103,7 @@ class StudentAnswerScreenViewModel(
         _studentAnswerScreenState.value = _studentAnswerScreenState.value.copy(warningMessage = null)
     }
 
-    fun setWarningMessage(value: String) {
+    fun setWarningMessage(value: UiText) {
         _studentAnswerScreenState.value = _studentAnswerScreenState.value.copy(warningMessage = value)
     }
 

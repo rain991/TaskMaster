@@ -16,7 +16,6 @@ class ScreenManagerViewModel(private val auth: FirebaseAuth, private val personR
     private val teacherScreenOptions = listOf(Screen.TaskScreen, Screen.FinishedScreen, Screen.GroupsScreen, Screen.CreateTaskScreen)
     private val studentScreenOptions = listOf(Screen.TaskScreen, Screen.FinishedScreen, Screen.GroupsScreen)
 
-
     private val _currentScreenState = MutableStateFlow<Screen>(Screen.TaskScreen)
     val currentScreenState = _currentScreenState.asStateFlow()
 

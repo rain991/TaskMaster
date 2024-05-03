@@ -10,21 +10,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.taskmaster.R
 
 @Composable
 fun TaskMasterScreenHeader(isTeacherScreen: Boolean, userName: String, unfinishedTasks: Int = 0) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            Text(text = "Hello, $userName", style = MaterialTheme.typography.titleMedium)
+            Text(text = stringResource(R.string.screen_header_greetings, userName), style = MaterialTheme.typography.titleMedium)
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             Text(
                 text = if (isTeacherScreen) {
-                    "have a nice day!"
+                    stringResource(R.string.screen_header_additional)
                 } else {
-                    "$unfinishedTasks are waiting for you"
+                    stringResource(R.string.screen_header_additional_student, unfinishedTasks)
                 },
                 style = MaterialTheme.typography.titleSmall
             )

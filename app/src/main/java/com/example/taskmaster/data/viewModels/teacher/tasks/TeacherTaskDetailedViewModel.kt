@@ -36,7 +36,6 @@ class TeacherTaskDetailedViewModel(
     init {
         viewModelScope.launch {
             _currentTask.collect { currentTask ->
-              //  initializeAllTeacherRelatedAnswers()
                 if (currentTask != null) {
                     setStudentsList(teacherRelatedAnswerListRepositoryImpl.getAllStudentsFromGroups(listOfRelatedGroupsIdentifiers = _currentTask.value!!.groups))
                     setTaskRelatedAnswers(allTeacherRelatedAnswers.filter { studentAnswer ->
@@ -84,6 +83,5 @@ class TeacherTaskDetailedViewModel(
 
     private fun clearAllLists() {
         _studentsList.clear()
-        // _taskRelatedAnswers.clear()
     }
 }

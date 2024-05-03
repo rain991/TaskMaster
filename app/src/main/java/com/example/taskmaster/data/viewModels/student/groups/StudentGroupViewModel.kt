@@ -1,21 +1,21 @@
 package com.example.taskmaster.data.viewModels.student.groups
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.R
 import com.example.taskmaster.data.implementations.core.student.groups.StudentGroupListRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.tasks.TeacherTaskRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.student.AddToGroupByIdentifierUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class StudentGroupScreenViewModel(
+class StudentGroupViewModel(
     private val studentGroupListRepositoryImpl: StudentGroupListRepositoryImpl,
     private val teacherTaskRepositoryImpl: TeacherTaskRepositoryImpl,
     private val addToGroupByIdentifierUseCase: AddToGroupByIdentifierUseCase,
@@ -27,7 +27,7 @@ class StudentGroupScreenViewModel(
     private val _teacherNameMap = mutableStateMapOf<String, String>()
     val teacherNameMap: Map<String, String> = _teacherNameMap
 
-    private val _warningMessage = MutableStateFlow<String?>(null)
+    private val _warningMessage = MutableStateFlow<UiText?>(null)
     val warningMessage = _warningMessage.asStateFlow()
 
     private val currentFirebaseUser = auth.currentUser
@@ -39,7 +39,6 @@ class StudentGroupScreenViewModel(
                     setGroupsList(it)
                     fetchTeacherNames()
                 }
-
             }
         }
     }
@@ -48,14 +47,12 @@ class StudentGroupScreenViewModel(
         _warningMessage.value = null
     }
 
-    private fun setCurrentWarningMessage(warningMessage: String) {
+    private fun setCurrentWarningMessage(warningMessage: UiText?) {
         _warningMessage.value = warningMessage
     }
 
     suspend fun fetchTeacherNames() {
         val teacherUids = _groupsList.map { it.teacher }.distinct()
-        Log.d(COMMON_DEBUG_TAG, "fetchTeacherNames: groups list size : ${_groupsList.size} ")
-        Log.d(COMMON_DEBUG_TAG, "fetchTeacherNames: teacherUids size : ${teacherUids.size} ")
         teacherUids.forEach { uid ->
             val teacherName = teacherTaskRepositoryImpl.getTeacherNameByUid(uid)
             _teacherNameMap[uid] = teacherName
@@ -66,13 +63,12 @@ class StudentGroupScreenViewModel(
         if (groupIdentifier.length == 20 && currentFirebaseUser?.email != null) {
             addToGroupByIdentifierUseCase(currentFirebaseUser.email!!, groupIdentifier)
         } else {
-            setCurrentWarningMessage("Group identifier must be 20 characters long")
+            setCurrentWarningMessage(UiText(R.string.student_groups_group_identifier_error))
         }
     }
 
     private fun setGroupsList(listOfRelatedGroups: List<Group>) {
         _groupsList.clear()
         _groupsList.addAll(listOfRelatedGroups)
-        Log.d(COMMON_DEBUG_TAG, "fetchTeacherNames: groups list size : ${listOfRelatedGroups.size} ")
     }
 }

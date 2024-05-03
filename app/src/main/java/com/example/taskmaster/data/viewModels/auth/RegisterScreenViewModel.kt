@@ -32,7 +32,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
             return
         }
         if (!validateEmail(_registerScreenState.value.email)) {
-            setWarningMessage(UiText(R.string.registe_prohibited_characters_error))
+            setWarningMessage(UiText(R.string.register_prohibited_characters_error))
             return
         }
         if (_registerScreenState.value.password != _registerScreenState.value.repeatPassword) {
@@ -104,6 +104,4 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
     private fun setWarningMessage(value: UiText?) {
         _registerScreenState.value = registerScreenState.value.copy(warningMessage = value)
     }
-
-
 }

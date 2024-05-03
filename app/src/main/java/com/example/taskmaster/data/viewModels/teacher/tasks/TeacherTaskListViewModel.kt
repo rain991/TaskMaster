@@ -30,6 +30,7 @@ class TeacherTaskListViewModel(
     val groupIdToNameMap: Map<String, String> = _groupIdToNameMap
 
     private val currentTeacherUid = auth.currentUser?.uid
+
     init {
         viewModelScope.launch {
             if (currentTeacherUid != null) {
@@ -50,7 +51,7 @@ class TeacherTaskListViewModel(
         }
         val teacherUidList = _unfinishedTasksList.map { it.teacher }
         viewModelScope.launch {
-            teacherUidList.forEach{
+            teacherUidList.forEach {
                 addTeacherUidToName(it, getTeacherNameByUid(it))
             }
         }
@@ -64,7 +65,7 @@ class TeacherTaskListViewModel(
         }
         val groupList = _unfinishedTasksList.flatMap { it.groups }
         viewModelScope.launch {
-            groupList.forEach{
+            groupList.forEach {
                 addGroupIdToName(it, getGroupNameByIdentifier(it))
             }
         }
@@ -79,7 +80,7 @@ class TeacherTaskListViewModel(
         }
         val teacherUidList = _finishedTasksList.map { it.teacher }
         viewModelScope.launch {
-            teacherUidList.forEach{
+            teacherUidList.forEach {
                 addTeacherUidToName(it, getTeacherNameByUid(it))
             }
         }
@@ -94,7 +95,7 @@ class TeacherTaskListViewModel(
         }
         val groupList = _finishedTasksList.flatMap { it.groups }
         viewModelScope.launch {
-            groupList.forEach{
+            groupList.forEach {
                 addGroupIdToName(it, getGroupNameByIdentifier(it))
             }
         }
@@ -119,14 +120,10 @@ class TeacherTaskListViewModel(
     }
 
     private fun addTeacherUidToName(uid: String, name: String) {
-        //if (!_teacherUidToNameMap.containsKey(uid)) {
-            _teacherUidToNameMap[uid] = name
-       // }
+        _teacherUidToNameMap[uid] = name
     }
 
     private fun addGroupIdToName(id: String, name: String) {
-      //  if (!_teacherUidToNameMap.containsKey(id)) {
-            _groupIdToNameMap[id] = name
-       // }
+        _groupIdToNameMap[id] = name
     }
 }

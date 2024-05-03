@@ -20,9 +20,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.taskmaster.R
 import com.example.taskmaster.data.viewModels.student.tasks.StudentTasksViewModel
 import com.example.taskmaster.presentation.components.studentComponents.task.finished.uiComponents.StudentFinishedTaskCard
 import org.koin.androidx.compose.koinViewModel
@@ -41,7 +43,7 @@ fun StudentFinishedTasksScreenComponent() {
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = "Finished tasks", style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
+            Text(text = stringResource(R.string.finished_tasks_header), style = MaterialTheme.typography.titleLarge.copy(fontSize = 28.sp, fontWeight = FontWeight.Bold))
         }
         Spacer(modifier = Modifier.height(16.dp))
         if (unFinishedTaskList.isEmpty()) {
@@ -51,9 +53,9 @@ fun StudentFinishedTasksScreenComponent() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = "You don't have finished tasks")
+                    Text(text = stringResource(R.string.student_finished_tasks_message1))
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "You see all task assigned to your groups")
+                    Text(text = stringResource(R.string.student_finished_tasks_message2))
                 }
             }
         } else {
@@ -87,7 +89,7 @@ fun StudentFinishedTasksScreenComponent() {
             }
         }
         if (warningMessage.value != null) {
-            Toast.makeText(localContext, warningMessage.value, Toast.LENGTH_SHORT).show()
+            Toast.makeText(localContext, warningMessage.value?.asString(localContext), Toast.LENGTH_SHORT).show()
             studentTaskScreenViewModel.deleteWarningMessage()
         }
     }

@@ -2,10 +2,12 @@ package com.example.taskmaster.data.viewModels.teacher.groups
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import com.example.taskmaster.R
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
+import com.example.taskmaster.presentation.UiText.UiText
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +27,7 @@ class CreateGroupViewModel(
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
-    private val _warningMessage = MutableStateFlow("")
+    private val _warningMessage = MutableStateFlow<UiText?>(null)
     val warningMessage = _warningMessage.asStateFlow()
 
     private val _groupNameText = MutableStateFlow("")
@@ -41,16 +43,16 @@ class CreateGroupViewModel(
                     tasks = listOf()
                 )
             )
-            setWarningMessage("Group ${_groupNameText.value} created")
+            setWarningMessage(UiText(R.string.create_group_group_created_message, _groupNameText.value))  //"Group ${_groupNameText.value} created"
 
         }else{
-            setWarningMessage("Group must contain at least 1 student and group name should contain at least 3 characters")
+            setWarningMessage(UiText(R.string.create_group_error_1))
         }
     }
 
     fun addStudentFromSearchList(student: Student) {
         if (_addedStudentsList.contains(student)) {
-            setWarningMessage("This student is already added")
+            setWarningMessage(UiText(R.string.create_group_student_already_added_error))
         } else {
             _addedStudentsList.add(student)
         }
@@ -65,7 +67,7 @@ class CreateGroupViewModel(
     }
 
     fun deleteWarningMessage() {
-        _warningMessage.value = ""
+        _warningMessage.value = null
     }
 
     fun clearStudentsSearchedList() {
@@ -80,7 +82,7 @@ class CreateGroupViewModel(
         _groupNameText.value = value
     }
 
-    private fun setWarningMessage(value: String) {
+    private fun setWarningMessage(value: UiText?) {
         _warningMessage.value = value
     }
 
