@@ -56,6 +56,7 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         screenManagerViewModel.setScreen(UserTypes.Teacher, Screen.GroupDetailedScreen)
+        viewModel.fetchCurrentAppliableState()
     }
     DisposableEffect(key1 = Unit) {
         onDispose {
@@ -93,13 +94,13 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(start = 8.dp),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = stringResource(R.string.teacher_group_detailed_is_appliable),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.titleSmall
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Switch(checked = currentAppliabableState.value,
