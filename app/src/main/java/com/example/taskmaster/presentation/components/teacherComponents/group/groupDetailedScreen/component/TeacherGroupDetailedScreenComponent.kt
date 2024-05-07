@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -49,6 +51,7 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
     val localContext = LocalContext.current
     val currentDetailedGroup = viewModel.currentDetailedGroup.collectAsState()
     val searchText = viewModel.searchText.collectAsState()
+    val currentAppliabableState = viewModel.isAppliable.collectAsState()
     val warningMessage = viewModel.warningMessage.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
@@ -66,7 +69,10 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = stringResource(R.string.group_detailed_screen_error1), style = MaterialTheme.typography.titleSmall)
+            Text(
+                text = stringResource(R.string.group_detailed_screen_error1),
+                style = MaterialTheme.typography.titleSmall
+            )
         }
     } else {
         val listOfGroupStudents = viewModel.listOfGroupStudents
@@ -80,10 +86,31 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Text(text = stringResource(R.string.group), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    text = stringResource(R.string.group),
+                    style = MaterialTheme.typography.titleSmall
+                )
             }
             Spacer(modifier = Modifier.height(20.dp))
-
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.teacher_group_detailed_is_appliable),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Switch(checked = currentAppliabableState.value,
+                    onCheckedChange = {
+                        coroutineScope.launch {
+                            viewModel.toggleAppliableState(it)
+                            viewModel.fetchCurrentAppliableState()
+                        }
+                    })
+            }
+            Spacer(modifier = Modifier.height(10.dp))
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,7 +122,7 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
                     viewModel.searchStudent()
                 },
                 onSearch = {
-                        viewModel.searchStudent()
+                    viewModel.searchStudent()
                 },
                 placeholder = {
                     Text(text = stringResource(R.string.group_detailed_search_students))
@@ -179,13 +206,20 @@ fun TeacherGroupDetailedScreenComponent(viewModel: GroupDetailedScreenViewModel)
             Spacer(modifier = Modifier.height(8.dp))
             if (listOfGroupStudents.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = stringResource(R.string.group_detailed_group_is_empty_message), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = stringResource(R.string.group_detailed_group_is_empty_message),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
             }
         }
     }
     if (warningMessage.value != null) {
-        Toast.makeText(localContext, warningMessage.value?.asString(localContext), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            localContext,
+            warningMessage.value?.asString(localContext),
+            Toast.LENGTH_SHORT
+        ).show()
         viewModel.deleteWarningMessage()
     }
 }

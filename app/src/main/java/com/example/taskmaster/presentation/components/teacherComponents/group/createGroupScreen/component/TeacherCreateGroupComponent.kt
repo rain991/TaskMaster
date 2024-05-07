@@ -54,11 +54,20 @@ fun TeacherCreateGroupComponent() {
             .padding(horizontal = 4.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = stringResource(R.string.teacher_create_group_create_group_header), style = MaterialTheme.typography.titleLarge.copy(fontSize = 36.sp, fontWeight = FontWeight.Bold))
+            Text(
+                text = stringResource(R.string.teacher_create_group_create_group_header),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
         }
 
         Spacer(modifier = Modifier.height(32.dp))
-        GradientInputTextField(value = groupName.value, label = stringResource(R.string.teacher_create_group_group_name)) {
+        GradientInputTextField(
+            value = groupName.value,
+            label = stringResource(R.string.teacher_create_group_group_name)
+        ) {
             if (it.length < GROUP_NAME_MAX_LENGTH) {
                 viewModel.setGroupName(it)
             }
@@ -112,15 +121,22 @@ fun TeacherCreateGroupComponent() {
         Spacer(modifier = Modifier.height(16.dp))
 
         if (addedStudentsList.isNotEmpty()) {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp), horizontalArrangement = Arrangement.Start) {
-                Text(text = stringResource(R.string.teacher_create_group_added_students), style = MaterialTheme.typography.titleMedium)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp), horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = stringResource(R.string.teacher_create_group_added_students),
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            LazyColumn(state = lazyListState, modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp)) {
+            LazyColumn(
+                state = lazyListState, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp)
+            ) {
                 items(addedStudentsList.size) { index ->
                     val currentItem = addedStudentsList[index]
                     Column(modifier = Modifier
@@ -135,13 +151,21 @@ fun TeacherCreateGroupComponent() {
         }
         Spacer(modifier = Modifier.weight(1f))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Button(onClick = { viewModel.createGroup() }) {
+            Button(onClick = {
+                coroutineScope.launch {
+                    viewModel.createGroup()
+                }
+            }) {
                 Text(text = stringResource(R.string.create_group))
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         if (warningMessage.value != null) {
-            Toast.makeText(localContext, warningMessage.value?.asString(localContext), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                localContext,
+                warningMessage.value?.asString(localContext),
+                Toast.LENGTH_SHORT
+            ).show()
             viewModel.deleteWarningMessage()
         }
     }

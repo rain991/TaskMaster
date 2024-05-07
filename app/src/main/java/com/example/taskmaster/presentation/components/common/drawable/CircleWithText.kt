@@ -3,6 +3,7 @@ package com.example.taskmaster.presentation.components.common.drawable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +11,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CircleWithText(text: String, modifier : Modifier) {
@@ -36,4 +38,10 @@ fun CircleWithText(text: String, modifier : Modifier) {
             }
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun prev() {
+    CircleWithText(text = "BC", modifier = Modifier.wrapContentHeight())
 }

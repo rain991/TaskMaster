@@ -125,4 +125,5 @@
     <string name="time_left_days">Time left: %1$s days</string>
     <string name="go_back_to_main_screen">Go back to main screen</string>
     <string name="answer_detailed_screen_go_back">Go back</string>
+    <string name="teacher_group_detailed_is_appliable">Is appliable</string>
 </resources>

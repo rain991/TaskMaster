@@ -4,9 +4,11 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherRelatedAnswerListRepositoryImpl
+import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupRepositoryImpl
 import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGroupsListRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
+import com.example.taskmaster.domain.useCases.teacher.group.ToggleAppliableStateUseCase
 import com.example.taskmaster.presentation.UiText.UiText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class GroupDetailedScreenViewModel(
     private val deletePersonFromGroupUseCase: DeletePersonFromGroupUseCase,
-    private val groupsListRepositoryImpl: TeacherGroupsListRepositoryImpl,
+    private val toggleAppliableStateUseCase: ToggleAppliableStateUseCase,
+    private val teacherGroupRepositoryImpl: TeacherGroupRepositoryImpl,
     private val teacherRelatedAnswerListRepositoryImpl: TeacherRelatedAnswerListRepositoryImpl
 ) : ViewModel() {
     private val _currentDetailedGroup = MutableStateFlow<Group?>(null)
@@ -30,6 +33,9 @@ class GroupDetailedScreenViewModel(
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
+    private val _isAppliable = MutableStateFlow(false)
+    val isAppliable = _isAppliable.asStateFlow()
+
     private val _warningMessage = MutableStateFlow<UiText?>(null)
     val warningMessage = _warningMessage.asStateFlow()
 
@@ -43,6 +49,7 @@ class GroupDetailedScreenViewModel(
                         setStudentsList(it)
                     }
                 }
+                fetchCurrentAppliableState()
             }
         }
     }
@@ -53,14 +60,20 @@ class GroupDetailedScreenViewModel(
 
     suspend fun fetchStudentsList(groupIdentifier: String) {
         if (groupIdentifier.isNotEmpty()) {
-            teacherRelatedAnswerListRepositoryImpl.getStudentsEmailsFlowFromGroup(groupIdentifier).collect {
-                setStudentsList(it)
-            }
+            teacherRelatedAnswerListRepositoryImpl.getStudentsEmailsFlowFromGroup(groupIdentifier)
+                .collect {
+                    setStudentsList(it)
+                }
         }
     }
 
-    fun deleteStudentFromGroup(studentEmail: String) {
-        currentDetailedGroup.value?.let { deletePersonFromGroupUseCase(studentEmail, it.identifier) }
+    suspend fun deleteStudentFromGroup(studentEmail: String) {
+        currentDetailedGroup.value?.let {
+            deletePersonFromGroupUseCase(
+                studentEmail,
+                it.identifier
+            )
+        }
     }
 
     fun deleteWarningMessage() {
@@ -85,6 +98,20 @@ class GroupDetailedScreenViewModel(
         _listOfGroupStudents.clear()
     }
 
+    suspend fun toggleAppliableState(state: Boolean) {
+        viewModelScope.launch {
+            toggleAppliableStateUseCase(state, _currentDetailedGroup.value?.identifier ?: "")
+        }
+    }
+
+    suspend fun fetchCurrentAppliableState() {
+        setCurrentAppliableState(
+            teacherGroupRepositoryImpl.getCurrentAppliableState(
+                _currentDetailedGroup.value?.identifier ?: ""
+            )
+        )
+    }
+
     private fun setStudentsSearchedList(listOfSearchedStudents: List<String>) {
         _searchedStudentsList.clear()
         _searchedStudentsList.addAll(listOfSearchedStudents)
@@ -102,4 +129,9 @@ class GroupDetailedScreenViewModel(
     private fun setWarningMessage(value: UiText?) {
         _warningMessage.value = value
     }
+
+    private fun setCurrentAppliableState(value: Boolean) {
+        _isAppliable.value = value
+    }
+
 }

@@ -79,7 +79,9 @@ fun ListOfGroupScreenComponent(navController: NavController, groupDetailedViewMo
     }
     if (groupToDelete.value != null) {
         AcceptGroupDeletingDialog(group = groupToDelete.value!!, onDeclineButton = { viewModel.setIsDeleteDialogShown(null) }) {
-            viewModel.deleteGroup(groupToDelete.value!!.identifier)
+            coroutineScope.launch {
+                viewModel.deleteGroup(groupToDelete.value!!.identifier)
+            }
             viewModel.setIsDeleteDialogShown(null)
         }
     }
