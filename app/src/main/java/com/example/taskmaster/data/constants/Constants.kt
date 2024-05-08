@@ -10,8 +10,12 @@ const val QUERY_DEBUG_TAG = "TM_FirebaseQueryTag"
 
 // Common
 const val DEFAULT_USER_NAME = "user"
+const val MIN_PASSWORD_LENGTH = 6 // firebase restrictions
+const val MIN_USERNAME_LENGTH = 2
 val TEACHER_BOTTOM_BAR_NAVIGATION_ITEMS =
     listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen, NavigationItem.CreateTaskScreen)
+val STUDENT_BOTTOM_BAR_NAVIGATION_ITEMS = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
+
 
 //Files
 const val MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024 // 4 MB in bytes

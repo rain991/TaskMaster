@@ -1,5 +1,6 @@
 package com.example.taskmaster.data.implementations.core.student.answers
 
+import com.example.taskmaster.data.constants.ANSWERS_COLLECTION
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.domain.repositories.core.student.StudentRelatedAnswerListRepository
@@ -13,7 +14,7 @@ class StudentsRelatedAnswerListRepositoryImpl(
     private val listenersManagerViewModel: ListenersManagerViewModel
 ) : StudentRelatedAnswerListRepository {
     override suspend fun getStudentRelatedAnswerList(studentUID: String) = callbackFlow {
-        val answersCollection = database.collection("answers")
+        val answersCollection = database.collection(ANSWERS_COLLECTION)
         val listener = answersCollection
             .whereEqualTo("studentUid", studentUID)
             .addSnapshotListener { querySnapshot, exception ->

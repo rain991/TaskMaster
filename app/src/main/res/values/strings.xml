@@ -8,11 +8,11 @@
     <string name="groups">Groups</string>
     <string name="create_task">Create task</string>
     <string name="login_incorrect_email">Incorrect email</string>
-    <string name="login_incorrect_password">Password length should min.length is 6</string>
-    <string name="register_name_length_error">Your name or surname should be at least 2 characters</string>
+    <string name="login_incorrect_password">Password length should min.length is %1$s</string>
+    <string name="register_name_length_error">Your name or surname should be at least %1$s characters</string>
     <string name="register_prohibited_characters_error">Email should not contain prohibited characters</string>
     <string name="register_repeat_password_does_not_match_error">Repeat password does not match</string>
-    <string name="register_password_length_should_be_at_least_error">Password length should be at least 6</string>
+    <string name="register_password_length_should_be_at_least_error">Password length should be at least %1$s</string>
     <string name="name_label">Name</string>
     <string name="surname_label">Surname</string>
     <string name="email_label">Email</string>
@@ -57,7 +57,7 @@
     <string name="create_task_deadline_time">Deadline time</string>
     <string name="create_task_selected_date">Selected date</string>
     <string name="ok">OK</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="create_task_select_date_first_message">Select date first</string>
     <string name="create_task_attached_files">Attached files</string>
     <string name="create_task_attach_files">Attach files</string>
@@ -98,7 +98,7 @@
     <string name="teacher_answer_detailed_screen_student_answer_header">Student answer</string>
     <string name="teacher_answer_detailed_screen_no_answer_placer">This student has not assigned any answer</string>
     <string name="teacher_answer_detailed_screen_student_answer">Student answer:</string>
-    <string name="teacher_answer_detailed_screen_attached_files_counter">Student attached %1$s files</string>
+    <string name="teacher_answer_detailed_screen_attached_files_counter">Student attached %1$d files</string>
     <string name="download_all">Download all</string>
     <string name="teacher_answer_detailed_screen_your_comment">Your comment</string>
     <string name="grade">Grade</string>
@@ -118,12 +118,16 @@
     <string name="teacher_task_card_this_task_is_ended">This task is ended</string>
     <string name="teacher_task_detailed_no_selected_task">No selected task</string>
     <string name="teacher_task_detailed_task_answers">Task answers</string>
-    <string name="teacher_task_detailed_groups_assigned">%1$s groups assigned</string>
+    <string name="teacher_task_detailed_groups_assigned">%1$d groups assigned</string>
     <string name="student_answer_card_already_submitted_CD">already submitted</string>
     <string name="student_answer_card_already_not_submitted_CD">not submitted</string>
-    <string name="time_left_hours_and_min">Time left: %1$s hours and %2$s min.</string>
-    <string name="time_left_days">Time left: %1$s days</string>
+    <string name="time_left_hours_and_min">Time left: %1$d hours and %2$d min.</string>
+    <string name="time_left_days">Time left: %1$d days</string>
     <string name="go_back_to_main_screen">Go back to main screen</string>
     <string name="answer_detailed_screen_go_back">Go back</string>
     <string name="teacher_group_detailed_is_appliable">Is appliable</string>
+    <string name="successful_adding_new_task">Successful adding new task</string>
+    <string name="error_adding_new_task">Error adding new task %1$s</string>
+    <string name="answer_added">Answer added</string>
+    <string name="error_adding_answer">Error adding answer %1$s</string>
 </resources>

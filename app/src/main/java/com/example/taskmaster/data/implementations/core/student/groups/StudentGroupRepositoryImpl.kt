@@ -1,11 +1,12 @@
 package com.example.taskmaster.data.implementations.core.student.groups
 
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.domain.repositories.core.student.StudentGroupRepository
 import com.google.firebase.firestore.FirebaseFirestore
 
 class StudentGroupRepositoryImpl(private val database: FirebaseFirestore) : StudentGroupRepository {
     override suspend fun addToGroupByIdentifier(studentEmail: String, groupIdentifier: String) {
-        val groupsCollection = database.collection("groups")
+        val groupsCollection = database.collection(GROUPS_COLLECTION)
         val groupQuery = groupsCollection.whereEqualTo("identifier", groupIdentifier).limit(1)
         groupQuery.get().addOnSuccessListener { documents ->
             if (!documents.isEmpty) {

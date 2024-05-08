@@ -1,6 +1,7 @@
 package com.example.taskmaster.data.implementations.core.teacher.groups
 
 import android.util.Log
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
@@ -15,7 +16,7 @@ import kotlinx.coroutines.tasks.await
 class TeacherGroupsListRepositoryImpl(private val database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) :
     TeacherGroupsListRepository {
     override suspend fun getGroupsRelatedToTeacher(teacherUID: String): List<Group> {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         return try {
             val querySnapshot = groupCollection.whereEqualTo("teacher", teacherUID).get().await()
             querySnapshot.documents.mapNotNull { document ->
@@ -34,7 +35,7 @@ class TeacherGroupsListRepositoryImpl(private val database: FirebaseFirestore, p
 
 
     override suspend fun getTeacherGroups(teacherUID: String): Flow<List<Group>> = callbackFlow {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val listener = groupCollection
             .whereEqualTo("teacher", teacherUID)
             .addSnapshotListener { querySnapshot, exception ->
@@ -58,7 +59,7 @@ class TeacherGroupsListRepositoryImpl(private val database: FirebaseFirestore, p
     }
 
     override suspend fun getTeacherGroup(teacherUID: String, groupIdentifier: String): Flow<Group?> = callbackFlow {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val listener = groupCollection
             .whereEqualTo("teacher", teacherUID)
             .whereEqualTo("identifier", groupIdentifier)

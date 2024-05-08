@@ -1,5 +1,6 @@
 package com.example.taskmaster.data.implementations.core.student.groups
 
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.domain.repositories.core.student.StudentGroupListRepository
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class StudentGroupListRepositoryImpl(private val database: FirebaseFirestore, private val listenersManagerViewModel: ListenersManagerViewModel) : StudentGroupListRepository {
     override suspend fun getStudentGroups(studentEmail : String) : Flow<List<Group>> = callbackFlow {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val listener = groupCollection
             .whereArrayContains("students", studentEmail)
             .addSnapshotListener { querySnapshot, exception ->

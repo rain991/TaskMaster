@@ -2,17 +2,16 @@ package com.example.taskmaster.data.implementations.core.teacher.groups
 
 import android.util.Log
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
-import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.domain.repositories.core.teacher.TeacherGroupRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
 class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : TeacherGroupRepository {
     override suspend fun createGroup(group: Group) {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val groupId = database.collection("groups").document().id
         val groupWithId = group.copy(identifier = groupId)
         groupCollection.add(groupWithId).addOnCompleteListener {
@@ -25,7 +24,7 @@ class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : Teac
     }
 
     override suspend fun deleteGroup(groupIdentifier: String) {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
 
         groupQuery.get().addOnSuccessListener { querySnapshot ->
@@ -45,9 +44,8 @@ class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : Teac
     }
 
     override suspend fun deleteStudentFromGroup(studentUID: String, groupIdentifier: String) {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
-
         groupQuery.get().addOnSuccessListener { querySnapshot ->
             if (!querySnapshot.isEmpty) {
                 val documentSnapshot = querySnapshot.documents.firstOrNull()
@@ -81,7 +79,7 @@ class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : Teac
     }
 
     override suspend fun setAppliableGroupState(state: Boolean, groupIdentifier: String) {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val groupQuery = groupCollection.whereEqualTo("identifier", groupIdentifier)
         groupQuery.get().addOnSuccessListener { querySnapshot ->
             if (!querySnapshot.isEmpty) {
@@ -102,7 +100,7 @@ class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : Teac
     }
 
     override suspend fun getCurrentAppliableState(groupIdentifier: String): Boolean {
-        val groupsCollection = database.collection("groups")
+        val groupsCollection = database.collection(GROUPS_COLLECTION)
         val groupQuery = groupsCollection.whereEqualTo("identifier", groupIdentifier).limit(1)
 
         return try {
@@ -114,8 +112,6 @@ class TeacherGroupRepositoryImpl(private val database: FirebaseFirestore) : Teac
                 false
             }
         } catch (e: FirebaseFirestoreException) {
-            // Handle exception, for example, log it and return default value
-            e.printStackTrace()
             false
         }
     }

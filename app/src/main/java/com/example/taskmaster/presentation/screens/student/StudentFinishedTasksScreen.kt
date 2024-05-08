@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.taskmaster.data.components.converters.convertScreenToNavigationItem
+import com.example.taskmaster.data.constants.STUDENT_BOTTOM_BAR_NAVIGATION_ITEMS
 import com.example.taskmaster.data.models.entities.UserTypes
-import com.example.taskmaster.data.models.navigation.NavigationItem
 import com.example.taskmaster.data.models.navigation.Screen
 import com.example.taskmaster.data.viewModels.other.ScreenManagerViewModel
 import com.example.taskmaster.presentation.components.common.barsAndHeaders.SimplifiedTopBar
@@ -24,10 +24,10 @@ import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
 
 @Composable
-fun StudentFinishedTasksScreen(navController : NavController) {
+fun StudentFinishedTasksScreen(navController: NavController) {
     val auth = koinInject<FirebaseAuth>()
     val currentUserName = auth.currentUser?.displayName
-    val bottomBarNavigationItems = listOf(NavigationItem.TaskScreen, NavigationItem.FinishedScreen, NavigationItem.GroupScreen)
+    val bottomBarNavigationItems = STUDENT_BOTTOM_BAR_NAVIGATION_ITEMS
     val screenManagerViewModel = koinViewModel<ScreenManagerViewModel>()
     val screenManagerState = screenManagerViewModel.currentScreenState.collectAsState()
 

@@ -1,7 +1,9 @@
 package com.example.taskmaster.data.implementations.core.teacher.answers
 
 import android.util.Log
+import com.example.taskmaster.data.constants.ANSWERS_COLLECTION
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.data.constants.QUERY_DEBUG_TAG
 import com.example.taskmaster.data.implementations.core.teacher.other.TeacherSearchRepositoryImpl
 import com.example.taskmaster.data.models.entities.Group
@@ -27,7 +29,7 @@ class TeacherRelatedAnswerListRepositoryImpl(
             close()
             return@callbackFlow
         }
-        val answersCollection = database.collection("answers")
+        val answersCollection = database.collection(ANSWERS_COLLECTION)
         val listener = answersCollection
             .whereIn("taskIdentifier", teacherTaskIdentifiers)
             .addSnapshotListener { querySnapshot, exception ->
@@ -52,7 +54,7 @@ class TeacherRelatedAnswerListRepositoryImpl(
     }
 
     override suspend fun getAllStudentsFromGroups(listOfRelatedGroupsIdentifiers: List<String>): List<Student> {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val emailsList = mutableListOf<String>()
         try {
             for (groupId in listOfRelatedGroupsIdentifiers) {
@@ -79,7 +81,7 @@ class TeacherRelatedAnswerListRepositoryImpl(
     }
 
     override suspend fun getStudentsEmailsFromGroup(groupIdentifier: String): List<String> {
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         return try {
             val querySnapshot = groupCollection.whereEqualTo("identifier", groupIdentifier).get().await()
             querySnapshot.documents.flatMap { document ->
@@ -98,7 +100,7 @@ class TeacherRelatedAnswerListRepositoryImpl(
     }
 
     override suspend fun getStudentsEmailsFlowFromGroup(groupIdentifier: String): Flow<List<String>> = callbackFlow{
-        val groupCollection = database.collection("groups")
+        val groupCollection = database.collection(GROUPS_COLLECTION)
         val listener = groupCollection.whereEqualTo("identifier", groupIdentifier)
             .addSnapshotListener { querySnapshot, exception ->
                 if (exception != null) {

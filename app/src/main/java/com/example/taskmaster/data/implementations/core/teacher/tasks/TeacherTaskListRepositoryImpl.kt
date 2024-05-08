@@ -1,5 +1,6 @@
 package com.example.taskmaster.data.implementations.core.teacher.tasks
 
+import com.example.taskmaster.data.constants.TASKS_COLLECTION
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.domain.repositories.core.teacher.TeacherTaskListRepository
@@ -13,7 +14,7 @@ class TeacherTaskListRepositoryImpl(private val database: FirebaseFirestore, pri
     TeacherTaskListRepository {
 
     override suspend fun getTeacherTasks(teacherUID: String): Flow<List<Task>> = callbackFlow {
-        val tasksCollection = database.collection("tasks")
+        val tasksCollection = database.collection(TASKS_COLLECTION)
         val listener = tasksCollection
             .whereEqualTo("teacher", teacherUID)
             .addSnapshotListener { querySnapshot, exception ->

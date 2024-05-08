@@ -3,6 +3,8 @@ package com.example.taskmaster.data.viewModels.auth
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.R
 import com.example.taskmaster.data.components.validateEmail
+import com.example.taskmaster.data.constants.MIN_PASSWORD_LENGTH
+import com.example.taskmaster.data.constants.MIN_USERNAME_LENGTH
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.data.models.entities.Teacher
 import com.example.taskmaster.data.models.entities.UserTypes
@@ -28,7 +30,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
 
     fun tryRegisterNewUser() {
         if (_registerScreenState.value.name.length < 2 || _registerScreenState.value.surname.length < 2) {
-            setWarningMessage(UiText(R.string.register_name_length_error))
+            setWarningMessage(UiText(R.string.register_name_length_error, MIN_USERNAME_LENGTH))
             return
         }
         if (!validateEmail(_registerScreenState.value.email)) {
@@ -40,7 +42,7 @@ class RegisterScreenViewModel(private val registerUseCase: RegisterUseCase) : Vi
             return
         }
         if (_registerScreenState.value.password.length < 6 && _registerScreenState.value.repeatPassword.length < 6) {
-            setWarningMessage(UiText(R.string.register_password_length_should_be_at_least_error))
+            setWarningMessage(UiText(R.string.register_password_length_should_be_at_least_error, MIN_PASSWORD_LENGTH))
             return
         }
 
