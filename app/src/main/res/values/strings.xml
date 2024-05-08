@@ -1,27 +1,27 @@
 <resources>
-    <string name="app_name">TaskMaster</string>
+    <string name="app_name" translatable="false">TaskMaster</string>
     <string name="app_icon">App icon</string>
-    <string name="task_master">Task Master</string>
+    <string name="task_master" translatable="false">TaskMaster</string>
     <string name="login">Login</string>
     <string name="tasks">Tasks</string>
     <string name="finished">Finished</string>
     <string name="groups">Groups</string>
     <string name="create_task">Create task</string>
     <string name="login_incorrect_email">Incorrect email</string>
-    <string name="login_incorrect_password">Password length should min.length is %1$s</string>
+    <string name="login_incorrect_password">Incorrect password</string>
     <string name="register_name_length_error">Your name or surname should be at least %1$s characters</string>
     <string name="register_prohibited_characters_error">Email should not contain prohibited characters</string>
     <string name="register_repeat_password_does_not_match_error">Repeat password does not match</string>
-    <string name="register_password_length_should_be_at_least_error">Password length should be at least %1$s</string>
+    <string name="register_password_length_should_be_at_least_error">Password length should be at least 6 cha</string>
     <string name="name_label">Name</string>
     <string name="surname_label">Surname</string>
-    <string name="email_label">Email</string>
+    <string name="email_label" translatable="false">Email</string>
     <string name="password_label">Password</string>
     <string name="repeat_password_label">Repeat Password</string>
-    <string name="register_screen_have_account_button">have account?</string>
+    <string name="register_screen_have_account_button">Already have account?</string>
     <string name="register_button">Register</string>
-    <string name="login_no_account_yet">no account yet?</string>
-    <string name="login_reset_password">reset password</string>
+    <string name="login_no_account_yet">No account yet?</string>
+    <string name="login_reset_password">Reset password</string>
     <string name="student_group_no_groups_yet_message">You don\'t have groups yet.</string>
     <string name="student_group_additional_message">Easily join to group using group identifier</string>
     <string name="student_group_assign_to_new_group">Assign to new group</string>
@@ -31,21 +31,21 @@
     <string name="student_tasks_invalid_current_user_error">Invalid current user</string>
     <string name="finished_tasks_header">Finished tasks</string>
     <string name="student_finished_tasks_message1">You don\'t have finished tasks</string>
-    <string name="student_finished_tasks_message2">You see all task assigned to your groups</string>
+    <string name="student_finished_tasks_message2">You see all tasks assigned to your groups</string>
     <string name="tasks_header">Tasks</string>
     <string name="student_tasks_message1">You don\'t have unfinished tasks</string>
-    <string name="student_tasks_message2">You see all task assigned to your groups</string>
+    <string name="student_tasks_message2">You see all tasks assigned to your groups</string>
     <string name="student_task_card_no_grade">Grade: no grade yet</string>
     <string name="student_task_card_group_name">Group: %1$s</string>
-    <string name="add_answer_for_task_CD">add answer for task</string>
-    <string name="already_submitted_CD">already submitted</string>
+    <string name="add_answer_for_task_CD">Add answer for task</string>
+    <string name="already_submitted_CD">Already submitted</string>
     <string name="create_group_group_created_message">Group %1$s created</string>
     <string name="create_group_error_1">Group must contain at least 1 student and group name should contain at least 3 characters</string>
     <string name="create_group_student_already_added_error">This student is already added</string>
-    <string name="group_detailed_screen_error1">There is no current selected group</string>
-    <string name="group">group</string>
+    <string name="group_detailed_screen_error1">There is no currently selected group</string>
+    <string name="group">Group</string>
     <string name="group_detailed_search_students">Search students</string>
-    <string name="group_detailed_delete_student_from_group_CD">delete %1$s student from group</string>
+    <string name="group_detailed_delete_student_from_group_CD">Delete %1$s student from group</string>
     <string name="group_detailed_group_is_empty_message">Group is empty</string>
     <string name="list_of_group_screen_no_group_message">You don\'t have group yet.</string>
     <string name="list_of_group_screen_additional_message">Easily create new one using button below</string>
@@ -56,7 +56,7 @@
     <string name="create_task_deadline_date">Deadline date</string>
     <string name="create_task_deadline_time">Deadline time</string>
     <string name="create_task_selected_date">Selected date</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
     <string name="create_task_select_date_first_message">Select date first</string>
     <string name="create_task_attached_files">Attached files</string>
@@ -72,7 +72,7 @@
     <string name="teacher_finished_message2">Easily create new one using Create Task screen</string>
     <string name="teacher_finished_groups_was_assigned">%1$s groups was assigned</string>
     <string name="screen_header_greetings">Hello, %1$s</string>
-    <string name="screen_header_additional">have a nice day!</string>
+    <string name="screen_header_additional">Have a nice day!</string>
     <string name="screen_header_additional_student">%1$s are waiting for you</string>
     <string name="reset_password_password_error">Type correct email address</string>
     <string name="text_button_with_clipboard_message">Copied</string>
@@ -87,7 +87,7 @@
     <string name="student_task_answer_task_files">Task files:</string>
     <string name="student_task_answer_task_current_file">File %1$s : %2$s</string>
     <string name="download">Download</string>
-    <string name="there_is_no_task_files">There is no task files</string>
+    <string name="there_is_no_task_files">There are no task files</string>
     <string name="student_task_answer_answer_goes_here">Answer goes here</string>
     <string name="student_task_answer_your_answer">Your answer:</string>
     <string name="student_task_answer_your_attached_files">Your attached files:</string>
@@ -96,7 +96,7 @@
     <string name="attach_files">Attach files</string>
     <string name="submit">Submit</string>
     <string name="teacher_answer_detailed_screen_student_answer_header">Student answer</string>
-    <string name="teacher_answer_detailed_screen_no_answer_placer">This student has not assigned any answer</string>
+    <string name="teacher_answer_detailed_screen_no_answer_placer">This student has not submitted any answer</string>
     <string name="teacher_answer_detailed_screen_student_answer">Student answer:</string>
     <string name="teacher_answer_detailed_screen_attached_files_counter">Student attached %1$d files</string>
     <string name="download_all">Download all</string>
@@ -114,13 +114,13 @@
     <string name="group_deleting_dialog_group_name_label">Group name</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
-    <string name="group_single_component_identifier">"identifier: "</string>
+    <string name="group_single_component_identifier">"Identifier: "</string>
     <string name="teacher_task_card_this_task_is_ended">This task is ended</string>
     <string name="teacher_task_detailed_no_selected_task">No selected task</string>
     <string name="teacher_task_detailed_task_answers">Task answers</string>
     <string name="teacher_task_detailed_groups_assigned">%1$d groups assigned</string>
-    <string name="student_answer_card_already_submitted_CD">already submitted</string>
-    <string name="student_answer_card_already_not_submitted_CD">not submitted</string>
+    <string name="student_answer_card_already_submitted_CD">Already submitted</string>
+    <string name="student_answer_card_already_not_submitted_CD">Not submitted</string>
     <string name="time_left_hours_and_min">Time left: %1$d hours and %2$d min.</string>
     <string name="time_left_days">Time left: %1$d days</string>
     <string name="go_back_to_main_screen">Go back to main screen</string>
