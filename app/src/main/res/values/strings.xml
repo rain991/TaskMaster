@@ -130,4 +130,5 @@
     <string name="error_adding_new_task">Error adding new task %1$s</string>
     <string name="answer_added">Answer added</string>
     <string name="error_adding_answer">Error adding answer %1$s</string>
+    <string name="sign_out_button">Sign out</string>
 </resources>

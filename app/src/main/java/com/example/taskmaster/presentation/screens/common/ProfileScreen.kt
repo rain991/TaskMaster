@@ -98,7 +98,7 @@ fun ProfileScreen(navController: NavController) {
                             auth.signOut()
                         }
                     }) {
-                        Text(text = "Sign out", style = MaterialTheme.typography.titleMedium)
+                        Text(text = stringResource(id = R.string.sign_out_button), style = MaterialTheme.typography.titleMedium)
                     }
                 }
             }

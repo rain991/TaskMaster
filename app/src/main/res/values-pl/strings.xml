@@ -22,7 +22,7 @@
     <string name="login_reset_password">Zresetuj hasło</string>
     <string name="student_group_no_groups_yet_message">Nie masz jeszcze żadnej grupy.</string>
     <string name="student_group_additional_message">Z łatwością dołącz do grupy używając jej identyfikatora</string>
-    <string name="student_group_assign_to_new_group">TO-DO</string>
+    <string name="student_group_assign_to_new_group">Przydziel do nowej grupy</string>
     <string name="student_groups_add_to_group">Dodaj do grupy</string>
     <string name="student_groups_group_identifier_error">Identyfikator grupy musi mieć długość 20 znaków</string>
     <string name="student_answer_you_have_not_attached_files_error">Nie dołączyłeś żadnych plików</string>
@@ -64,10 +64,10 @@
     <string name="teacher_answer_comment_should_not_be_empty">Komentarz nie powinien być pusty</string>
     <string name="teacher_task_message1">Nie masz żadnych aktualnych zadań</string>
     <string name="teacher_task_message2">Łatwo stwórz jedno używając ekranu Stwórz zadanie</string>
-    <string name="teacher_task_groups_was_assigned">TO-DO</string>
+    <string name="teacher_task_groups_was_assigned">%1$s grup zostało przydzielonych</string>
     <string name="teacher_finished_message1">Nie masz żadnych ukończonych zadań</string>
     <string name="teacher_finished_message2">Łatwo stwórz jedno używając ekranu Stwórz zadanie</string>
-    <string name="teacher_finished_groups_was_assigned">TO-DO</string>
+    <string name="teacher_finished_groups_was_assigned">%1$s grup zostało przydzielonych</string>
     <string name="screen_header_greetings">Witaj, %1$s</string>
     <string name="screen_header_additional">Miłego dnia!</string>
     <string name="screen_header_additional_student">%1$s czekają na ciebie</string>
@@ -85,7 +85,7 @@
     <string name="student_task_answer_task_current_file">Plik %1$s : %2$s</string>
     <string name="download">Pobierz</string>
     <string name="there_is_no_task_files">Nie ma załączników</string>
-    <string name="student_task_answer_answer_goes_here">Miejsce na odpowiedź jest tutaj</string>
+    <string name="student_task_answer_answer_goes_here">Miejsce na twoją odpowiedź</string>
     <string name="student_task_answer_your_answer">Twoja odpowiedź:</string>
     <string name="student_task_answer_your_attached_files">Twoje załączniki:</string>
     <string name="student_task_answer_no_attached_files_message">Nie dołączyłeś jeszcze żadnych plików</string>
@@ -95,7 +95,7 @@
     <string name="teacher_answer_detailed_screen_student_answer_header">Odpowiedź ucznia</string>
     <string name="teacher_answer_detailed_screen_no_answer_placer">Ten uczeń nie wysłał żadnej odpowiedzi</string>
     <string name="teacher_answer_detailed_screen_student_answer">Odpowiedź ucznia:</string>
-    <string name="teacher_answer_detailed_screen_attached_files_counter">Uczeń dołączył %1$s plików</string>
+    <string name="teacher_answer_detailed_screen_attached_files_counter">Uczeń dołączył %1$d plików</string>
     <string name="download_all">Pobierz wszystko</string>
     <string name="teacher_answer_detailed_screen_your_comment">Twój komentarz</string>
     <string name="grade">Ocena</string>
@@ -115,16 +115,17 @@
     <string name="teacher_task_card_this_task_is_ended">To zadanie się zakończyło</string>
     <string name="teacher_task_detailed_no_selected_task">Nie wybrano zadania</string>
     <string name="teacher_task_detailed_task_answers">Odpowiedzi do zadania</string>
-    <string name="teacher_task_detailed_groups_assigned">TO-DO</string>
+    <string name="teacher_task_detailed_groups_assigned">%1$d grup przydzielonych</string>
     <string name="student_answer_card_already_submitted_CD">Już wysłano</string>
     <string name="student_answer_card_already_not_submitted_CD">Nie wysłano</string>
-    <string name="time_left_hours_and_min">Pozostały czas: %1$s godzin i %2$s minut</string>
-    <string name="time_left_days">Pozostały czas: %1$s dni</string>
+    <string name="time_left_hours_and_min">Pozostały czas: %1$d godzin i %2$d minut</string>
+    <string name="time_left_days">Pozostały czas: %1$d dni</string>
     <string name="go_back_to_main_screen">Wróć do ekranu głównego</string>
     <string name="answer_detailed_screen_go_back">Powróć</string>
-    <string name="teacher_group_detailed_is_appliable">Ma zastosowanie</string>
+    <string name="teacher_group_detailed_is_appliable">Można dołączyć</string>
     <string name="successful_adding_new_task">Pomyślnie dodano nowe zadanie</string>
     <string name="error_adding_new_task">Błąd przy dodawaniu zadania %1$s</string>
     <string name="answer_added">Dodano odpowiedź</string>
     <string name="error_adding_answer">Błąd przy dodawaniu odpowiedzi %1$s</string>
+    <string name="sign_out_button">Wyloguj się</string>
 </resources>

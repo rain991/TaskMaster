@@ -79,11 +79,11 @@ fun ResetPasswordComponent(paddingValues: PaddingValues, navController: NavContr
             },
             modifier = Modifier.fillMaxWidth(0.36f)
         ) {
-            Text("Reset Password", textAlign = TextAlign.Center)
+            Text(text = stringResource(id = R.string.login_reset_password), textAlign = TextAlign.Center)
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
-            Text(text = "go back")
+            Text(text = stringResource(id = R.string.answer_detailed_screen_go_back))
         }
         if (loading) {
             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
