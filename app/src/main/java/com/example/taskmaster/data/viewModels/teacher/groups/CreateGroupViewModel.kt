@@ -44,7 +44,7 @@ class CreateGroupViewModel(
                     tasks = listOf()
                 )
             )
-            setWarningMessage(UiText(R.string.create_group_group_created_message, _groupNameText.value))  //"Group ${_groupNameText.value} created"
+            setWarningMessage(UiText(R.string.create_group_group_created_message, _groupNameText.value))
 
         }else{
             setWarningMessage(UiText(R.string.create_group_error_1))

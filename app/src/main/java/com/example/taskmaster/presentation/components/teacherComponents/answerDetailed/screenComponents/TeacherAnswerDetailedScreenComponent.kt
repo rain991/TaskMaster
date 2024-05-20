@@ -45,28 +45,41 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        if(screenState.value.warningMessage!=null){
-            Toast.makeText(localContext, screenState.value.warningMessage?.asString(localContext),Toast.LENGTH_SHORT).show()
+        if (screenState.value.warningMessage != null) {
+            Toast.makeText(
+                localContext,
+                screenState.value.warningMessage?.asString(localContext),
+                Toast.LENGTH_SHORT
+            ).show()
             answerDetailedViewModel.deleteWarningMessage()
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = stringResource(R.string.teacher_answer_detailed_screen_student_answer_header),
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 32.sp)
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp
+                )
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = screenState.value.fetchedStudentName ?: "",
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 26.sp)
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 26.sp
+                )
             )
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = screenState.value.fetchedTaskName ?: "",
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold, fontSize = 22.sp)
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 22.sp
+                )
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -116,34 +129,49 @@ fun TeacherAnswerDetailedScreenComponent(answerDetailedViewModel: TeacherAnswerV
                 Text(text = stringResource(R.string.download_all))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = MaterialTheme.colorScheme.primary)
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.primary
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            GradientInputTextField(value = screenState.value.teacherAnswer, label = stringResource(R.string.teacher_answer_detailed_screen_your_comment)) {
+            GradientInputTextField(
+                value = screenState.value.teacherAnswer,
+                label = stringResource(R.string.teacher_answer_detailed_screen_your_comment)
+            ) {
                 if (it.length < ANSWER_MAX_LENGTH) {
                     answerDetailedViewModel.setTeacherAnswer(it)
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
             GradientInputTextField(
-                value = screenState.value.teacherGrade.toString(),
+                value = screenState.value.teacherGrade.toString()
+                ,
                 label = stringResource(R.string.grade),
                 keyboardType = KeyboardType.Number
             ) {
-                answerDetailedViewModel.setTeacherGrade(it.toFloat())
+                val newString = it.filter { char ->
+                    char == ".".first()
+                }
+                if (newString.length <= 1) answerDetailedViewModel.setTeacherGrade(it)
             }
             Spacer(modifier = Modifier.weight(1f))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                OutlinedButton(onClick = { coroutineScope.launch{
-                    answerDetailedViewModel.sentBack()
-                  //  Toast.makeText(localContext, "Sent back",Toast.LENGTH_SHORT).show()
-                } }) {
+                OutlinedButton(onClick = {
+                    coroutineScope.launch {
+                        answerDetailedViewModel.sentBack()
+                        //  Toast.makeText(localContext, "Sent back",Toast.LENGTH_SHORT).show()
+                    }
+                }) {
                     Text(text = stringResource(R.string.teacher_answer_detailed_screen_send_back))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                FilledTonalButton(onClick = {coroutineScope.launch {
-                    answerDetailedViewModel.grade()
-                  //  Toast.makeText(localContext, "Added grade",Toast.LENGTH_SHORT).show()
-                } }) {
+                FilledTonalButton(onClick = {
+                    coroutineScope.launch {
+                        answerDetailedViewModel.grade()
+                        //  Toast.makeText(localContext, "Added grade",Toast.LENGTH_SHORT).show()
+                    }
+                }) {
                     Text(text = stringResource(R.string.grade))
                 }
             }
