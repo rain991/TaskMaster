@@ -67,10 +67,10 @@
     <string name="teacher_answer_comment_should_not_be_empty">Comment should not be empty</string>
     <string name="teacher_task_message1">You don\'t have current tasks</string>
     <string name="teacher_task_message2">Easily create new one using Create Task screen</string>
-    <string name="teacher_task_groups_was_assigned">%1$s groups was assigned</string>
+    <string name="teacher_task_groups_was_assigned">%1$s groups were assigned</string>
     <string name="teacher_finished_message1">You don\'t have finished tasks</string>
     <string name="teacher_finished_message2">Easily create new one using Create Task screen</string>
-    <string name="teacher_finished_groups_was_assigned">%1$s groups was assigned</string>
+    <string name="teacher_finished_groups_was_assigned">%1$s groups were assigned</string>
     <string name="screen_header_greetings">Hello, %1$s</string>
     <string name="screen_header_additional">Have a nice day!</string>
     <string name="screen_header_additional_student">%1$s are waiting for you</string>
@@ -131,4 +131,9 @@
     <string name="answer_added">Answer added</string>
     <string name="error_adding_answer">Error adding answer %1$s</string>
     <string name="sign_out_button">Sign out</string>
+    <string name="i_am">I am</string>
+    <string name="student">student</string>
+    <string name="teacher">teacher</string>
+    <string name="task_title">Task title</string>
+    <string name="group_identifier">Group identifier</string>
 </resources>

@@ -54,7 +54,9 @@ fun StudentGroupsScreenComponent() {
     }
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
         if (groupList.isEmpty()) {
-            Box(modifier = Modifier.fillMaxWidth().weight(2f)) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .weight(2f)) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,7 +115,7 @@ fun StudentGroupsScreenComponent() {
                 modifier = Modifier
                     .fillMaxWidth(0.64f), horizontalArrangement = Arrangement.Center
             ) {
-                GradientInputTextField(value = inputIdentifier, label = "Group identifier") {
+                GradientInputTextField(value = inputIdentifier, label = stringResource(R.string.group_identifier)) {
                     inputIdentifier = it
                 }
             }

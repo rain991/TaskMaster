@@ -121,7 +121,7 @@ val viewModelModule = module {
     viewModel { TeacherTaskListViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
     viewModel { GroupDetailedScreenViewModel(get(), get(),get(),get()) }
-    viewModel { CreateTaskViewModel(get(), get(), get()) }
+    viewModel { CreateTaskViewModel(get(), get(), get(), androidContext()) }
     viewModel { TeacherTaskDetailedViewModel(get(), get(), get(), get()) }
     viewModel { TeacherAnswerViewModel(get()) }
 }

@@ -20,11 +20,13 @@ import kotlinx.coroutines.launch
 class CreateTaskViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
     private val groupsListRepositoryImpl: TeacherGroupsListRepositoryImpl,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    context: Context
+    
 ) : ViewModel() {
     private val _createTaskScreenState = MutableStateFlow(
         CreateTaskScreenState(
-            title = "Task title",
+            title = context.getString(R.string.task_title),
             description = "Description",
             listOfGroupNames = listOf(),
             listOfSelectedGroupNames = listOf(),

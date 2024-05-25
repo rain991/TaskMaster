@@ -65,7 +65,7 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "I am", style = MaterialTheme.typography.titleSmall)
+            Text(text = stringResource(R.string.i_am), style = MaterialTheme.typography.titleSmall)
             SingleChoiceSegmentedButtonRow {
                 registerOptions.forEachIndexed { index, type ->
                     SegmentedButton(
@@ -74,9 +74,14 @@ fun RegisterScreenComponent(paddingValues: PaddingValues, navController: NavCont
                         selected = screenState.value.userType == type,
                         shape = SegmentedButtonDefaults.itemShape(index = index, count = registerOptions.size)
                     ) {
+                        val buttonText = when (type) {
+                            UserTypes.Student -> stringResource(R.string.student)
+                            UserTypes.Teacher -> stringResource(R.string.teacher)
+                        }
+
                         Text(
                             modifier = Modifier.wrapContentWidth(),
-                            text = type.name,
+                            text = buttonText,
                             maxLines = 1,
                             style = MaterialTheme.typography.labelMedium,
                             textAlign = TextAlign.Start
