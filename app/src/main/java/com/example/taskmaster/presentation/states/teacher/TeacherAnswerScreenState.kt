@@ -8,6 +8,6 @@ data class TeacherAnswerScreenState (
     val fetchedStudentName : String?,
     val fetchedTaskName : String?,
     val teacherAnswer: String,
-    val teacherGrade : Float,
+    val teacherGrade : String,
     val warningMessage : UiText?
 )

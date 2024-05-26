@@ -32,18 +32,19 @@ class CreateGroupViewModel(
 
     private val _groupNameText = MutableStateFlow("")
     val groupNameText = _groupNameText.asStateFlow()
-    fun createGroup() {
+    suspend fun createGroup() {
         if(_addedStudentsList.size>0 && _groupNameText.value.length > 2){
             createGroupUseCase(
                 Group(
                     identifier = "",
                     name = _groupNameText.value,
+                    isAppliable = true,
                     teacher = auth.currentUser!!.uid,
                     students = _addedStudentsList.map { it.email },
                     tasks = listOf()
                 )
             )
-            setWarningMessage(UiText(R.string.create_group_group_created_message, _groupNameText.value))  //"Group ${_groupNameText.value} created"
+            setWarningMessage(UiText(R.string.create_group_group_created_message, _groupNameText.value))
 
         }else{
             setWarningMessage(UiText(R.string.create_group_error_1))

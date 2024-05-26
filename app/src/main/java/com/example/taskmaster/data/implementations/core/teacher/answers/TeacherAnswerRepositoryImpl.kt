@@ -1,13 +1,12 @@
 package com.example.taskmaster.data.implementations.core.teacher.answers
 
-import android.util.Log
-import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.constants.ANSWERS_COLLECTION
 import com.example.taskmaster.domain.repositories.core.teacher.TeacherAnswerRepository
 import com.google.firebase.firestore.FirebaseFirestore
 
 class TeacherAnswerRepositoryImpl(private val database: FirebaseFirestore) : TeacherAnswerRepository {
     override suspend fun setGradeWithComment(studentUID: String, taskIdentifier: String, grade: Float, comment: String) {
-        val answersCollection = database.collection("answers")
+        val answersCollection = database.collection(ANSWERS_COLLECTION)
         val answerQuery = answersCollection.whereEqualTo("studentUid", studentUID).whereEqualTo("taskIdentifier", taskIdentifier).limit(1)
         answerQuery.get().addOnSuccessListener{
                 documents ->
@@ -22,9 +21,7 @@ class TeacherAnswerRepositoryImpl(private val database: FirebaseFirestore) : Tea
     }
 
     override suspend fun sendBackWithComment(studentUID: String, taskIdentifier: String, comment: String) {
-        Log.d(COMMON_DEBUG_TAG, "sendBackWithComment: studentUId: ${studentUID}")
-        Log.d(COMMON_DEBUG_TAG, "sendBackWithComment: taskIdentifier: ${taskIdentifier}")
-        val answersCollection = database.collection("answers")
+        val answersCollection = database.collection(ANSWERS_COLLECTION)
         val answerQuery = answersCollection.whereEqualTo("studentUid", studentUID).whereEqualTo("taskIdentifier", taskIdentifier).limit(1)
         answerQuery.get().addOnSuccessListener{
                 documents ->

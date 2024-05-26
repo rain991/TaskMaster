@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.taskmaster.R
 import com.example.taskmaster.data.components.validateEmail
+import com.example.taskmaster.data.constants.MIN_PASSWORD_LENGTH
 import com.example.taskmaster.domain.useCases.common.LoginUseCase
 import com.example.taskmaster.presentation.UiText.UiText
 import com.example.taskmaster.presentation.states.auth.LoginScreenState
@@ -27,7 +28,7 @@ class LoginScreenViewModel(
             return
         }
         if (_screenState.value.password.length < 6) {
-            setWarningMessage(UiText(R.string.login_incorrect_password))
+            setWarningMessage(UiText(R.string.login_incorrect_password, MIN_PASSWORD_LENGTH))
             return
         }
         loginUseCase(email = _screenState.value.email, password = _screenState.value.password, navController = navController)

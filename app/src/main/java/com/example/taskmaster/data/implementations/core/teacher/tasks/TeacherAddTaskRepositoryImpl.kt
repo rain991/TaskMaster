@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.getFileName
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
+import com.example.taskmaster.data.constants.TASKS_COLLECTION
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.domain.repositories.core.teacher.TeacherAddTaskRepository
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,17 +20,15 @@ import java.io.IOException
 class TeacherAddTaskRepositoryImpl(private val database: FirebaseFirestore, private val storageRef: FirebaseStorage) :
     TeacherAddTaskRepository {
     override suspend fun addTask(task: Task, localUriFilesList: List<Uri>, context: Context) {
-        val tasksReference = database.collection("tasks")
-        val taskId = database.collection("tasks").document().id
+        val tasksReference = database.collection(TASKS_COLLECTION)
+        val taskId = database.collection(TASKS_COLLECTION).document().id
         val taskWithId = task.copy(identifier = taskId)
         val storageUrlList = addFilesToStorage(localUriFilesList, context)
         val taskWithActualURLList = taskWithId.copy(relatedFilesURL = storageUrlList)
         tasksReference.add(taskWithActualURLList).addOnCompleteListener {
-            Log.d(COMMON_DEBUG_TAG, "Successful adding new task")
-            Toast.makeText(context, "Successful adding new task", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.successful_adding_new_task), Toast.LENGTH_LONG).show()
         }.addOnFailureListener { exception ->
-            Log.d(COMMON_DEBUG_TAG, "Error adding new task: ", exception)
-            Toast.makeText(context, "Error adding new task ${exception.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.error_adding_new_task, exception.message), Toast.LENGTH_LONG).show()
         }
 
     }

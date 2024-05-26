@@ -37,6 +37,7 @@ import com.example.taskmaster.domain.useCases.student.SubmitTaskUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.CreateGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeleteGroupUseCase
 import com.example.taskmaster.domain.useCases.teacher.group.DeletePersonFromGroupUseCase
+import com.example.taskmaster.domain.useCases.teacher.group.ToggleAppliableStateUseCase
 import com.example.taskmaster.domain.useCases.teacher.tasks.CreateTaskUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -98,6 +99,7 @@ val domainModule = module {
     single<CreateGroupUseCase> { CreateGroupUseCase(get()) }
     single<DeleteGroupUseCase> { DeleteGroupUseCase(get()) }
     single<DeletePersonFromGroupUseCase> { DeletePersonFromGroupUseCase(get()) }
+    single<ToggleAppliableStateUseCase> {ToggleAppliableStateUseCase(get())}
 }
 
 val viewModelModule = module {
@@ -118,8 +120,8 @@ val viewModelModule = module {
     viewModel { TeacherGroupListScreenViewModel(get(), get(), get()) }
     viewModel { TeacherTaskListViewModel(get(), get(), get()) }
     viewModel { CreateGroupViewModel(get(), get(), get()) }
-    viewModel { GroupDetailedScreenViewModel(get(), get(),get()) }
-    viewModel { CreateTaskViewModel(get(), get(), get()) }
+    viewModel { GroupDetailedScreenViewModel(get(), get(),get(),get()) }
+    viewModel { CreateTaskViewModel(get(), get(), get(), androidContext()) }
     viewModel { TeacherTaskDetailedViewModel(get(), get(), get(), get()) }
     viewModel { TeacherAnswerViewModel(get()) }
 }

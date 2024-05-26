@@ -59,7 +59,7 @@ fun TeacherTaskCard(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(text = "Group: $groupName")
+                    Text(text = stringResource(R.string.student_task_card_group_name, groupName))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {

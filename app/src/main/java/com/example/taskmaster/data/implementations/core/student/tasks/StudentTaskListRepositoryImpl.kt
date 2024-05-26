@@ -1,5 +1,6 @@
 package com.example.taskmaster.data.implementations.core.student.tasks
 
+import com.example.taskmaster.data.constants.TASKS_COLLECTION
 import com.example.taskmaster.data.models.entities.Task
 import com.example.taskmaster.data.viewModels.other.ListenersManagerViewModel
 import com.example.taskmaster.domain.repositories.core.student.StudentTaskListRepository
@@ -20,7 +21,7 @@ class StudentTaskListRepositoryImpl(
             return@callbackFlow
         }
 
-        val tasksCollection = database.collection("tasks")
+        val tasksCollection = database.collection(TASKS_COLLECTION)
         val listener = tasksCollection
             .whereArrayContainsAny("groups", studentGroupIdentifiers)
             .addSnapshotListener { querySnapshot, exception ->

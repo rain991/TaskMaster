@@ -4,7 +4,7 @@ import com.example.taskmaster.data.implementations.core.teacher.groups.TeacherGr
 import com.example.taskmaster.data.models.entities.Group
 
 class CreateGroupUseCase(private val groupRepositoryImpl: TeacherGroupRepositoryImpl) {
-    operator fun invoke(group : Group) {
+    suspend operator fun invoke(group : Group) {
         groupRepositoryImpl.createGroup(group)
     }
 }

@@ -1,7 +1,9 @@
 package com.example.taskmaster.data.implementations.core.teacher.other
 
 import android.util.Log
+import com.example.taskmaster.data.constants.GROUPS_COLLECTION
 import com.example.taskmaster.data.constants.SEARCH_DEBUG_TAG
+import com.example.taskmaster.data.constants.USERS_COLLECTION
 import com.example.taskmaster.data.models.entities.Group
 import com.example.taskmaster.data.models.entities.Student
 import com.example.taskmaster.domain.repositories.core.teacher.TeacherSearchRepository
@@ -10,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 
 class TeacherSearchRepositoryImpl(private val database : FirebaseFirestore)  : TeacherSearchRepository{
     override fun searchTeacherGroupByName(name: String, teacherUID: String): List<Group> {
-        val groupsCollection = database.collection("groups")
+        val groupsCollection = database.collection(GROUPS_COLLECTION)
         val resultGroups = mutableListOf<Group>()
 
         groupsCollection
@@ -31,7 +33,7 @@ class TeacherSearchRepositoryImpl(private val database : FirebaseFirestore)  : T
 
 
     override suspend fun searchStudentsByEmail(email: String): List<Student> {
-        val usersCollection = database.collection("users")
+        val usersCollection = database.collection(USERS_COLLECTION)
         val resultUsers = mutableListOf<Student>()
 
         usersCollection

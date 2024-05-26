@@ -28,6 +28,7 @@ class LoginRepositoryImpl(private val database: FirebaseFirestore, private val a
 
     private var userTypeReinstantiationCounter = 0
     override suspend fun getCurrentUserType(): String? {
+        
         if (auth.currentUser == null && userTypeReinstantiationCounter < 10) {
             delay(200)
             userTypeReinstantiationCounter

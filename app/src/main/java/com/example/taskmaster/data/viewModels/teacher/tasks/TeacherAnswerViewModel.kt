@@ -19,7 +19,7 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
             fetchedStudentName = null,
             fetchedTaskName = null,
             teacherAnswer = "",
-            teacherGrade = 0.0f,
+            teacherGrade = "",
             warningMessage = null
         )
     )
@@ -27,11 +27,11 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
 
     suspend fun grade() {
         if (_teacherAnswerScreenState.value.currentStudentAnswer != null) {
-            if (_teacherAnswerScreenState.value.teacherGrade != 0.0f) {
+            if (_teacherAnswerScreenState.value.teacherGrade.toFloat() != 0.0f) {
                 teacherAnswerRepositoryImpl.setGradeWithComment(
                     _teacherAnswerScreenState.value.currentStudentAnswer!!.studentUid,
                     taskIdentifier = _teacherAnswerScreenState.value.currentStudentAnswer!!.taskIdentifier,
-                    grade = _teacherAnswerScreenState.value.teacherGrade,
+                    grade = _teacherAnswerScreenState.value.teacherGrade.toFloat(),
                     comment = _teacherAnswerScreenState.value.teacherAnswer
                 )
             } else {
@@ -79,7 +79,7 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
         _teacherAnswerScreenState.value = teacherAnswerScreenState.value.copy(teacherAnswer = value)
     }
 
-    fun setTeacherGrade(value: Float) {
+    fun setTeacherGrade(value: String) {
         _teacherAnswerScreenState.value = teacherAnswerScreenState.value.copy(teacherGrade = value)
     }
 

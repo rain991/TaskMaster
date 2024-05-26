@@ -4,7 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.getFileName
+import com.example.taskmaster.data.constants.ANSWERS_COLLECTION
 import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.domain.repositories.core.student.StudentAnswerRepository
@@ -18,15 +20,13 @@ import java.io.IOException
 class StudentAnswerRepositoryImpl(private val database: FirebaseFirestore, private val storageRef: FirebaseStorage) :
     StudentAnswerRepository {
     override suspend fun addAnswer(studentAnswer: StudentAnswer, localUriFilesList: List<Uri>, context: Context) {
-        val answersReference = database.collection("answers")
+        val answersReference = database.collection(ANSWERS_COLLECTION)
         val storageUrlList = addFilesToStorage(localUriFilesList, context)
         val studentAnswerWithActualUrlList = studentAnswer.copy(fileUrls = storageUrlList)
         answersReference.add(studentAnswerWithActualUrlList).addOnCompleteListener {
-            Log.d(COMMON_DEBUG_TAG, "Answer added")
-            Toast.makeText(context, "Answer added", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.answer_added), Toast.LENGTH_LONG).show()
         }.addOnFailureListener { exception ->
-            Log.d(COMMON_DEBUG_TAG, "Error adding answer: ", exception)
-            Toast.makeText(context, "Error adding answer ${exception.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, context.getString(R.string.error_adding_answer, exception.message), Toast.LENGTH_LONG).show()
         }
     }
 

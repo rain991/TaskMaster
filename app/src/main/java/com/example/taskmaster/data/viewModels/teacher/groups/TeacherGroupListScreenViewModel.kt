@@ -32,7 +32,7 @@ class TeacherGroupListScreenViewModel(
             }
         }
     }
-    fun deleteGroup(groupIdentifier: String) {
+    suspend fun deleteGroup(groupIdentifier: String) {
         deleteGroupUseCase(groupIdentifier)
     }
 
