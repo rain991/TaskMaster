@@ -56,7 +56,6 @@ fun StudentTasksScreen(navController: NavController, studentAnswerScreenViewMode
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
             StudentTaskScreenComponent(navController, studentAnswerScreenViewModel)
         }
     }
