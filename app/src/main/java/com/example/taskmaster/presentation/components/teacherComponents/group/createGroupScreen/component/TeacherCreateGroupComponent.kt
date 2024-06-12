@@ -83,7 +83,7 @@ fun TeacherCreateGroupComponent() {
             onSearch = {
                 if (it.length > 2) {
                     coroutineScope.launch {
-                        viewModel.searchStudent(it)
+                        viewModel.searchStudent(it.trim())
                     }
                 }
             },
