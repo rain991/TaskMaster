@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -45,7 +46,10 @@ fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreen
     }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Text(text = stringResource(R.string.tasks_header), style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold))
+            Text(
+                text = stringResource(R.string.tasks_header),
+                style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp, fontWeight = FontWeight.Bold)
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -56,9 +60,9 @@ fun StudentTaskScreenComponent(navController: NavController, studentAnswerScreen
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(text = stringResource(R.string.student_tasks_message1))
+                    Text(text = stringResource(R.string.student_tasks_message1), textAlign = TextAlign.Center)
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = stringResource(R.string.student_tasks_message2))
+                    Text(text = stringResource(R.string.student_tasks_message2), textAlign = TextAlign.Center)
                 }
             }
         } else {

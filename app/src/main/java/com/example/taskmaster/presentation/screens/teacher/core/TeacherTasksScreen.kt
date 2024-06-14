@@ -57,7 +57,6 @@ fun TeacherTasksScreen(navController: NavController, teacherTaskDetailedViewMode
             verticalArrangement = Arrangement.spacedBy(8.dp)
         )
         {
-            // TaskMasterSearchBar(searchText =, onSearchTextChange =, onSearch =, isSearching =)
             TeacherTaskScreenComponent(navController, teacherTaskDetailedViewModel)
         }
     }
