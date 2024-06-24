@@ -57,6 +57,7 @@ import com.example.taskmaster.data.constants.MAX_FILES_TO_SELECT
 import com.example.taskmaster.data.constants.MAX_FILE_SIZE_BYTES
 import com.example.taskmaster.data.constants.TASK_DESCRIPTION_MAX_LENGTH
 import com.example.taskmaster.data.constants.TASK_NAME_MAX_LENGTH
+import com.example.taskmaster.data.constants.formatDateWithoutYear
 import com.example.taskmaster.data.viewModels.teacher.tasks.CreateTaskViewModel
 import com.example.taskmaster.presentation.UiText.UiText
 import kotlinx.coroutines.launch
@@ -124,7 +125,7 @@ fun CreateTaskComponent() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             ) {
-                if(it.length<TASK_NAME_MAX_LENGTH){
+                if (it.length < TASK_NAME_MAX_LENGTH) {
                     viewModel.setTitle(it)
                 }
             }
@@ -147,7 +148,7 @@ fun CreateTaskComponent() {
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             ) {
-                if(it.length < TASK_DESCRIPTION_MAX_LENGTH){
+                if (it.length < TASK_DESCRIPTION_MAX_LENGTH) {
                     viewModel.setDescription(it)
                 }
             }
@@ -169,7 +170,7 @@ fun CreateTaskComponent() {
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = stringResource(R.string.create_task_selected_date), style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = Date(screenState.value.selectedDate!!).toString())
+            Text(text = formatDateWithoutYear(Date(screenState.value.selectedDate!!)))
         }
         if (screenState.value.datePickerState) {
             val datePickerState = rememberDatePickerState(screenState.value.selectedDate)
@@ -292,8 +293,7 @@ private fun AmountInput(
             .width(IntrinsicSize.Min)
             .padding(start = 6.dp),
         textStyle = textStyle,
-        value = currentText
-        ,
+        value = currentText,
         onValueChange = { newText ->
             onValueChange(newText)
         },
