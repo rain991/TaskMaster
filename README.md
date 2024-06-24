@@ -31,7 +31,7 @@ TaskMaster is not currently planned to be published on Play Market or other stor
 
 ## Additional documentation
 Additional documentation related to project creating process and testing could be found here - 
-
+[documentation](https://drive.google.com/drive/folders/19-6BGIhBwBXJZxvT9CnS11oX8P1QtifX?usp=sharing)
 > Attention: project target country is Poland. Most of documentation is written in Polish.
 > 
 ## Used Technologies
