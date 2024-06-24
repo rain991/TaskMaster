@@ -1,9 +1,11 @@
 package com.example.taskmaster.data.viewModels.teacher.tasks
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.taskmaster.R
 import com.example.taskmaster.data.components.files.FileDownloader
+import com.example.taskmaster.data.constants.COMMON_DEBUG_TAG
 import com.example.taskmaster.data.implementations.core.teacher.answers.TeacherAnswerRepositoryImpl
 import com.example.taskmaster.data.models.entities.StudentAnswer
 import com.example.taskmaster.presentation.UiText.UiText
@@ -27,15 +29,20 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
 
     suspend fun grade() {
         if (_teacherAnswerScreenState.value.currentStudentAnswer != null) {
-            if (_teacherAnswerScreenState.value.teacherGrade.toFloat() != 0.0f) {
-                teacherAnswerRepositoryImpl.setGradeWithComment(
-                    _teacherAnswerScreenState.value.currentStudentAnswer!!.studentUid,
-                    taskIdentifier = _teacherAnswerScreenState.value.currentStudentAnswer!!.taskIdentifier,
-                    grade = _teacherAnswerScreenState.value.teacherGrade.toFloat(),
-                    comment = _teacherAnswerScreenState.value.teacherAnswer
-                )
-            } else {
-                setWarningMessage(UiText(R.string.teacher_answer_grade_should_not_be_0))
+            try {
+                val teacherGradeValue = _teacherAnswerScreenState.value.teacherGrade.toFloat()
+                if (teacherGradeValue != 0.0f) {
+                    teacherAnswerRepositoryImpl.setGradeWithComment(
+                        _teacherAnswerScreenState.value.currentStudentAnswer!!.studentUid,
+                        taskIdentifier = _teacherAnswerScreenState.value.currentStudentAnswer!!.taskIdentifier,
+                        grade = teacherGradeValue,
+                        comment = _teacherAnswerScreenState.value.teacherAnswer
+                    )
+                } else {
+                    setWarningMessage(UiText(R.string.teacher_answer_grade_should_not_be_0))
+                }
+            } catch (e: NumberFormatException) {
+                Log.d(COMMON_DEBUG_TAG, "converting error : ${e.message}")
             }
         }
     }
@@ -68,9 +75,11 @@ class TeacherAnswerViewModel(private val teacherAnswerRepositoryImpl: TeacherAns
             }
         }
     }
- fun deleteWarningMessage(){
-     _teacherAnswerScreenState.update { teacherAnswerScreenState.value.copy(warningMessage = null) }
- }
+
+    fun deleteWarningMessage() {
+        _teacherAnswerScreenState.update { teacherAnswerScreenState.value.copy(warningMessage = null) }
+    }
+
     fun setCurrentStudentAnswer(value: StudentAnswer?) {
         _teacherAnswerScreenState.update { teacherAnswerScreenState.value.copy(currentStudentAnswer = value) }
     }
