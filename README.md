@@ -1,4 +1,4 @@
-# TaskMaster : Homework bank
+# **TaskMaster** : Homework bank
 ![TaskMaster_header_v_1](https://github.com/rain991/TaskMaster/assets/107253679/be56e2a1-a636-4eff-a488-b2271b1a6f21)
 ## Introduction
 **TaskMaster** is "bank of tasks" app that allows users to easily create groups, assign tasks and handle answers. 
@@ -20,7 +20,7 @@
 - No restrictions on grade system
 
 ## Get started with TaskMaster
-TaskMaster is not currently planned to be published on Play Market or other stores. Latest application version is available via this link - [TaskMaster](https://drive.google.com/drive/folders/19-6BGIhBwBXJZxvT9CnS11oX8P1QtifX?usp=sharing)
+TaskMaster is not currently planned to be published on Play Market or other stores. Latest application version is available via this link - [TaskMaster](https://drive.google.com/drive/folders/19qfXkIpjG6ur7RckDXWhHx72IFYT4k7t?usp=sharing)
 
 ## TaskMaster Contributors
 - **Savenko Ivan** : Android side, firebase managing and github page content
