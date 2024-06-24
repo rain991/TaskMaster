@@ -20,7 +20,7 @@
 - No restrictions on grade system
 
 ## Get started with TaskMaster
-TaskMaster is not currently planned to be published on Play Market or other stores. Latest application version is available via this link - 
+TaskMaster is not currently planned to be published on Play Market or other stores. Latest application version is available via this link - [TaskMaster](https://drive.google.com/drive/folders/19-6BGIhBwBXJZxvT9CnS11oX8P1QtifX?usp=sharing)
 
 ## TaskMaster Contributors
 - **Savenko Ivan** : Android side, firebase managing and github page content
