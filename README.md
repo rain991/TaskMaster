@@ -23,7 +23,7 @@
 TaskMaster is not currently planned to be published on Play Market or other stores. Latest application version is available via this link - [TaskMaster](https://drive.google.com/drive/folders/19qfXkIpjG6ur7RckDXWhHx72IFYT4k7t?usp=sharing)
 
 ## TaskMaster Contributors
-- **Savenko Ivan** : Android side, firebase managing and github page content
+- **Savenko Ivan** : Android side, Firebase managing and Github page content
 - **Sudzik Stanisław** : Project managing and documents
 - **Słowiński Konrad** : Documentation, testing
 - **Kubiak Tobiasz** : Design
@@ -39,4 +39,5 @@ Additional documentation related to project creating process and testing could b
 - Jetpack Compose
 - Firebase : Firestore Database, Authentication, Storage
 - Koin DI
+- Kotlin Flows
 - Clean architecture and MVVM pattern
